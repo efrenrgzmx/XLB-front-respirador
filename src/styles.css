@@ -7,3 +7,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .reading-block{
   overflow: unset !important;
 }
+
+
+.reading-label{
+  line-height: 2;
+  font-size: 30px !important;
+  overflow: unset !important;
+}

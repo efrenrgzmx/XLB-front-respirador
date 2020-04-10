@@ -23,21 +23,21 @@
       <ngx-gauge [type]="gaugeType"
                  [value]="gaugeInfo.chartsData.PT"
                  label="PRESION"
-      min="0" max="40" thick="20" foregroundColor="rgba(50, 50, 50, 1)">
+      min="0" max="40" thick="20" foregroundColor="rgba(50, 50, 50, 1)" [size]="250">
       </ngx-gauge>
     </div>
     <div class="gage-container">
       <ngx-gauge [type]="gaugeType"
                  [value]="gaugeInfo.chartsData.VT"
                  label="VOLUMEN"
-                 min="0" max="1500" thick="20" foregroundColor="rgba(50, 50, 50, 1)">
+                 min="0" max="1500" thick="20" foregroundColor="rgba(50, 50, 50, 1)" [size]="250">
       </ngx-gauge>
     </div>
     <div class="gage-container">
       <ngx-gauge [type]="gaugeType"
                  [value]="gaugeInfo.chartsData.FT"
                  label="FLUJO"
-                 min="0" max="40" thick="20" foregroundColor="rgba(50, 50, 50, 1)">
+                 min="0" max="40" thick="20" foregroundColor="rgba(50, 50, 50, 1)" [size]="250">
       </ngx-gauge>
     </div>
   </div>

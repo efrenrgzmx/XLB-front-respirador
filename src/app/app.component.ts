@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
           type: 'realtime',
           realtime: {
             refresh: 100,
-            delay: 100,
+            delay: 300,
           },
           ticks: {
             fontColor: 'rgba(255,255,255,1)',
@@ -106,9 +106,9 @@ export class AppComponent implements OnInit {
         }],
         yAxes: [{
           ticks: {
-          suggestedMax: 20,
-          suggestedMin: -5,
-          stepSize: 1,}
+          suggestedMax: 40,
+          suggestedMin: 0,
+          }
         }]
       }
     };
@@ -139,7 +139,7 @@ export class AppComponent implements OnInit {
           type: 'realtime',
           realtime: {
             refresh: 100,
-            delay: 100,
+            delay: 300,
           },
           ticks: {
             fontColor: 'rgba(255,255,255,1)',
@@ -147,7 +147,7 @@ export class AppComponent implements OnInit {
         }],
         yAxes: [{
           ticks: {
-            suggestedMax: 800,
+            suggestedMax: 1500,
             suggestedMin: 0,
             }
         }]
@@ -181,7 +181,7 @@ export class AppComponent implements OnInit {
           type: 'realtime',
           realtime: {
             refresh: 100,
-            delay: 100,
+            delay: 300,
           },
           ticks: {
             fontColor: 'rgba(255,255,255,1)',
