@@ -2,7 +2,7 @@
   <div class="left-container">
     <div class="chart">
       <canvas height="30vh" width="90vw" ngChartjs [datasets]="lineChartDataA"
-              [options]="lineChartOptionsA" [legend]="lineChartLegend" [labels]="lineChartLabelsA" [chartType]="lineChartType" #ngChartjsA="ngChartjs">
+              [options]="lineChartOptionsA" [legend]="lineChartLegend" [labels]="lineChartLabelsA" [chartType]="'line'" #ngChartjsA="ngChartjs">
       </canvas>
     </div>
 
@@ -21,30 +21,23 @@
   <div class="center-container">
     <div class="gage-container">
       <ngx-gauge [type]="gaugeType"
-                 [value]="PIP"
-                 label="PIP"
-      min="0" max="30" thick="20" foregroundColor="rgba(50, 50, 50, 1)">
+                 [value]="gaugeInfo.chartsData.PT"
+                 label="PRESION"
+      min="0" max="40" thick="20" foregroundColor="rgba(50, 50, 50, 1)">
       </ngx-gauge>
     </div>
     <div class="gage-container">
       <ngx-gauge [type]="gaugeType"
-                 [value]="PEEP"
-                 label="PEEP"
-                 min="0" max="5" thick="20" foregroundColor="rgba(50, 50, 50, 1)">
-      </ngx-gauge>
-    </div>
-    <div class="gage-container">
-      <ngx-gauge [type]="gaugeType"
-                 [value]="FR"
-                 label="FRECUENCIA"
-                 min="25" max="35" thick="20" foregroundColor="rgba(50, 50, 50, 1)">
-      </ngx-gauge>
-    </div>
-    <div class="gage-container">
-      <ngx-gauge [type]="gaugeType"
-                 [value]="VL"
+                 [value]="gaugeInfo.chartsData.VT"
                  label="VOLUMEN"
-                 min="4" max="8" thick="20" foregroundColor="rgba(50, 50, 50, 1)">
+                 min="0" max="1500" thick="20" foregroundColor="rgba(50, 50, 50, 1)">
+      </ngx-gauge>
+    </div>
+    <div class="gage-container">
+      <ngx-gauge [type]="gaugeType"
+                 [value]="gaugeInfo.chartsData.FT"
+                 label="FLUJO"
+                 min="0" max="40" thick="20" foregroundColor="rgba(50, 50, 50, 1)">
       </ngx-gauge>
     </div>
   </div>

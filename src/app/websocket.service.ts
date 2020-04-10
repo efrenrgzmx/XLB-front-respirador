@@ -7,14 +7,10 @@ import { Socket } from 'ngx-socket-io';
 export class WebsocketService {
 
 
-  currentData = this.socket.fromEvent<string>('chartsData');
+  currentChartData = this.socket.fromEvent<string>('chartsData');
+  currentSettingsData = this.socket.fromEvent<string>('settings');
 
   constructor(private socket: Socket) { }
-
-  getData(id: string) {
-    this.socket.emit('getData', id);
-  }
-
 
   sendData(info: string) {
     this.socket.emit('sendData', info);

@@ -31,12 +31,12 @@
 }
 
 .gage-container{
-  height: 25vh;
+  height: 33vh;
   text-align: center;
 }
 
 .gage-container ngx-gauge{
-  margin-top: 3vh;
+  margin-top: 5vh;
 }
 
 

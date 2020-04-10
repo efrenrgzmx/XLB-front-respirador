@@ -1,7 +1,7 @@
 import {Component, ViewChild, OnInit} from '@angular/core';
 import {Color, NgChartjsDirective} from 'ng-chartjs';
 import {WebsocketService} from './websocket.service';
-
+import 'chartjs-plugin-streaming';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -16,6 +16,8 @@ export class AppComponent implements OnInit {
   PEEP = 0;
   FR = 0;
   VL = 0;
+
+  gaugeInfo : ChartInfo;
 
   lineChartDataA: Chart.ChartDataSets[];
   lineChartLabelsA: Array<any>;
@@ -33,54 +35,42 @@ export class AppComponent implements OnInit {
   lineChartType = 'line';
 
   gaugeType = 'arch';
-  gaugeValue = 28.3;
-  gaugeLabel = 'PIP';
-  gaugeAppendText = '';
 
   @ViewChild('ngChartjsA') private readonly ngChartjsA: NgChartjsDirective;
   @ViewChild('ngChartjsB') private readonly ngChartjsB: NgChartjsDirective;
   @ViewChild('ngChartjsC') private readonly ngChartjsC: NgChartjsDirective;
 
-  dataSub: Subscription;
+  chartDataSub: Subscription;
+  settingsDataSub: Subscription;
+
 
   constructor( private socket: WebsocketService) {
+    this.gaugeInfo = {chartsData: { PT: 0, VT: 0, FT: 0}};
+
     this.chartInitA();
     this.chartInitB();
     this.chartInitC();
   }
 
   ngOnInit() {
-    this.dataSub = this.socket.currentData.subscribe(chartData => this.addData(chartData));
+    this.chartDataSub = this.socket.currentChartData.subscribe(chartData => this.addData(chartData));
+    this.settingsDataSub = this.socket.currentSettingsData.subscribe(settingsData => this.onChangeSettings(settingsData));
 
   }
 
   addData(sampleData) {
 
     sampleData = JSON.parse(sampleData);
-    console.log(sampleData.chartsData);
+    this.gaugeInfo = sampleData;
 
-    if (this.lineChartDataA[0].data.length > 32) {
-      this.lineChartDataA[0].data.shift();
-      this.lineChartLabelsA.shift();
-
-      this.lineChartDataB[0].data.shift();
-      this.lineChartLabelsB.shift();
-
-      this.lineChartDataC[0].data.shift();
-      this.lineChartLabelsC.shift();
-    }
     this.lineChartDataA[0].data.push(sampleData.chartsData.PT);
-    this.lineChartLabelsA.push(' ');
+    this.lineChartLabelsA.push(Date.now());
 
     this.lineChartDataB[0].data.push(sampleData.chartsData.VT);
-    this.lineChartLabelsB.push(' ');
+    this.lineChartLabelsB.push(Date.now());
 
     this.lineChartDataC[0].data.push(sampleData.chartsData.FT);
-    this.lineChartLabelsC.push(' ');
-
-    this.ngChartjsA.update();
-    this.ngChartjsB.update();
-    this.ngChartjsC.update();
+    this.lineChartLabelsC.push(Date.now());
   }
 
   chartInitA() {
@@ -97,12 +87,30 @@ export class AppComponent implements OnInit {
         borderJoinStyle: 'miter',
         pointRadius: 1,
         pointHitRadius: 10,
-        data: [0],
+        data: [],
       },
     ];
-    this.lineChartLabelsA  = ['0'];
+    this.lineChartLabelsA  = [];
     this.lineChartOptionsA = {
-      responsive: true
+      responsive: true,
+      scales: {
+        xAxes: [{
+          type: 'realtime',
+          realtime: {
+            refresh: 100,
+            delay: 100,
+          },
+          ticks: {
+            fontColor: 'rgba(255,255,255,1)',
+          }
+        }],
+        yAxes: [{
+          ticks: {
+          suggestedMax: 20,
+          suggestedMin: -5,
+          stepSize: 1,}
+        }]
+      }
     };
   }
 
@@ -120,12 +128,31 @@ export class AppComponent implements OnInit {
         borderJoinStyle: 'miter',
         pointRadius: 1,
         pointHitRadius: 10,
-        data: [0],
+        data: [],
       },
     ];
-    this.lineChartLabelsB  = ['0'];
+    this.lineChartLabelsB  = [];
     this.lineChartOptionsB = {
-      responsive: true
+      responsive: true,
+      scales: {
+        xAxes: [{
+          type: 'realtime',
+          realtime: {
+            refresh: 100,
+            delay: 100,
+          },
+          ticks: {
+            fontColor: 'rgba(255,255,255,1)',
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            suggestedMax: 800,
+            suggestedMin: 0,
+            }
+        }]
+      }
+
     };
   }
 
@@ -143,54 +170,75 @@ export class AppComponent implements OnInit {
         borderJoinStyle: 'miter',
         pointRadius: 1,
         pointHitRadius: 10,
-        data: [0],
+        data: [],
       },
     ];
-    this.lineChartLabelsC  = ['0'];
+    this.lineChartLabelsC  = [];
     this.lineChartOptionsC = {
-      responsive: true
+      responsive: true,
+      scales: {
+        xAxes: [{
+          type: 'realtime',
+          realtime: {
+            refresh: 100,
+            delay: 100,
+          },
+          ticks: {
+            fontColor: 'rgba(255,255,255,1)',
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            suggestedMax: 100,
+            suggestedMin: -100,
+          }
+        }]
+      }
     };
   }
 
   onPlusPEEP() {
-    this.PEEP ++;
-    this.socket.sendData(`{"PEEP":${this.PEEP}}`);
+    this.socket.sendData(`PEEP+`);
   }
 
   onSubPEEP() {
-    this.PEEP --;
-    this.socket.sendData(`{"PEEP":${this.PEEP}}`);
+    this.socket.sendData(`PEEP-`);
   }
 
   onPlusPIP() {
-    this.PIP ++;
-    this.socket.sendData(`{"PIP":${this.PIP}}`);
+    this.socket.sendData(`PIP+`);
   }
 
   onSubPIP() {
-    this.PIP --;
-    this.socket.sendData(`{"PIP":${this.PIP}}`);
+    this.socket.sendData(`PIP-`);
   }
 
   onPlusFR() {
-    this.FR ++;
-    this.socket.sendData(`{"FR":${this.FR}}`);
+    this.socket.sendData(`FRQ+`);
   }
 
   onSubFR() {
-    this.FR --;
-    this.socket.sendData(`{"FR":${this.FR}}`);
+    this.socket.sendData(`FRQ-`);
   }
 
   onPlusVolumen() {
-    this.VL++;
-    this.socket.sendData(`{"VL":${this.VL}}`);
+    this.socket.sendData(`VOL+`);
 
   }
 
   onSubVolumen() {
-    this.VL--;
-    this.socket.sendData(`{"VL":${this.VL}}`);
+    this.socket.sendData(`VOL-`);
+  }
+
+  onChangeSettings(settingsInfo) {
+
+    console.log(settingsInfo);
+
+    settingsInfo = JSON.parse(settingsInfo);
+
+    this.PIP = settingsInfo.settings.PIP;
+    this.VL = settingsInfo.settings.VL;
+    this.FR = settingsInfo.settings.FR;
   }
 }
 
@@ -201,3 +249,12 @@ export class ChartInfo {
     FT: number;
   };
 }
+
+export class SettingsInfo {
+  settings: {
+    PIP: number;
+    VL: number;
+    FR: number;
+  };
+}
+
