@@ -1,0 +1,61 @@
+.main-container{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+.left-container{
+  width: 55vw;
+  height: 100vh;
+  background-color: white;
+  float: left;
+}
+
+.right-container{
+  width: 25vw;
+  height: 100vh;
+  float: right;
+}
+.center-container{
+  width: 20vw;
+  height: 100vh;
+  float:left;
+
+}
+
+.chart{
+  margin: 1vh auto 0;
+  height: 32vh !important;
+  width: 90%;
+}
+
+.gage-container{
+  height: 25vh;
+  text-align: center;
+}
+
+.gage-container ngx-gauge{
+  margin-top: 3vh;
+}
+
+
+.mod-container{
+  margin: 5vh auto 0;
+  height: 20vh;
+  text-align: center;
+}
+
+.mod-container div {
+  display: inline-flex;
+}
+
+.mod-container button{
+  margin-left: 40px;
+  margin-right: 40px;
+  font-size: 50px;
+}
+
+.mod-container h2{
+  font-size: 45px;
+}
