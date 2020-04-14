@@ -27,7 +27,7 @@
 .chart{
   margin: 1vh auto 0;
   height: 32vh !important;
-  width: 90%;
+  width: 80%;
 }
 
 .gage-container{
@@ -72,4 +72,14 @@
 .mod-container h3{
   font-weight: normal;
   font-size: 35px;
+}
+
+.init-btn{
+  top: 90vh;
+  left: 3vw;
+  position: absolute;
+  width: 50vw;
+  font-size: 70px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }

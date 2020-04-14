@@ -12,6 +12,8 @@ import { Observable, Subscription } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'XLB-resp';
 
+  start = false;
+
   PIP = 0;
   PEEP = 0;
   FR = 0;
@@ -81,11 +83,10 @@ export class AppComponent implements OnInit {
         lineTension: 0.1,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointRadius: 1,
+        borderCapStyle: 'round',
+        borderDashOffset: 1.0,
+        borderJoinStyle: 'round',
+        pointRadius: 0,
         pointHitRadius: 10,
         data: [],
       },
@@ -97,11 +98,13 @@ export class AppComponent implements OnInit {
         xAxes: [{
           type: 'realtime',
           realtime: {
-            refresh: 100,
-            delay: 300,
+            refresh: 20,
+            delay: 700,
+            frameRate: 120
           },
           ticks: {
             fontColor: 'rgba(255,255,255,1)',
+            maxTicksLimit: 10,
           }
         }],
         yAxes: [{
@@ -122,11 +125,10 @@ export class AppComponent implements OnInit {
         lineTension: 0.1,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointRadius: 1,
+        borderCapStyle: 'round',
+        borderDashOffset: 1.0,
+        borderJoinStyle: 'round',
+        pointRadius: 0,
         pointHitRadius: 10,
         data: [],
       },
@@ -138,11 +140,13 @@ export class AppComponent implements OnInit {
         xAxes: [{
           type: 'realtime',
           realtime: {
-            refresh: 100,
-            delay: 300,
+            refresh: 20,
+            delay: 700,
+            frameRate: 120
           },
           ticks: {
             fontColor: 'rgba(255,255,255,1)',
+            maxTicksLimit: 10,
           }
         }],
         yAxes: [{
@@ -164,11 +168,10 @@ export class AppComponent implements OnInit {
         lineTension: 0.1,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointRadius: 1,
+        borderCapStyle: 'round',
+        borderDashOffset: 1.0,
+        borderJoinStyle: 'round',
+        pointRadius: 0,
         pointHitRadius: 10,
         data: [],
       },
@@ -180,11 +183,13 @@ export class AppComponent implements OnInit {
         xAxes: [{
           type: 'realtime',
           realtime: {
-            refresh: 100,
-            delay: 300,
+            refresh: 20,
+            delay: 700,
+            frameRate: 120
           },
           ticks: {
             fontColor: 'rgba(255,255,255,1)',
+            maxTicksLimit: 10,
           }
         }],
         yAxes: [{
@@ -239,6 +244,14 @@ export class AppComponent implements OnInit {
     this.PIP = settingsInfo.settings.PIP;
     this.VL = settingsInfo.settings.VL;
     this.FR = settingsInfo.settings.FR;
+  }
+
+  onInitPressed() {
+    this.start = true;
+  }
+
+  onStopPressed() {
+    this.start = false;
   }
 }
 

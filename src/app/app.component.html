@@ -17,6 +17,9 @@
               [options]="lineChartOptionsC" [legend]="lineChartLegend" [labels]="lineChartLabelsC" [chartType]="lineChartType" #ngChartjsC="ngChartjs">
       </canvas>
     </div>
+
+    <button *ngIf="!start" (click)="onInitPressed()" mat-raised-button class="init-btn">INICIAR</button>
+    <button *ngIf="start" (click)="onStopPressed()" mat-raised-button color="warn" class="init-btn">DETENER</button>
   </div>
   <div class="center-container">
     <div class="gage-container">
