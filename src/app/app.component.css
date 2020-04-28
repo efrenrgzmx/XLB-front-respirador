@@ -2,7 +2,6 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  /*cursor: none;*/
 }
 
 .info-container {
@@ -20,7 +19,7 @@
 
 .user-container {
   position:relative;
-  height: 28vh;
+  height: 27vh;
   width: 100vw;
   border-top: 2px solid #000000;
   z-index: 1000;
@@ -163,7 +162,7 @@
 .param-manager table{
   margin: 0 auto;
   width: 98%;
-  height: 100%;
+  height: 90%;
 
   table-layout: fixed;
   text-align: center;
@@ -178,12 +177,13 @@
 }
 
 .td-param-name{
-  height: 3vw;
+  height: 1.7vw;
 }
 
 .td-param-name em{
   font-style: normal;
-  font-size: 3vw;
+  font-weight: bold;
+  font-size: 2.3vw;
 }
 
 .td-param-value{
@@ -192,16 +192,16 @@
 
 .td-param-value em{
   font-weight: bolder;
-  font-size: 4vw;
+  font-size: 3vw;
   font-style: normal;
 }
 
 .param-manager .help-btn{
   font-weight: bold;
-  font-size: 4vw !important;
+  font-size: 3vw !important;
   text-align: center;
-  padding-top: .5vh;
-  padding-bottom: .5vh;
+  padding-top: 0;
+  padding-bottom: 0;
   width: 95%;
   background-color: lightgrey;
   color: black;
@@ -221,7 +221,7 @@
   table-layout: fixed;
   text-align: center;
   font-size: 2vw;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .user-params em{
@@ -233,84 +233,3 @@
   font-weight: bolder;
   font-size: 2.8vw;
 }
-
-
-
-/*
-.left-container{
-  width: 55vw;
-  height: 100vh;
-  background-color: white;
-  float: left;
-}
-
-.right-container{
-  width: 25vw;
-  height: 100vh;
-  float: right;
-}
-.center-container{
-  width: 20vw;
-  height: 100vh;
-  float:left;
-}
-
-.chart{
-  margin: 1vh auto 0;
-  height: 32vh !important;
-  width: 80%;
-}
-
-.gage-container{
-  height: 33vh;
-  text-align: center;
-}
-
-.gage-container ngx-gauge{
-  margin-top: 5vh;
-}
-
-.mod-container{
-  margin: 5vh auto 0;
-  height: 20vh;
-  text-align: center;
-}
-
-.mod-container div {
-  display: inline-flex;
-}
-
-.mod-container button{
-  margin-left: 30px;
-  margin-right: 30px;
-  font-size: 75px;
-  height: 70px;
-  width: 95px;
-}
-
-.mod-container h2{
-  font-size: 60px;
-  line-height: 1.2;
-  font-weight: bold;
-}
-
-.mod-container h1{
-  font-weight: bolder;
-  font-size: 40px;
-}
-
-.mod-container h3{
-  font-weight: normal;
-  font-size: 35px;
-}
-
-.init-btn{
-  top: 90vh;
-  left: 3vw;
-  position: absolute;
-  width: 50vw;
-  font-size: 70px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-*/
