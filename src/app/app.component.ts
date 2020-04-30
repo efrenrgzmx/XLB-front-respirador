@@ -71,20 +71,20 @@ export class AppComponent implements OnInit {
     this.lineChartDataA[0].data.push(this.userInfo.data.chartsData.paw);
     /*this.lineChartDataA[1].data.push(this.userInfo.data.chartsData.vol);
     this.lineChartDataA[2].data.push(this.userInfo.data.chartsData.freq);*/
-    this.lineChartLabelsA.push('');
+    this.lineChartLabelsA.push(Date.now());
 
     if(this.lineChartDataA[0].data.length > this.pointsThreshold){
-      this.lineChartDataA[0].data.shift();
+      //this.lineChartDataA[0].data.shift();
       /*this.lineChartDataA[1].data.shift();
       this.lineChartDataA[2].data.shift();*/
-      this.lineChartLabelsA.shift();
+      //this.lineChartLabelsA.shift();
     }
 
-    if( this.updateLimiterCounter > 0 ) {
-      this.ngChartjsA.chart.update();
+    /*if( this.updateLimiterCounter > 0 ) {
+      //this.ngChartjsA.chart.update();
       this.updateLimiterCounter = 0;
     }
-    this.updateLimiterCounter++;
+    this.updateLimiterCounter++;*/
   }
 
   chartInitA() {
@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
       {
         label: 'PAW',
         fill: false,
-        lineTension: 0.05,
+        lineTension: 0,
         backgroundColor: 'rgb(255,169,140)',
         borderColor: 'rgba(0, 0, 0, 0.1)',
         borderCapStyle: 'round',
@@ -140,16 +140,23 @@ export class AppComponent implements OnInit {
       tooltips: {
         enabled: false
       },
-      animation: {
-        duration: 0,
-      },
       scales: {
         xAxes: [{
-
+          type: 'realtime',   // x axis will auto-scroll from right to left
+          realtime: {         // per-axis options
+            duration: 14000,    // data in the past 20000 ms will be displayed
+            refresh: 100,      // onRefresh callback will be called every 1000 ms
+            delay: 2000,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            pause: false,       // chart is not paused
+            ttl: undefined,     // data will be automatically deleted as it disappears off the chart
+          },
           ticks: {
             fontColor: 'rgba(255,255,255,1)',
-            maxTicksLimit: 1,
-          }
+            display: false,
+          },
+          gridLines: {
+            display:false
+          },
         }],
         yAxes: [{
           ticks: {
@@ -157,6 +164,18 @@ export class AppComponent implements OnInit {
           suggestedMin: 0,
           }
         }]
+      },
+      animation: {
+        duration: 0                    // general animation time
+      },
+      hover: {
+        animationDuration: 0           // duration of animations when hovering an item
+      },
+      responsiveAnimationDuration: 0,    // animation duration after a resize
+      plugins: {
+        streaming: {
+          frameRate: 30              // chart is drawn 5 times every second
+        }
       }
     };
   }
