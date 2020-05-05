@@ -38,8 +38,8 @@ export class AppComponent implements OnInit {
    * Behaviour
    * **/
   startFlag = false;
-  paramsValues = [0, 0, 0];
-  paramsNames = ['TI', 'RATE', 'VT'];
+  paramsValues = [2, 10, 600, 30];
+  paramsNames = ['I:E', 'FREC', 'VT', 'PIP'];
   paramsUnits = ['', '', ''];
   changedValue = 0;
   paramName = '';
@@ -184,9 +184,10 @@ export class AppComponent implements OnInit {
     setInfo = JSON.parse(setInfo);
     this.settingsInfo = setInfo;
 
-    this.paramsValues = [this.settingsInfo.settings.ti,
+    this.paramsValues = [this.settingsInfo.settings.ie,
       this.settingsInfo.settings.freq,
-      this.settingsInfo.settings.vt];
+      this.settingsInfo.settings.vt,
+      this.settingsInfo.settings.pip];
 
     this.changedValue = this.paramsValues[this.toggleCount];
   }
@@ -209,15 +210,44 @@ export class AppComponent implements OnInit {
   }
 
   addValue(){
-    this.changedValue ++;
+
+    if(this.toggleCount === 0) { // I:E
+      if (this.changedValue < 3) {
+        this.changedValue ++;
+      }
+    } else if (this.toggleCount === 1) { // FREC
+      this.changedValue++;
+    } else if (this.toggleCount === 2) { // VT
+      this.changedValue += 50;
+    } else { // PIP
+      if (this.changedValue < 40) {
+        this.changedValue++;
+      }
+    }
+
   }
 
-  subValue(){
-    this.changedValue --;
+  subValue() {
+
+      if (this.toggleCount === 0) {
+        if (this.changedValue - 1 > 0) {
+          this.changedValue --;
+        }
+      } else if (this.toggleCount === 1) {
+        if (this.changedValue > 1) {
+          this.changedValue--;
+        }
+      } else if (this.toggleCount === 2) {
+
+      }else {
+        if (this.changedValue > 10) {
+          this.changedValue --;
+        }
+      }
   }
 
   onConfirm() {
-    this.socket.sendData(`%${this.toggleCount === 0 ? this.changedValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.changedValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.changedValue : this.paramsValues[2]}`);
+    this.socket.sendData(`%${this.toggleCount === 0 ? this.changedValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.changedValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.changedValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.changedValue : this.paramsValues[3]}`);
   }
 }
 
@@ -231,9 +261,10 @@ export class UserInfo {
 
 export class SettingsInfo{
   settings: {
-    ti: number,
+    ie: number,
     freq: number,
-    vt: number
+    vt: number,
+    pip: number,
   };
 }
 
