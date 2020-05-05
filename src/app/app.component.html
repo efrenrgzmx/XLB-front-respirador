@@ -1,4 +1,135 @@
+<router-outlet></router-outlet>
+
 <div class="main-container">
+
+  <!--  SECCIÓN DE INFORMACION  -->
+  <div class="info-container">
+    <div class="op-mode">
+      <table>
+        <tr><td>C</td></tr>
+      </table>
+    </div>
+    <div class="current-params">
+      <!--  PPeak  -->
+      <div>
+        <table>
+          <tr><td class="td-title"><em>P</em>Peak</td></tr>
+          <tr><td class="td-value">{{userInfo?.data.params.ppeak}}</td></tr>
+          <tr><td class="td-detail">Cm H2O</td></tr>
+        </table>
+      </div>
+      <!--  I:E  -->
+      <div>
+        <table>
+          <tr><td class="td-title"><em>V</em>ol/min</td></tr>
+          <tr><td class="td-value">{{userInfo?.data.params.volmin}}</td></tr>
+          <tr><td class="td-detail"></td></tr>
+        </table>
+      </div>
+      <!--  VR  -->
+      <div>
+        <table>
+          <tr><td class="td-title"><em>V</em>te</td></tr>
+          <tr><td class="td-value">{{userInfo?.data.params.vte}}</td></tr>
+          <tr><td class="td-detail">ML/S</td></tr>
+        </table>
+      </div>
+
+      <!--  VT  -->
+      <div>
+        <table>
+          <tr><td class="td-title"><em>F</em>total</td></tr>
+          <tr><td class="td-value">{{userInfo?.data.params.ftotal}}</td></tr>
+          <tr><td class="td-detail">ML</td></tr>
+        </table>
+      </div>
+
+      <!--  PEEP -->
+      <div>
+        <table>
+          <tr><td class="td-title"><em>P</em>EEP</td></tr>
+          <tr><td class="td-value">{{userInfo?.data.params.peep}}</td></tr>
+          <tr><td class="td-detail"></td></tr>
+        </table>
+      </div>
+
+      <!-- PIP -->
+      <div>
+        <table>
+          <tr><td class="td-title"><em>P</em>IP</td></tr>
+          <tr><td class="td-value">{{userInfo?.data.params.pip}}</td></tr>
+          <tr><td class="td-detail"></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!--  ALARMA  -->
+    <div class="alarm">
+      <table>
+        <tr><td class="td-title">ALARMA</td></tr>
+        <tr><td class="td-value">PEEP</td></tr>
+        <tr><td class="td-detail"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECCIÓN DE GRÁFICA  -->
+  <div class="graph-container">
+    <div class="chart">
+      <canvas height="35vh" width="100%" ngChartjs [datasets]="lineChartDataA"
+              [options]="lineChartOptionsA" [legend]="lineChartLegend" [labels]="lineChartLabelsA" [chartType]="'line'" #ngChartjsA="ngChartjs">
+      </canvas>
+    </div>
+  </div>
+
+  <!--  SECCIÓN DE CONFIGURACIÓN -->
+  <div class="user-container">
+    <div class="main-buttons">
+      <table>
+        <tr>
+          <td style="vertical-align: bottom"><a mat-raised-button class="help-btn">AYUDA</a></td>
+          <td rowspan="2">
+            <a mat-raised-button class="init-btn">INICIO/PARO</a>
+          </td>
+        <tr>
+          <td style="vertical-align: top">
+            <a mat-raised-button class="help-btn">CONFIGURAR</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+    <div class="param-manager">
+      <table>
+        <tr><td class="td-plus"><a (click)="addValue()" mat-raised-button class="help-btn">+</a></td>
+          <td rowspan="4">
+            <a (click)="onConfirm()" mat-raised-button class="init-btn">CONFIRMAR</a>
+          </td>
+        </tr>
+        <tr (click)="onToggleParam()"><td class="td-param-name">{{paramName}}</td></tr>
+        <tr (click)="onToggleParam()"><td class="td-param-value"><em>{{changedValue}}</em>  {{paramUnit}}</td></tr>
+        <tr><td><a (click)="subValue()" mat-raised-button class="help-btn">-</a></td></tr>
+      </table>
+    </div>
+
+
+    <div class="user-params">
+      <table>
+        <tr>
+          <td><em>S</em>exo<br><h1>VALOR</h1></td>
+          <td><em>E</em>statura<br><h1>VALOR</h1></td>
+        </tr>
+        <tr>
+          <td><em>P</em>eso<br><h1>VALOR</h1></td>
+          <td><em>P</em>erfil<br><h1>VALOR</h1></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!--<div class="main-container">
   <div class="left-container">
     <div class="chart">
       <canvas height="30vh" width="90vw" ngChartjs [datasets]="lineChartDataA"
@@ -106,3 +237,4 @@
     </div>
   </div>
 </div>
+-->

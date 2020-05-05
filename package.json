@@ -24,7 +24,6 @@
     "@angular/platform-browser": "~9.0.7",
     "@angular/platform-browser-dynamic": "~9.0.7",
     "@angular/router": "~9.0.7",
-    "angular2-justgage": "^0.3.0",
     "chart.js": "^2.9.3",
     "chartjs-plugin-streaming": "^1.8.0",
     "ng-chartjs": "^0.1.8",
@@ -46,7 +45,6 @@
     "@types/node": "^12.11.1",
     "@types/socket.io-client": "^1.4.32",
     "codelyzer": "^5.1.2",
-    "electron-packager": "^14.2.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.3.0",
@@ -57,7 +55,6 @@
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
-    "typescript": "~3.7.5",
-    "electron": "^8.2.1"
+    "typescript": "~3.7.5"
   }
 }

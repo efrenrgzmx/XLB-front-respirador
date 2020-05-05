@@ -10,102 +10,153 @@ import { Observable, Subscription } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'XLB-resp';
+  title = 'TIDAL';
 
-  start = false;
 
-  PIP = 0;
-  PEEP = 0;
-  FR = 0;
-  VL = 0;
-
-  gaugeInfo : ChartInfo;
-
-  lineChartDataA: Chart.ChartDataSets[];
-  lineChartLabelsA: Array<any>;
-  lineChartOptionsA: any;
-
-  lineChartDataB: Chart.ChartDataSets[];
-  lineChartLabelsB: Array<any>;
-  lineChartOptionsB: any;
-
-  lineChartDataC: Chart.ChartDataSets[];
-  lineChartLabelsC: Array<any>;
-  lineChartOptionsC: any;
-
-  lineChartLegend = true;
-  lineChartType = 'line';
-
-  gaugeType = 'arch';
-
-  @ViewChild('ngChartjsA') private readonly ngChartjsA: NgChartjsDirective;
-  @ViewChild('ngChartjsB') private readonly ngChartjsB: NgChartjsDirective;
-  @ViewChild('ngChartjsC') private readonly ngChartjsC: NgChartjsDirective;
-
+  /**
+   * Subscription
+   * * **/
+  userInfo: UserInfo;
+  settingsInfo: SettingsInfo;
   chartDataSub: Subscription;
   settingsDataSub: Subscription;
 
 
-  constructor( private socket: WebsocketService) {
-    this.gaugeInfo = {chartsData: { PT: 0, VT: 0, FT: 0}};
+  /**
+   * Chart
+   */
+  lineChartDataA: Chart.ChartDataSets[];
+  lineChartLabelsA: Array<any>;
+  lineChartOptionsA: any;
+  lineChartLegend = true;
+  lineChartType = 'line';
+  pointsThreshold = 100;
+  updateLimiterCounter = 0;
+  @ViewChild('ngChartjsA') private readonly ngChartjsA: NgChartjsDirective;
 
+  /**
+   * Behaviour
+   * **/
+  startFlag = false;
+  paramsValues = [2, 10, 600, 30];
+  paramsNames = ['I:E', 'FREC', 'VT', 'PIP'];
+  paramsUnits = ['', '', ''];
+  changedValue = 0;
+  paramName = '';
+  paramUnit = '';
+  toggleCount = 0;
+
+  constructor( private socket: WebsocketService) {
     this.chartInitA();
-    this.chartInitB();
-    this.chartInitC();
   }
 
   ngOnInit() {
     this.chartDataSub = this.socket.currentChartData.subscribe(chartData => this.addData(chartData));
     this.settingsDataSub = this.socket.currentSettingsData.subscribe(settingsData => this.onChangeSettings(settingsData));
 
+    this.paramName = this.paramsNames[this.toggleCount];
+    this.changedValue = this.paramsValues[this.toggleCount];
+    this.paramUnit = this.paramsUnits[this.toggleCount];
+
   }
 
   addData(sampleData) {
 
-    sampleData = JSON.parse(sampleData);
-    this.gaugeInfo = sampleData;
+    if(!this.ngChartjsA)
+      return;
 
-    this.lineChartDataA[0].data.push(sampleData.chartsData.PT);
+    sampleData = JSON.parse(sampleData);
+    this.userInfo = sampleData;
+
+    this.lineChartDataA[0].data.push(this.userInfo.data.chartsData.paw);
+    /*this.lineChartDataA[1].data.push(this.userInfo.data.chartsData.vol);
+    this.lineChartDataA[2].data.push(this.userInfo.data.chartsData.freq);*/
     this.lineChartLabelsA.push(Date.now());
 
-    this.lineChartDataB[0].data.push(sampleData.chartsData.VT);
-    this.lineChartLabelsB.push(Date.now());
+    if(this.lineChartDataA[0].data.length > this.pointsThreshold){
+      //this.lineChartDataA[0].data.shift();
+      /*this.lineChartDataA[1].data.shift();
+      this.lineChartDataA[2].data.shift();*/
+      //this.lineChartLabelsA.shift();
+    }
 
-    this.lineChartDataC[0].data.push(sampleData.chartsData.FT);
-    this.lineChartLabelsC.push(Date.now());
+    /*if( this.updateLimiterCounter > 0 ) {
+      //this.ngChartjsA.chart.update();
+      this.updateLimiterCounter = 0;
+    }
+    this.updateLimiterCounter++;*/
   }
 
   chartInitA() {
     this.lineChartDataA = [
       {
-        label: 'PRESION/ TIEMPO',
+        label: 'PAW',
         fill: false,
-        lineTension: 0.1,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
+        lineTension: 0,
+        backgroundColor: 'rgb(255,169,140)',
+        borderColor: 'rgba(0, 0, 0, 0.1)',
         borderCapStyle: 'round',
         borderDashOffset: 1.0,
         borderJoinStyle: 'round',
+        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
+        borderWidth: 1,
+        pointRadius: 0,
+        pointHitRadius: 0,
+        data: [],
+      },
+      /*{
+        label: 'VOLUMEN',
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'rgba(75,255,192,1)',
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderCapStyle: 'round',
+        borderDashOffset: 1.0,
+        borderJoinStyle: 'round',
+        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
+        borderWidth: 1.5,
         pointRadius: 0,
         pointHitRadius: 10,
         data: [],
       },
+      {
+        label: 'FRECUENCIA',
+        fill: false,
+        lineTension: 0,
+        backgroundColor: 'rgba(75,255,192,1)',
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderCapStyle: 'square',
+        borderDashOffset: 1.0,
+        borderJoinStyle: 'bevel',
+        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
+        borderWidth: 1.5,
+        pointRadius: 0,
+        pointHitRadius: 10,
+        data: [],
+      }*/
     ];
     this.lineChartLabelsA  = [];
     this.lineChartOptionsA = {
-      responsive: true,
+      tooltips: {
+        enabled: false
+      },
       scales: {
         xAxes: [{
-          type: 'realtime',
-          realtime: {
-            refresh: 20,
-            delay: 700,
-            frameRate: 120
+          type: 'realtime',   // x axis will auto-scroll from right to left
+          realtime: {         // per-axis options
+            duration: 14000,    // data in the past 20000 ms will be displayed
+            refresh: 100,      // onRefresh callback will be called every 1000 ms
+            delay: 2000,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            pause: false,       // chart is not paused
+            ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
           ticks: {
             fontColor: 'rgba(255,255,255,1)',
-            maxTicksLimit: 10,
-          }
+            display: false,
+          },
+          gridLines: {
+            display:false
+          },
         }],
         yAxes: [{
           ticks: {
@@ -113,161 +164,112 @@ export class AppComponent implements OnInit {
           suggestedMin: 0,
           }
         }]
-      }
-    };
-  }
-
-  chartInitB() {
-    this.lineChartDataB = [
-      {
-        label: 'VOLUMEN/ TIEMPO',
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-        borderCapStyle: 'round',
-        borderDashOffset: 1.0,
-        borderJoinStyle: 'round',
-        pointRadius: 0,
-        pointHitRadius: 10,
-        data: [],
       },
-    ];
-    this.lineChartLabelsB  = [];
-    this.lineChartOptionsB = {
-      responsive: true,
-      scales: {
-        xAxes: [{
-          type: 'realtime',
-          realtime: {
-            refresh: 20,
-            delay: 700,
-            frameRate: 120
-          },
-          ticks: {
-            fontColor: 'rgba(255,255,255,1)',
-            maxTicksLimit: 10,
-          }
-        }],
-        yAxes: [{
-          ticks: {
-            suggestedMax: 1500,
-            suggestedMin: 0,
-            }
-        }]
-      }
-
-    };
-  }
-
-  chartInitC() {
-    this.lineChartDataC = [
-      {
-        label: 'FLUJO/ TIEMPO',
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-        borderCapStyle: 'round',
-        borderDashOffset: 1.0,
-        borderJoinStyle: 'round',
-        pointRadius: 0,
-        pointHitRadius: 10,
-        data: [],
+      animation: {
+        duration: 0                    // general animation time
       },
-    ];
-    this.lineChartLabelsC  = [];
-    this.lineChartOptionsC = {
-      responsive: true,
-      scales: {
-        xAxes: [{
-          type: 'realtime',
-          realtime: {
-            refresh: 20,
-            delay: 700,
-            frameRate: 120
-          },
-          ticks: {
-            fontColor: 'rgba(255,255,255,1)',
-            maxTicksLimit: 10,
-          }
-        }],
-        yAxes: [{
-          ticks: {
-            suggestedMax: 100,
-            suggestedMin: -100,
-          }
-        }]
+      hover: {
+        animationDuration: 0           // duration of animations when hovering an item
+      },
+      responsiveAnimationDuration: 0,    // animation duration after a resize
+      plugins: {
+        streaming: {
+          frameRate: 30              // chart is drawn 5 times every second
+        }
       }
     };
   }
 
-  onPlusPEEP() {
-    this.socket.sendData(`PEEP+`);
-  }
+  onChangeSettings(setInfo) {
+    setInfo = JSON.parse(setInfo);
+    this.settingsInfo = setInfo;
 
-  onSubPEEP() {
-    this.socket.sendData(`PEEP-`);
-  }
+    this.paramsValues = [this.settingsInfo.settings.ie,
+      this.settingsInfo.settings.freq,
+      this.settingsInfo.settings.vt,
+      this.settingsInfo.settings.pip];
 
-  onPlusPIP() {
-    this.socket.sendData(`PIP+`);
-  }
-
-  onSubPIP() {
-    this.socket.sendData(`PIP-`);
-  }
-
-  onPlusFR() {
-    this.socket.sendData(`FRQ+`);
-  }
-
-  onSubFR() {
-    this.socket.sendData(`FRQ-`);
-  }
-
-  onPlusVolumen() {
-    this.socket.sendData(`VOL+`);
-
-  }
-
-  onSubVolumen() {
-    this.socket.sendData(`VOL-`);
-  }
-
-  onChangeSettings(settingsInfo) {
-
-    console.log(settingsInfo);
-
-    settingsInfo = JSON.parse(settingsInfo);
-
-    this.PIP = settingsInfo.settings.PIP;
-    this.VL = settingsInfo.settings.VL;
-    this.FR = settingsInfo.settings.FR;
+    this.changedValue = this.paramsValues[this.toggleCount];
   }
 
   onInitPressed() {
-    this.start = true;
+    this.startFlag = true;
   }
 
   onStopPressed() {
-    this.start = false;
+    this.startFlag = false;
+  }
+
+  onToggleParam() {
+    this.toggleCount ++;
+    if (this.toggleCount >= this.paramsNames.length) {
+      this.toggleCount = 0;
+    }
+    this.changedValue = this.paramsValues[this.toggleCount];
+    this.paramName = this.paramsNames[this.toggleCount];
+  }
+
+  addValue(){
+
+    if(this.toggleCount === 0) { // I:E
+      if (this.changedValue < 3) {
+        this.changedValue ++;
+      }
+    } else if (this.toggleCount === 1) { // FREC
+      this.changedValue++;
+    } else if (this.toggleCount === 2) { // VT
+      this.changedValue += 50;
+    } else { // PIP
+      if (this.changedValue < 40) {
+        this.changedValue++;
+      }
+    }
+
+  }
+
+  subValue() {
+
+      if (this.toggleCount === 0) {
+        if (this.changedValue - 1 > 0) {
+          this.changedValue --;
+        }
+      } else if (this.toggleCount === 1) {
+        if (this.changedValue > 1) {
+          this.changedValue--;
+        }
+      } else if (this.toggleCount === 2) {
+
+      }else {
+        if (this.changedValue > 10) {
+          this.changedValue --;
+        }
+      }
+  }
+
+  onConfirm() {
+    this.socket.sendData(`%${this.toggleCount === 0 ? this.changedValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.changedValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.changedValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.changedValue : this.paramsValues[3]}`);
   }
 }
 
-export class ChartInfo {
-  chartsData: {
-    PT: number;
-    VT: number;
-    FT: number;
+
+export class UserInfo {
+  data: {
+    chartsData: { paw: number, freq: number, vol: number }
+    params: { ppeak: number, volmin: number, vte: number, ftotal: number, peep: number, pip: number}
   };
 }
 
-export class SettingsInfo {
+export class SettingsInfo{
   settings: {
-    PIP: number;
-    VL: number;
-    FR: number;
+    ie: number,
+    freq: number,
+    vt: number,
+    pip: number,
   };
 }
 
+
+
+/**
+ * this.socket.sendData(`PIP+`);
+ **/
