@@ -1,0 +1,9 @@
+.bar-container{
+  margin:0 auto;
+  width: 50%;
+  padding-top: 30vh;
+}
+
+.example-margin {
+  margin: 10px 10px;
+}
