@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-splash',
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./splash.component.css']
 })
 export class SplashComponent implements OnInit {
+  beginFade = false;
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   ngOnInit(): void {
+    (async () => {
+      await this.delay(1500);
+      this.beginFade = true;
+      await this.delay(2000);
+      this.router.navigate(['/test']);
+    })();
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
 }

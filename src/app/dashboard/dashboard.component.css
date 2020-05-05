@@ -1,0 +1,236 @@
+.main-container{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  user-select: none;
+}
+
+.info-container {
+  height: 15vh;
+  width: 100vw;
+
+  border-bottom: 2px solid #000000;
+  display: flex;
+}
+
+.graph-container {
+  height: 57vh;
+  width: 100vw;
+}
+
+.user-container {
+  position:relative;
+  height: 27vh;
+  width: 100vw;
+  border-top: 2px solid #000000;
+  z-index: 1000;
+
+  display: flex;
+  background-color: white;
+}
+
+.op-mode{
+  height: 100%;
+  width: 10vw;
+  border-right: 2px solid #000000;
+  border-left: 2px solid #000000;
+  border-top: 2px solid #000000;
+  text-align: center;
+}
+
+.op-mode td{
+  font-size: 6vw;
+  text-align: center;
+}
+
+.op-mode table{
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.current-params{
+  height: 100%;
+  width: 65vw;
+  display: flex;
+  text-align: center;
+}
+
+.current-params div{
+  width: 15vw;
+  height: 100%;
+}
+
+.current-params table{
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.td-title{
+  font-size: 2vw;
+  font-weight: lighter;
+}
+
+.td-title em{
+  font-size: 2.4vw;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.td-value{
+  font-size: 2.6vw;
+  font-weight: bold;
+}
+
+.td-detail{
+  line-height: 0;
+  font-size: 1.3vw;
+  font-weight: lighter;
+}
+
+.alarm{
+  width: 25vw;
+  height: 100%;
+}
+
+.alarm table{
+  margin-left: 50%;
+  height: 100%;
+  width: 50%;
+  text-align: center;
+}
+
+.alarm .td-title{
+  font-weight: normal;
+}
+
+.chart{
+  height: 40vh !important;
+}
+
+.main-buttons{
+  width: 32vw;
+  height: 100%;
+  display: flex;
+}
+
+.main-buttons table{
+  margin: 1% 1vw;
+  width: 30vw;
+  height: 98%;
+
+  table-layout: fixed;
+  text-align: center;
+}
+
+.help-btn{
+  margin: .2rem;
+  font-weight: bold;
+  font-size: 1.6vw !important;
+  text-align: center;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  width: 95%;
+  background-color: lightgrey;
+  color: black;
+}
+
+.init-btn{
+  margin: .2rem;
+  font-weight: bold;
+  font-size: 1.8vw;
+  text-align: center;
+  padding: 6.5vh .5vw 6.5vh;
+  width: 90%;
+  background-color: lightgrey;
+  color: black;
+}
+
+.param-manager {
+  width: 35vw;
+  height: 100%;
+
+  border-right: 1px solid #000000;
+  border-left: 1px solid #000000;
+  font-size: 2vw;
+}
+
+.param-manager table{
+  margin: 0 auto;
+  width: 98%;
+  height: 90%;
+
+  table-layout: fixed;
+  text-align: center;
+}
+
+.param-manager a{
+  margin: 0 !important;
+}
+
+.td-plus{
+  vertical-align: top; height: 8vh;
+}
+
+.td-param-name{
+  height: 1.7vw;
+}
+
+.td-param-name em{
+  font-style: normal;
+  font-weight: bold;
+  font-size: 2.3vw;
+}
+
+.td-param-value{
+  text-align: center;
+}
+
+.td-param-value em{
+  font-weight: bolder;
+  font-size: 3vw;
+  font-style: normal;
+}
+
+.param-manager .help-btn{
+  font-weight: bold;
+  font-size: 3vw !important;
+  text-align: center;
+  padding-top: 0;
+  padding-bottom: 0;
+  width: 95%;
+  background-color: lightgrey;
+  color: black;
+}
+
+.user-params{
+  width: 33vw;
+  height: 100%;
+
+}
+
+.user-params table{
+  float: right;
+  width: 70%;
+  height: 100%;
+
+  table-layout: fixed;
+  text-align: center;
+  font-size: 2vw;
+  line-height: 1;
+}
+
+.user-params em{
+  font-size: 3vw;
+  font-style: normal;
+}
+
+.user-params h1{
+  font-weight: bolder;
+  font-size: 2.8vw;
+}
