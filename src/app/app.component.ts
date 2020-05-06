@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
    * Behaviour
    * **/
   startFlag = false;
-  paramsValues = [2, 10, 600, 30];
+  paramsValues = [2, 10, 400, 30];
   paramsNames = ['I:E', 'FREC', 'VT', 'PIP'];
   paramsUnits = ['', '', ''];
   changedValue = 0;
@@ -69,28 +69,15 @@ export class AppComponent implements OnInit {
     this.userInfo = sampleData;
 
     this.lineChartDataA[0].data.push(this.userInfo.data.chartsData.paw);
-    /*this.lineChartDataA[1].data.push(this.userInfo.data.chartsData.vol);
-    this.lineChartDataA[2].data.push(this.userInfo.data.chartsData.freq);*/
+    this.lineChartDataA[1].data.push(this.userInfo.data.chartsData.vol);
+    this.lineChartDataA[2].data.push(this.userInfo.data.chartsData.freq);
     this.lineChartLabelsA.push(Date.now());
-
-    if(this.lineChartDataA[0].data.length > this.pointsThreshold){
-      //this.lineChartDataA[0].data.shift();
-      /*this.lineChartDataA[1].data.shift();
-      this.lineChartDataA[2].data.shift();*/
-      //this.lineChartLabelsA.shift();
-    }
-
-    /*if( this.updateLimiterCounter > 0 ) {
-      //this.ngChartjsA.chart.update();
-      this.updateLimiterCounter = 0;
-    }
-    this.updateLimiterCounter++;*/
   }
 
   chartInitA() {
     this.lineChartDataA = [
       {
-        label: 'PAW',
+        label: 'PRESION',
         fill: false,
         lineTension: 0,
         backgroundColor: 'rgb(255,169,140)',
@@ -99,41 +86,41 @@ export class AppComponent implements OnInit {
         borderDashOffset: 1.0,
         borderJoinStyle: 'round',
         pointBorderColor: 'rgba(0, 0, 0, 0.1)',
-        borderWidth: 1,
+        borderWidth: 3,
         pointRadius: 0,
         pointHitRadius: 0,
         data: [],
       },
-      /*{
+      {
         label: 'VOLUMEN',
         fill: false,
-        lineTension: 0.1,
+        lineTension: 0,
         backgroundColor: 'rgba(75,255,192,1)',
         borderColor: 'rgba(0, 0, 0, 0.1)',
         borderCapStyle: 'round',
         borderDashOffset: 1.0,
         borderJoinStyle: 'round',
         pointBorderColor: 'rgba(0, 0, 0, 0.1)',
-        borderWidth: 1.5,
+        borderWidth: 3,
         pointRadius: 0,
-        pointHitRadius: 10,
+        pointHitRadius: 0,
         data: [],
       },
       {
-        label: 'FRECUENCIA',
+        label: 'FLUJO',
         fill: false,
         lineTension: 0,
         backgroundColor: 'rgba(75,255,192,1)',
         borderColor: 'rgba(0, 0, 0, 0.1)',
-        borderCapStyle: 'square',
+        borderCapStyle: 'round',
         borderDashOffset: 1.0,
-        borderJoinStyle: 'bevel',
+        borderJoinStyle: 'round',
         pointBorderColor: 'rgba(0, 0, 0, 0.1)',
-        borderWidth: 1.5,
+        borderWidth: 3,
         pointRadius: 0,
-        pointHitRadius: 10,
+        pointHitRadius: 0,
         data: [],
-      }*/
+      }
     ];
     this.lineChartLabelsA  = [];
     this.lineChartOptionsA = {
@@ -145,8 +132,8 @@ export class AppComponent implements OnInit {
           type: 'realtime',   // x axis will auto-scroll from right to left
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 2000,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            refresh: 10,      // onRefresh callback will be called every 1000 ms
+            delay: 1500,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -238,7 +225,9 @@ export class AppComponent implements OnInit {
           this.changedValue--;
         }
       } else if (this.toggleCount === 2) {
-
+        if (this.changedValue > 50) {
+          this.changedValue -= 50;
+        }
       }else {
         if (this.changedValue > 10) {
           this.changedValue --;
