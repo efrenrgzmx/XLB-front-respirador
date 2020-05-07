@@ -25,12 +25,13 @@ export class AppComponent implements OnInit {
   /**
    * Chart
    */
+  provitionalData: Array<any>;
   lineChartDataA: Chart.ChartDataSets[];
   lineChartLabelsA: Array<any>;
   lineChartOptionsA: any;
   lineChartLegend = true;
   lineChartType = 'line';
-  pointsThreshold = 100;
+  pointsThreshold = 10;
   updateLimiterCounter = 0;
   @ViewChild('ngChartjsA') private readonly ngChartjsA: NgChartjsDirective;
 
@@ -48,6 +49,11 @@ export class AppComponent implements OnInit {
 
   constructor( private socket: WebsocketService) {
     this.chartInitA();
+    this.provitionalData = [];
+    this.provitionalData.push([]);
+    this.provitionalData.push([]);
+    this.provitionalData.push([]);
+    this.provitionalData.push([]);
   }
 
   ngOnInit() {
@@ -68,10 +74,30 @@ export class AppComponent implements OnInit {
     sampleData = JSON.parse(sampleData);
     this.userInfo = sampleData;
 
-    this.lineChartDataA[0].data.push(this.userInfo.data.chartsData.paw);
-    this.lineChartDataA[1].data.push(this.userInfo.data.chartsData.vol);
-    this.lineChartDataA[2].data.push(this.userInfo.data.chartsData.freq);
-    this.lineChartLabelsA.push(Date.now());
+    /*this.provitionalData[0].push(this.userInfo.data.chartsData.paw);
+    this.provitionalData[1].push(this.userInfo.data.chartsData.vol);
+    this.provitionalData[2].push(this.userInfo.data.chartsData.freq);
+    this.provitionalData[3].push(Date.now());*/
+    console.log(this.updateLimiterCounter);
+    if (this.updateLimiterCounter > this.pointsThreshold) {
+      /*console.log(this.lineChartDataA[0])
+      this.lineChartDataA[0].data.push(...this.provitionalData[0]);
+      this.lineChartDataA[1].data.push(...this.provitionalData[1]);
+      this.lineChartDataA[2].data.push(...this.provitionalData[2]);
+      this.lineChartLabelsA.push(this.provitionalData[3]);
+
+      this.provitionalData[0] = [];
+      this.provitionalData[1] = [];
+      this.provitionalData[2] = [];
+      this.provitionalData[3] = [];*/
+
+      this.lineChartDataA[0].data.push(this.userInfo.data.chartsData.paw);
+      this.lineChartDataA[1].data.push(this.userInfo.data.chartsData.vol);
+      this.lineChartDataA[2].data.push(this.userInfo.data.chartsData.freq);
+      this.lineChartLabelsA.push(Date.now());
+      this.updateLimiterCounter = 0;
+    }
+    this.updateLimiterCounter++;
   }
 
   chartInitA() {
@@ -79,7 +105,7 @@ export class AppComponent implements OnInit {
       {
         label: 'PRESION',
         fill: false,
-        lineTension: 0,
+        lineTension: 0.3,
         backgroundColor: 'rgb(255,169,140)',
         borderColor: 'rgba(0, 0, 0, 0.1)',
         borderCapStyle: 'round',
@@ -94,7 +120,7 @@ export class AppComponent implements OnInit {
       {
         label: 'VOLUMEN',
         fill: false,
-        lineTension: 0,
+        lineTension: 0.3,
         backgroundColor: 'rgba(75,255,192,1)',
         borderColor: 'rgba(0, 0, 0, 0.1)',
         borderCapStyle: 'round',
@@ -109,7 +135,7 @@ export class AppComponent implements OnInit {
       {
         label: 'FLUJO',
         fill: false,
-        lineTension: 0,
+        lineTension: 0.3,
         backgroundColor: 'rgba(75,255,192,1)',
         borderColor: 'rgba(0, 0, 0, 0.1)',
         borderCapStyle: 'round',
@@ -132,8 +158,8 @@ export class AppComponent implements OnInit {
           type: 'realtime',   // x axis will auto-scroll from right to left
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 10,      // onRefresh callback will be called every 1000 ms
-            delay: 1500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            refresh: 100,      // onRefresh callback will be called every 1000 ms
+            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -142,7 +168,7 @@ export class AppComponent implements OnInit {
             display: false,
           },
           gridLines: {
-            display:false
+            display: false
           },
         }],
         yAxes: [{
@@ -161,7 +187,7 @@ export class AppComponent implements OnInit {
       responsiveAnimationDuration: 0,    // animation duration after a resize
       plugins: {
         streaming: {
-          frameRate: 30              // chart is drawn 5 times every second
+          frameRate: 50              // chart is drawn 5 times every second
         }
       }
     };
