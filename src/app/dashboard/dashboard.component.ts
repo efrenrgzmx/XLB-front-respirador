@@ -269,5 +269,15 @@ export class DashboardComponent implements OnInit {
 export class UserInfo {
   data: {
     chartsData: { paw: number, freq: number, vol: number }
-    params: { ppeak: number, volmin: number, vte: number, ftotal: number, peep: number, pip: number}
+    params: { ppeak: number, volmin: number, vte: number, ftotal: number, peep: number, pip: number }
   };
+}
+
+export class SettingsInfo{
+  settings: {
+    ie: number,
+    freq: number,
+    vt: number,
+    pip: number,
+  };
+}

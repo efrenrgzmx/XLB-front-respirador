@@ -1,9 +1,41 @@
-<div class="bar-container">
-  <mat-progress-bar
-    class="ng-custom-bar"
-    [color]="color"
-    [mode]="mode"
-    [value]="value"
-    [bufferValue]="bufferValue">
-  </mat-progress-bar>
+<div [ngClass]="{'fadeOut': finishTests}" class="animated fadeIn faster">
+  <div class="bar-container">
+    <mat-progress-bar
+      class="ng-custom-bar"
+      [color]="color"
+      [mode]="mode"
+      [value]="value"
+      [bufferValue]="bufferValue">
+    </mat-progress-bar>
+  </div>
+  <div class="tests-container">
+    <table class="main-table">
+      <tr *ngFor="let r of results; index as i;">
+        <td>
+          <table>
+            <tr>
+              <td>
+                <div class="status-indicator">
+                  <fa-icon *ngIf="r === 2" class="status-icon" [icon]="closeIcon"></fa-icon>
+                  <fa-icon *ngIf="r === 1" class="status-icon" [icon]="checkIcon"></fa-icon>
+                  <div *ngIf="r == 0" class="indicator">
+                    <svg width="16px" height="12px">
+                      <polyline id="back" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                      <polyline id="front" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                    </svg>
+                  </div>
+                </div>
+              </td>
+              <td style="padding-left: 10px">
+                <div>{{titles[i]}}</div>
+              </td>
+            </tr>
+
+
+          </table>
+
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>

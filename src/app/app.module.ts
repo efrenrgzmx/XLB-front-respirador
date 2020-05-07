@@ -17,6 +17,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditboxComponent } from './common/editbox/editbox.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import {MatProgressBar, MatProgressBarModule} from '@angular/material/progress-bar';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 
@@ -39,6 +40,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     SocketIoModule.forRoot(config),
     AppRoutingModule,
     MatProgressBarModule,
+    FontAwesomeModule,
   ],
   providers: [WebsocketService],
   bootstrap: [AppComponent]
