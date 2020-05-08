@@ -1,1 +1,68 @@
-<p>patient works!</p>
+<!-- PANTALLA DE SELECCION DE PACIENTE -->
+<div *ngIf="step===0" class="animated fadeIn faster">
+  <div class="container-title">Paciente</div>
+  <div class="buttons-container">
+    <button mat-raised-button disabled>Anterior</button>
+    <button (click)="onNewPressed()" mat-raised-button>Nuevo</button>
+  </div>
+</div>
+
+
+<!-- PANTALLA DE CONFIGURACIÓN DE NUEVO PACIENTE -->
+
+<div *ngIf="step===1" class="animated fadeIn faster">
+  <div class="container-title">Paciente</div>
+  <div class="controls-container">
+    <div class="male-section">
+      <div (click)="sexSelected=0" [ngClass]="{'body-selected': sexSelected===0}" class="body-img">
+        <img src="assets/patient/male.png">
+      </div>
+    </div>
+    <div class="menu-section">
+      <div id="params-container">
+        <div id="tabs">
+          <div (click)="onTabPressed(0)" [ngClass]="{'active-tab': tabSelected===0}" class="param-tab">Altura</div>
+          <div (click)="onTabPressed(1)" [ngClass]="{'active-tab': tabSelected===1}" class="param-tab">Perfil</div>
+        </div>
+        <div [ngClass]="{'params-control-container-left': tabSelected===0, 'params-control-container-right': tabSelected===2}" id="params-control-container">
+          <div class="controls-container-position">
+            <div *ngIf="tabSelected===0">
+              <div><button (click)="subsHeight()" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
+              <div class="param-value">{{height | number:'1.2-5'}}<br><em>m</em></div>
+              <div><button (click)="addHeight()" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
+            </div>
+            <div *ngIf="tabSelected===1">
+              <div><button mat-raised-button [ngClass]="{'gray-bg': profile===0}" (click)="profile = 0" class="profile-btn">Adulto</button></div>
+              <div><button mat-raised-button [ngClass]="{'gray-bg': profile===1}" (click)="profile = 1" class="profile-btn right-profile-btn">Infante</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="confirmation-container">
+        <div class="summary">
+          <em>Resumen</em><br>
+          Sexo: {{getSexDescription()}}<br>
+          Altura: {{height | number:'1.2-5'}} m<br>
+          P. Predicho: {{height*100 - 100 | number:'1.1-5'}} kg <br>
+          Perfil: {{getProfileDescription()}}
+        </div>
+
+        <button *ngIf="isContinuePosible()" class="confirm-btn" (click)="onConfirm()" mat-raised-button>Confirmar</button>
+      </div>
+    </div>
+    <div class="female-section">
+      <div (click)="sexSelected=1" [ngClass]="{'body-selected': sexSelected===1}" class="body-img">
+        <img src="assets/patient/female.png">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PANTALLA DE SELECCION DE MODO -->
+<div *ngIf="step===2" class="animated fadeIn faster">
+
+</div>
+
+
+<a (click)="onBack()" *ngIf="step>0" mat-raised-button id="back-btn"><fa-icon [icon]="backIcon"></fa-icon></a>
