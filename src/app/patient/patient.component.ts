@@ -12,11 +12,26 @@ export class PatientComponent implements OnInit {
   minusIcon = faMinus;
   backIcon = faChevronLeft;
 
-  step = 1;
-  tabSelected = 0;
+  step = 4;
+  doesFromSummary = false;
+
+  patientTabSelected = 0;
   profile = -1;
   sexSelected = 0;
+  mode = -1;
   height = 1.50;
+
+
+
+  // controlled mode
+  timeSelected = 0;
+  freq = 14;
+  ie = 2;
+  vol = 8;
+  flow = 21;
+  volMaxMin = 400;
+
+  configTabSelected = 0;
   constructor() { }
 
   ngOnInit(): void {
@@ -27,7 +42,11 @@ export class PatientComponent implements OnInit {
   }
 
   onTabPressed(index) {
-    this.tabSelected = index;
+    this.patientTabSelected = index;
+  }
+
+  onConfTabPressed(index) {
+    this.configTabSelected = index;
   }
 
   getSexDescription(): string {
@@ -75,5 +94,51 @@ export class PatientComponent implements OnInit {
   onBack() {
     this.step--;
   }
+
+  onChangeMode(modeType) {
+    this.mode = modeType;
+    this.step++;
+  }
+
+  changeFreq(isAdding: boolean) {
+    if (isAdding === true) {
+      this.freq++;
+    } else {
+      this.freq--;
+    }
+  }
+
+  changeIE(isAdding: boolean) {
+    if (isAdding === true) {
+      this.ie++;
+    } else {
+      this.ie--;
+    }
+  }
+
+  changeVolumen(isAdding: boolean) {
+    if (isAdding === true) {
+      this.vol++;
+    } else {
+      this.vol--;
+    }
+  }
+
+  changeFlow(isAdding: boolean) {
+    if (isAdding === true) {
+      this.flow++;
+    } else {
+      this.flow--;
+    }
+  }
+
+  changeVolMaxMin(isAdding: boolean) {
+    if (isAdding === true) {
+      this.volMaxMin++;
+    } else {
+      this.volMaxMin--;
+    }
+  }
+
 
 }

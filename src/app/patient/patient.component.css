@@ -71,7 +71,7 @@
   display: flex;
 }
 
-#params-control-container{
+.params-control-container{
   width: 426px;
   height: 68%;
   background-color: white;
@@ -89,7 +89,7 @@
   border-radius: 20px 0px 20px 20px !important;
 }
 
-#tabs{
+.tabs{
   display: flex;
 }
 
@@ -168,7 +168,7 @@
 }
 
 .gray-bg{
-  background-color: #D8D8D8;
+  background-color: #D8D8D8 !important;
 }
 
 
@@ -228,4 +228,187 @@
   font-size: 15px;
 }
 
+.conf-title{
+  font-size: 20px;
+  color: #6E6E6E;
+  width: 100%;
+  text-align: center;
+  margin-top: 20vh;
+}
+
+.conf-btn-container{
+  width: 100%;
+  text-align: center;
+  margin-top: 7vh;
+}
+
+.conf-btn-container button{
+  width: 190px;
+  height: 100px;
+  color: #6E6E6E;
+  border: 1px solid #979797;
+  border-radius: 20px;
+  background-color: white;
+  font-size: 20px;
+
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+
+:disabled{
+  color: #d2d2d2 !important;
+  border-color: #d8d8d8 !important;
+}
+
+.conf-params-title{
+  font-size: 20px;
+  color: #6E6E6E;
+  width: 100%;
+  text-align: center;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  font-weight: lighter;
+}
+
+.conf-container{
+  width: 92%;
+  margin: 0 auto;
+  height: 50vh;
+}
+
+.conf-params-control-container{
+  width: 100%;
+  height: 156px;
+  background-color: white;
+  margin-top: -1px;
+  border-radius: 20px;
+  border: 1px solid #979797;
+}
+
+.conf-active-tab{
+  background-color: white;
+  border-top: 1px solid #979797;
+  border-left: 1px solid #979797;
+  border-right: 1px solid #979797;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  margin-right: -2px;
+}
+
+.continue-container{
+  width: 92%;
+  margin: 0 auto;
+  text-align: right;
+}
+
+.conf-controls-container-position{
+  margin: 0 auto;
+  margin-top: 8vh;
+}
+
+.conf-controls-container-position div{
+  display: flex;
+  justify-content: center;
+}
+
+.conf-controls-container-position table{
+  width: 95%;
+  height: 156px;
+  margin: 0 auto;
+  margin-top: -8vh;
+}
+
+.time-type-btn{
+  width: 145px;
+  height: 50px;
+  border-radius: 15px;
+  background-color: white;
+  color: #6E6E6E;
+  font-size: 20px;
+  border: 1px solid #979797;
+  font-weight: normal;
+}
+
+.summary-controls-container{
+  display: flex;
+  height: 82vh;
+  margin-top: 30px;
+}
+
+.summary-left-panel{
+  width: 200px;
+  height: 100%;
+  margin-left: 35px;
+  margin-right: 35px;
+  font-size: 18px;
+  color: #6E6E6E;
+  line-height: 1.45;
+  font-weight: lighter;
+}
+
+.summary-right-panel{
+  width: 500px;
+  height: 100%;
+  text-align: right;
+}
+
+.summary-right-panel table{
+  width: 95%;
+  text-align: left;
+  height: 200px;
+}
+
+.summary-right-panel td{
+  vertical-align: top;
+}
+
+.summary-btn{
+  height: 70px;
+  width: 145px;
+  border-radius: 10px;
+  background-color: #D8D8D8;
+  border: 1px solid #979797;
+  color: #6E6E6E;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.summary-btn em{
+  font-style: normal;
+  font-size: 24px;
+  color:#3D3D3D;
+}
+
+.summary p{
+  color: #6E6E6E;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+.summary-title{
+  font-size: 20px;
+  color: #6E6E6E;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 12px;
+  font-weight: lighter;
+}
+
+
+#summary-confirm{
+  margin-top: 20px;
+}
+
+.summary-left-panel button{
+  width: 180px;
+  height: 50px;
+  font-size: 20px;
+  border-radius: 12px;
+  background-color: white;
+  color: #6E6E6E;
+  border: 1px solid #979797;
+  margin-top: 20px;
+}
 
