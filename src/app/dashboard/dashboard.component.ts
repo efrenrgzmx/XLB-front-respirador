@@ -3,6 +3,8 @@ import {Color, NgChartjsDirective} from 'ng-chartjs';
 import 'chartjs-plugin-streaming';
 import { Observable, Subscription } from 'rxjs';
 import {WebsocketService} from '../websocket.service';
+import {faBackspace, faExclamationTriangle, faGripLinesVertical, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faBell, faBellSlash} from '@fortawesome/free-regular-svg-icons';
 
 
 @Component({
@@ -11,6 +13,31 @@ import {WebsocketService} from '../websocket.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  /**
+   * Keyboard Behaviour
+   */
+  keyboardValue = '';
+  isKeyboardOpen = false;
+  keyboardDescription = '';
+  keyboardMinValue = 0;
+  keyboardMaxValue = 10;
+  keyboardUnit = '';
+  keyboardError = '';
+  isChangeConfirmationOpen = false;
+
+  /**
+   * Alarm Behaviour
+   */
+  isAlarmActive = false;
+
+  cancelIcon = faTimes;
+  pauseIcon = faGripLinesVertical;
+  alarmIcon = faExclamationTriangle;
+  bellIcon = faBell;
+  bellSlashedIcon = faBellSlash;
+  backspaceIcon = faBackspace;
+
   /**
    * Subscription
    * * **/
@@ -24,14 +51,24 @@ export class DashboardComponent implements OnInit {
    * Chart
    */
   provitionalData: Array<any>;
-  lineChartDataA: Chart.ChartDataSets[];
-  lineChartLabelsA: Array<any>;
-  lineChartOptionsA: any;
+
+  pressureData: Chart.ChartDataSets[];
+  volumeData: Chart.ChartDataSets[];
+  flowData: Chart.ChartDataSets[];
+  pressureLbls: Array<any>;
+  volumeLbls: Array<any>;
+  flowLbls: Array<any>;
+  chartOptionsPressure: any;
+  chartOptionsVolume: any;
+  chartOptionsFlow: any;
   lineChartLegend = true;
   lineChartType = 'line';
   pointsThreshold = 10;
   updateLimiterCounter = 0;
-  @ViewChild('ngChartjsA') private readonly ngChartjsA: NgChartjsDirective;
+  @ViewChild('ngChartjsPresion') private readonly ngChartjsPressure: NgChartjsDirective;
+  @ViewChild('ngChartjsVolume') private readonly ngChartjsVolume: NgChartjsDirective;
+  @ViewChild('ngChartjsFlow') private readonly ngChartjsFlow: NgChartjsDirective;
+
 
   /**
    * Behaviour
@@ -47,11 +84,6 @@ export class DashboardComponent implements OnInit {
 
   constructor( private socket: WebsocketService) {
     this.chartInitA();
-    this.provitionalData = [];
-    this.provitionalData.push([]);
-    this.provitionalData.push([]);
-    this.provitionalData.push([]);
-    this.provitionalData.push([]);
   }
 
   ngOnInit() {
@@ -66,94 +98,93 @@ export class DashboardComponent implements OnInit {
 
   addData(sampleData) {
 
-    if(!this.ngChartjsA)
+    if(!this.ngChartjsPressure)
       return;
 
     sampleData = JSON.parse(sampleData);
     this.userInfo = sampleData;
 
-    /*this.provitionalData[0].push(this.userInfo.data.chartsData.paw);
-    this.provitionalData[1].push(this.userInfo.data.chartsData.vol);
-    this.provitionalData[2].push(this.userInfo.data.chartsData.freq);
-    this.provitionalData[3].push(Date.now());*/
-    console.log(this.updateLimiterCounter);
     if (this.updateLimiterCounter > this.pointsThreshold) {
-      /*console.log(this.lineChartDataA[0])
-      this.lineChartDataA[0].data.push(...this.provitionalData[0]);
-      this.lineChartDataA[1].data.push(...this.provitionalData[1]);
-      this.lineChartDataA[2].data.push(...this.provitionalData[2]);
-      this.lineChartLabelsA.push(this.provitionalData[3]);
 
-      this.provitionalData[0] = [];
-      this.provitionalData[1] = [];
-      this.provitionalData[2] = [];
-      this.provitionalData[3] = [];*/
-
-      this.lineChartDataA[0].data.push(this.userInfo.data.chartsData.paw);
-      this.lineChartDataA[1].data.push(this.userInfo.data.chartsData.vol);
-      this.lineChartDataA[2].data.push(this.userInfo.data.chartsData.freq);
-      this.lineChartLabelsA.push(Date.now());
+      this.pressureData[0].data.push(this.userInfo.data.chartsData.paw);
+      this.volumeData[0].data.push(this.userInfo.data.chartsData.vol);
+      this.flowData[0].data.push(this.userInfo.data.chartsData.freq);
+      this.pressureLbls.push(Date.now());
+      this.volumeLbls.push(Date.now());
+      this.flowLbls.push(Date.now());
       this.updateLimiterCounter = 0;
     }
     this.updateLimiterCounter++;
   }
 
   chartInitA() {
-    this.lineChartDataA = [
+    this.pressureData = [
       {
-        label: 'PRESION',
+        label: 'Presion',
         fill: false,
-        lineTension: 0.3,
+        lineTension: 0,
         backgroundColor: 'rgb(255,169,140)',
         borderColor: 'rgba(0, 0, 0, 0.1)',
         borderCapStyle: 'round',
         borderDashOffset: 1.0,
         borderJoinStyle: 'round',
         pointBorderColor: 'rgba(0, 0, 0, 0.1)',
-        borderWidth: 3,
+        borderWidth: 2,
         pointRadius: 0,
         pointHitRadius: 0,
         data: [],
       },
-      {
-        label: 'VOLUMEN',
-        fill: false,
-        lineTension: 0.3,
-        backgroundColor: 'rgba(75,255,192,1)',
-        borderColor: 'rgba(0, 0, 0, 0.1)',
-        borderCapStyle: 'round',
-        borderDashOffset: 1.0,
-        borderJoinStyle: 'round',
-        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
-        borderWidth: 3,
-        pointRadius: 0,
-        pointHitRadius: 0,
-        data: [],
-      },
-      {
-        label: 'FLUJO',
-        fill: false,
-        lineTension: 0.3,
-        backgroundColor: 'rgba(75,255,192,1)',
-        borderColor: 'rgba(0, 0, 0, 0.1)',
-        borderCapStyle: 'round',
-        borderDashOffset: 1.0,
-        borderJoinStyle: 'round',
-        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
-        borderWidth: 3,
-        pointRadius: 0,
-        pointHitRadius: 0,
-        data: [],
-      }
     ];
-    this.lineChartLabelsA  = [];
-    this.lineChartOptionsA = {
-      tooltips: {
-        enabled: false
+
+    this.volumeData = [
+      {
+        label: 'Volumen',
+        fill: false,
+        lineTension: 0,
+        backgroundColor: 'rgb(255,169,140)',
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderCapStyle: 'round',
+        borderDashOffset: 1.0,
+        borderJoinStyle: 'round',
+        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHitRadius: 0,
+        data: [],
       },
+    ];
+
+    this.flowData = [
+      {
+        label: 'Flujo',
+        fill: false,
+        lineTension: 0,
+        backgroundColor: 'rgb(255,169,140)',
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderCapStyle: 'round',
+        borderDashOffset: 1.0,
+        borderJoinStyle: 'round',
+        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHitRadius: 0,
+        data: [],
+      },
+    ];
+    this.pressureLbls  = [];
+    this.volumeLbls = [];
+    this.flowLbls = [];
+    this.chartOptionsPressure = {
+      legend: {
+        display: false,
+        labels: {
+          display: false
+        }
+      },
+      tooltips: { enabled: false},
       scales: {
         xAxes: [{
-          type: 'realtime',   // x axis will auto-scroll from right to left
+          type: 'realtime',
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
             refresh: 100,      // onRefresh callback will be called every 1000 ms
@@ -173,7 +204,13 @@ export class DashboardComponent implements OnInit {
           ticks: {
             suggestedMax: 40,
             suggestedMin: 0,
-          }
+            display: false
+          },
+          gridLines: {
+            color: 'rgba(240,240,240,1)',
+            display: true,
+            drawBorder: true,
+          },
         }]
       },
       animation: {
@@ -185,7 +222,105 @@ export class DashboardComponent implements OnInit {
       responsiveAnimationDuration: 0,    // animation duration after a resize
       plugins: {
         streaming: {
-          frameRate: 50              // chart is drawn 5 times every second
+          frameRate: 30              // chart is drawn 5 times every second
+        }
+      }
+    };
+
+    this.chartOptionsVolume = {
+      legend: { display: false, labels: { display: false}},
+      tooltips: { enabled: false},
+      scales: {
+        xAxes: [{
+          type: 'realtime',
+          realtime: {         // per-axis options
+            duration: 14000,    // data in the past 20000 ms will be displayed
+            refresh: 100,      // onRefresh callback will be called every 1000 ms
+            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            pause: false,       // chart is not paused
+            ttl: undefined,     // data will be automatically deleted as it disappears off the chart
+          },
+          ticks: {
+            fontColor: 'rgba(255,255,255,1)',
+            display: false,
+          },
+          gridLines: {
+            display: false
+          },
+        }],
+        yAxes: [{
+          ticks: {
+            suggestedMax: 1100,
+            suggestedMin: 400,
+            display: false
+          },
+          gridLines: {
+            color: 'rgba(240,240,240,1)',
+            display: true,
+            drawBorder: true,
+          },
+        }]
+      },
+      animation: {
+        duration: 0                    // general animation time
+      },
+      hover: {
+        animationDuration: 0           // duration of animations when hovering an item
+      },
+      responsiveAnimationDuration: 0,    // animation duration after a resize
+      plugins: {
+        streaming: {
+          frameRate: 30              // chart is drawn 5 times every second
+        }
+      }
+    };
+
+    this.chartOptionsFlow = {
+      legend: { display: false, labels: { display: false}},
+      tooltips: { enabled: false},
+      scales: {
+        xAxes: [{
+          type: 'realtime',
+          realtime: {         // per-axis options
+            duration: 14000,    // data in the past 20000 ms will be displayed
+            refresh: 100,      // onRefresh callback will be called every 1000 ms
+            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            pause: false,       // chart is not paused
+            ttl: undefined,     // data will be automatically deleted as it disappears off the chart
+          },
+          ticks: {
+            fontColor: 'rgba(255,255,255,1)',
+            display: false,
+          },
+          gridLines: {
+            display: false
+          },
+        }],
+        yAxes: [{
+          ticks: {
+            suggestedMax: 100,
+            suggestedMin: -100,
+            display: false
+          },
+          gridLines: {
+            color: 'rgba(240,240,240,1)',
+            display: true,
+            drawBorder: true,
+            zeroLineColor: '#999',
+            zeroLineWidth: 2
+          },
+        }]
+      },
+      animation: {
+        duration: 0                    // general animation time
+      },
+      hover: {
+        animationDuration: 0           // duration of animations when hovering an item
+      },
+      responsiveAnimationDuration: 0,    // animation duration after a resize
+      plugins: {
+        streaming: {
+          frameRate: 30              // chart is drawn 5 times every second
         }
       }
     };
@@ -263,6 +398,77 @@ export class DashboardComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     this.socket.sendData(`%${this.toggleCount === 0 ? this.changedValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.changedValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.changedValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.changedValue : this.paramsValues[3]}`);
   }
+
+  onDigitPressed(digit: string) {
+    this.keyboardError = '';
+    if (digit === '-') {
+      this.keyboardValue = this.keyboardValue .slice(0, -1);
+    } else if (this.keyboardValue.length > 7) {
+      return;
+    } else if (digit === '.') {
+      if (this.keyboardValue.indexOf('.') === -1) {
+        this.keyboardValue += digit;
+      }
+    } else {
+      this.keyboardValue += digit;
+    }
+  }
+
+  openKeyboard(toggle: number, currentValue: number, desc: string, min: number, max: number, unit: string){
+    this.cleanKeyboardData();
+    this.toggleCount = toggle;
+    this.keyboardValue = `${currentValue}`;
+    this.keyboardDescription = desc;
+    this.keyboardMinValue = min;
+    this.keyboardMaxValue = max;
+    this.keyboardUnit = unit;
+    this.isKeyboardOpen = true;
+  }
+
+  closeKeyboard(isOpeningConfirmation) {
+    this.isKeyboardOpen = false;
+    if (isOpeningConfirmation) {
+      this.isChangeConfirmationOpen = true;
+    }
+  }
+
+  cleanKeyboardData() {
+    this.keyboardValue = '';
+    this.keyboardDescription = '';
+    this.keyboardMinValue = 0;
+    this.keyboardMaxValue = 0;
+    this.keyboardUnit = '';
+    this.keyboardError = '';
+  }
+
+  onChangePressed() {
+
+    const sendValue = Number(this.keyboardValue);
+    if (!isNaN(sendValue)) {
+      if (sendValue <= this.keyboardMaxValue && sendValue >= this.keyboardMinValue) {
+
+        this.closeKeyboard(true);
+      } else {
+        this.keyboardError = `Los limites de este parametro son entre ${this.keyboardMinValue} y ${this.keyboardMaxValue}`;
+      }
+    } else {
+      this.keyboardError = 'Número invalido';
+    }
+  }
+
+  onConfirmChange() {
+    this.sendData();
+    this.closeConfirm();
+  }
+
+  closeConfirm(){
+    this.isChangeConfirmationOpen = false;
+  }
+
+  sendData() {
+    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]}`);
+  }
+
 }
 
 
