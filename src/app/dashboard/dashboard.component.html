@@ -1,0 +1,137 @@
+<div id="top-bar">
+  <div id="mode-active">C</div>
+  <button id="meseta-btn" mat-button>P. Meseta</button>
+  <button mat-button class="close-btn"><fa-icon [icon]="cancelIcon"></fa-icon></button>
+  <button mat-button class="pause-btn"><fa-icon [icon]="pauseIcon"></fa-icon></button>
+  <div class="alarm-legend"><fa-icon [icon]="alarmIcon"></fa-icon> <p>Baja presión de subimistro</p></div>
+  <button mat-button class="bell-container"><fa-icon [icon]="bellIcon"></fa-icon></button>
+</div>
+<div class="middle-container">
+  <div class="left-charts-container">
+    <canvas height="93px" width="612px" ngChartjs [datasets]="pressureData"
+            [options]="chartOptionsPressure" [legend]="lineChartLegend" [labels]="pressureLbls" [chartType]="'line'" #ngChartjsPresion="ngChartjs">
+    </canvas>
+    <canvas height="93px" width="612px" ngChartjs [datasets]="volumeData"
+            [options]="chartOptionsVolume" [legend]="lineChartLegend" [labels]="volumeLbls" [chartType]="'line'" #ngChartjsVolume="ngChartjs">
+    </canvas>
+    <canvas height="93px" width="612px" ngChartjs [datasets]="flowData"
+            [options]="chartOptionsFlow" [legend]="lineChartLegend" [labels]="flowLbls" [chartType]="'line'" #ngChartjsFlow="ngChartjs">
+    </canvas>
+  </div>
+  <div class="right-summary-container">
+    <div><button mat-raised-button class="prog-btn">Configurar</button></div>
+    <div><button mat-raised-button class="prog-btn">Alertas</button></div>
+    <div><button mat-raised-button class="prog-btn">Ayuda</button></div>
+
+    <h2>Paciente</h2>
+    <div id="summary-info">
+      Sexo: Masculino<br>
+      Altura: 1.70 m.<br>
+      P. Predicho: 75 Kg.<br>
+      Perfil: Adulto
+    </div>
+  </div>
+</div>
+
+<div class="params-container">
+  <table>
+    <tr>
+      <td><button (click)="openKeyboard(1, paramsValues[1],'Frecuencia',1, 100, 'rpm')" mat-raised-button class="param-btn">Frecuencia<br><em>{{paramsValues[1]}}</em> rpm</button></td>
+      <td><button (click)="openKeyboard(0, paramsValues[0],'Tiempo de inspiración : Tiemepo de espiración',1, 3, '')" mat-raised-button class="param-btn">Ti:Te<br><em>1:{{paramsValues[0]}}.0</em></button></td>
+      <td><button (click)="openKeyboard(2, paramsValues[2],'Volumen',50, 1300, '')" mat-raised-button class="param-btn">Volumen<br><em>{{paramsValues[2]}}</em> </button></td>
+      <td><button (click)="openKeyboard(3, paramsValues[3],'Peak Inspiratory Pressure',10, 40, '')" mat-raised-button class="param-btn">PIP<br><em>{{paramsValues[3]}}</em></button></td>
+      <td><button mat-raised-button class="param-btn" disabled><br><em></em></button></td>
+    </tr>
+  </table>
+</div>
+
+
+<!-- -->
+<div id="pressure-lbl">Presión</div>
+<div id="volume-lbl">Volumen</div>
+<div id="flow-lbl">Flujo</div>
+<div id="ppeak-lbl"><em>PPeak:</em> {{userInfo?.data.params.ppeak}} cmH2O</div>
+
+
+
+<div *ngIf="isKeyboardOpen" class="keyboard animated fadeIn faster">
+  <div class="kb-container">
+    <div class="kb-param-desc">{{keyboardDescription}}</div>
+    <div class="value-changer">
+      <div id="value">{{keyboardValue}}</div>
+      <div id="unit">{{keyboardUnit}}</div>
+    </div>
+    <div id="error-lbl">&nbsp;{{keyboardError}}</div>
+    <div>
+      <table>
+        <tr>
+          <td>
+            <button (click)="onDigitPressed('1')" mat-button class="digit">1</button>
+          </td>
+          <td>
+            <button (click)="onDigitPressed('2')" mat-button class="digit">2</button>
+          </td>
+          <td>
+            <button (click)="onDigitPressed('3')" mat-button class="digit">3</button>
+          </td>
+          <td>
+            <button (click)="onDigitPressed('-')" mat-button class="digit" ><fa-icon [icon]="backspaceIcon"></fa-icon></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button (click)="onDigitPressed('4')" mat-button class="digit">4</button>
+          </td>
+          <td>
+            <button (click)="onDigitPressed('5')" mat-button class="digit">5</button>
+          </td>
+          <td>
+            <button (click)="onDigitPressed('6')" mat-button class="digit">6</button>
+          </td>
+          <td>
+            <button (click)="closeKeyboard(false)" mat-button class="digit cancel-digit">Cancelar</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button (click)="onDigitPressed('7')" mat-button class="digit">7</button>
+          </td>
+          <td>
+            <button (click)="onDigitPressed('8')" mat-button class="digit">8</button>
+          </td>
+          <td>
+            <button (click)="onDigitPressed('9')" mat-button class="digit">9</button>
+          </td>
+          <td rowspan="2">
+            <button (click)="onChangePressed()" mat-button class="digit change-digit">Cambiar</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button (click)="onDigitPressed('.')" mat-button class="digit">.</button>
+          </td>
+          <td>
+            <button (click)="onDigitPressed('0')" mat-button class="digit">0</button>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="isChangeConfirmationOpen" class="keyboard">
+  <div class="confirm-change animated fadeIn faster">
+    <div class="kb-param-desc">{{keyboardDescription}}<br>será cambiado a:</div>
+    <div class="value-changer">
+      <div id="value">{{keyboardValue}}</div>
+      <div id="unit">{{keyboardUnit}}</div>
+    </div>
+    <div class="confirm-change-buttons-container">
+      <button (click)="closeConfirm()" mat-raised-button class="confirm-change-btn">Cancelar</button>
+      <button (click)="onConfirmChange()" mat-raised-button class="confirm-change-btn gray-bg">Confirmar</button>
+    </div>
+  </div>
+</div>

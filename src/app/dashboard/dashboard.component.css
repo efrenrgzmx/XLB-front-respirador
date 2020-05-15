@@ -1,0 +1,302 @@
+#top-bar{
+  display: flex;
+  height: 50px;
+  border-bottom: 1px solid #979797;
+}
+
+#mode-active{
+  font-size: 20px;
+  width: 66px;
+  text-align: center;
+  color: #6E6E6E;
+  line-height: 2.5;
+}
+
+#meseta-btn{
+  width: 116px;
+  color: #6E6E6E;
+  background-color: #C4C4C4;
+  border: 1px solid #979797;
+  border-radius: 0;
+  font-size: 18px;
+  font-weight: lighter;
+}
+
+.close-btn{
+  width: 50px;
+  border-radius: 0;
+  font-size: 30px;
+  font-weight: lighter;
+  color: #6E6E6E;
+  background-color: white;
+  border-right: 1px solid #979797;
+}
+
+.pause-btn{
+  border-radius: 0;
+  font-size: 25px;
+  font-weight: lighter;
+  color: white;
+  background-color: #C4C4C4;
+  border-right: 1px solid #979797;
+}
+
+.alarm-legend{
+  width: 420px;
+  height: 50px;
+  margin-left: 15px;
+  border-left: 1px solid #979797;
+  display: flex;
+}
+
+.alarm-legend fa-icon{
+  font-size: 35px;
+  line-height: 1.5;
+  color: gray;
+  margin-left: 10px;
+
+}
+
+.alarm-legend p{
+  font-size: 20px;
+  color: #6E6E6E;
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.bell-container{
+  font-size: 30px;
+  color: #6E6E6E;
+  border-left: 1px solid #979797;
+}
+
+
+.middle-container{
+  height: 340px;
+  width: 100%;
+  display: flex;
+}
+
+.left-charts-container{
+  width: 640px;
+}
+
+.right-summary-container{
+  width: 160px;
+  border-left: 1px solid #979797;
+}
+
+.prog-btn{
+  width: 145px;
+  height: 50px;
+  border-radius: 10px;
+  margin-left: 6px;
+  margin-top: 16px;
+  background-color: #D8D8D8;
+  border: 1px solid #979797;
+  font-size: 20px;
+  color: #6e6e6e;
+}
+
+.right-summary-container h2{
+  font-size: 16px;
+  margin-top: 10px;
+  margin-left: 6px;
+  color: #6E6E6E;
+  margin-bottom: 0;
+}
+
+#summary-info{
+  font-size: 14px;
+  font-weight: lighter;
+  margin-left: 6px;
+  color: #6E6E6E;
+}
+
+.params-container{
+  height: 90px;
+  border-top: 1px solid #979797;
+}
+
+.params-container table{
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+.param-btn{
+  width: 144px;
+  height: 70px;
+  border-radius: 6px;
+  background-color: #D8D8D8;
+  border: 1px solid #979797;
+  color: #6E6E6E;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.param-btn em{
+  font-style: normal;
+  font-size: 24px;
+  color:#3D3D3D;
+}
+
+
+.left-charts-container canvas{
+  margin-top: 15px;
+  pointer-events: none;
+}
+
+
+#ppeak-lbl{
+  position: absolute;
+  z-index: 1000;
+  top: 55px;
+  left: 510px;
+  font-size: 14px;
+  color: #6E6E6E;
+  font-weight: normal;
+}
+
+#ppeak-lbl em{
+  font-style: normal;
+  font-weight: lighter;
+}
+
+#pressure-lbl{
+  position: absolute;
+  top: 55px;
+  left: 25px;
+  font-size: 14px;
+  color: #6E6E6E;
+}
+
+#volume-lbl{
+  position: absolute;
+  top: 160px;
+  left: 25px;
+  font-size: 14px;
+  color: #6E6E6E;
+}
+
+#flow-lbl{
+  position: absolute;
+  top: 274px;
+  left: 25px;
+  font-size: 14px;
+  color: #6E6E6E;
+}
+
+.keyboard{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vw;
+  z-index: 9999;
+  background-color: rgba(0,0,0,0.25);
+}
+
+.kb-container{
+  width: 550px;
+  height: 436px;
+  background-color: white;
+  margin: 22px auto 0;
+  border-radius: 23px;
+}
+
+
+.digit{
+  width: 119px;
+  height: 52px;
+  border-radius: 10px;
+  background-color: #D8D8D8;
+  border: 1px solid #979797;
+  color: #6E6E6E;
+  font-size: 20px;
+}
+
+.change-digit{
+  width: 118px;
+  height: 118px;
+}
+
+.cancel-digit{
+  background-color: white;
+}
+
+.digit fa-icon{
+  font-size: 30px;
+}
+
+.kb-container table{
+  width: 100%;
+  text-align: center;
+}
+
+.kb-param-desc{
+  width: 100%;
+  text-align: center;
+  padding-top: 24px;
+  font-size: 19px;
+  font-weight: lighter;
+}
+
+.value-changer{
+  width: 100%;
+  display: flex;
+  margin-top: 27px;
+  justify-content: center;
+
+}
+
+.value-changer #value{
+   font-size: 36px;
+   border-bottom: 1px solid #3d3d3d;
+   width: 180px;
+   height: 50px;
+   text-align: center;
+   line-height: 1.6;
+   font-weight: bold;
+   color: #3D3D3D;
+}
+
+.value-changer #unit{
+  font-size: 20px;
+  height: 50px;
+  line-height: 3;
+  color: #3D3D3D;
+}
+
+#error-lbl{
+  text-align: center;
+  margin-top: 5px;
+  color: red;
+  margin-bottom: 40px;
+}
+
+.confirm-change{
+  width: 457px;
+  height: 306px;
+  background-color: white;
+  margin: 91px auto 0;
+  border-radius: 23px;
+}
+
+.confirm-change-buttons-container{
+  text-align: center;
+}
+
+.confirm-change-btn{
+  width: 181px;
+  height: 118px;
+  background-color: white;
+  font-size: 20px;
+  border-radius: 15px;
+  border: 1px solid #6e6e6e;
+  color: #6e6e6e;
+  margin: 15px;
+}
+
+.gray-bg{
+  background-color: #d8d8d8;
+}
