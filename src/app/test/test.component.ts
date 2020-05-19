@@ -11,6 +11,9 @@ import {Router} from '@angular/router';
 })
 export class TestComponent implements OnInit {
   // declarations
+
+  isDarkUI = false;
+
   // bar
   color: ThemePalette = 'primary';
   mode: ProgressBarMode = 'determinate';

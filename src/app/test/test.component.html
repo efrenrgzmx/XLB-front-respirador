@@ -1,4 +1,6 @@
-<div [ngClass]="{'fadeOut': finishTests}" class="animated fadeIn faster">
+<div [ngClass]="{'fadeOut': finishTests, 'dark-bg': isDarkUI}" class="main-container animated fadeIn faster">
+  <div [ngClass]="{'white-text': isDarkUI}" class="title">Iniciando Sistema</div>
+  <div class="img-tidal"><img src="assets/tests/icon_tidal.svg"></div>
   <div class="bar-container">
     <mat-progress-bar
       class="ng-custom-bar"
@@ -15,7 +17,7 @@
           <table>
             <tr>
               <td>
-                <div class="status-indicator">
+                <div [ngClass]="{'success': r===1, 'error': r===2}" class="status-indicator">
                   <fa-icon *ngIf="r === 2" class="status-icon" [icon]="closeIcon"></fa-icon>
                   <fa-icon *ngIf="r === 1" class="status-icon" [icon]="checkIcon"></fa-icon>
                   <div *ngIf="r == 0" class="indicator">
@@ -26,7 +28,7 @@
                   </div>
                 </div>
               </td>
-              <td style="padding-left: 10px">
+              <td [ngClass]="{'lilac-text': isDarkUI}" style="padding-left: 10px">
                 <div>{{titles[i]}}</div>
               </td>
             </tr>

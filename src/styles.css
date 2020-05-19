@@ -20,17 +20,20 @@
 }
 
 html, body { padding:0; height: 100%; }
-body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important; overflow: hidden;}
+body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important; overflow: hidden; color: #3d3d3d}
 
 
 .dark-bg{
   background-color: #14263F;
 }
 
-.light-ui{
-  background-color: white;
+.white-text{
+  color:white;
 }
 
+.lilac-text{
+  color:#C9D2F3;
+}
 
 .reading-block{
   overflow: unset !important;
@@ -45,18 +48,19 @@ body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important;
 
 
 .ng-custom-bar .mat-progress-bar-buffer{
-  background-color: white;
-  border: black;
+  background-color: #DFE5F5;
+  border: transparent;
   border-width: 2px;
 }
 
 .ng-custom-bar .mat-progress-bar-fill::after {
- background-color: lightgrey;
+ background-color: #526FDC;
+  border-radius: 50px;
 }
 
 .mat-progress-bar{
   border-radius: 10px;
-  border: 1px solid #bbb !important;
+  border: 0px solid #bbb !important;
   height: 20px !important;
 }
 
