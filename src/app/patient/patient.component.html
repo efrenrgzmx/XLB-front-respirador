@@ -158,15 +158,30 @@
           <td><button mat-raised-button class="summary-btn">VT/peso<br><em>{{vol}}</em> mL/Kg</button></td>
         </tr>
         <tr>
-          <td><button mat-raised-button class="summary-btn">VT máx/i<br><em>0</em> rpm</button></td>
-          <td><button mat-raised-button class="summary-btn">VT max e<br><em>0</em> rpm</button></td>
-          <td><button mat-raised-button class="summary-btn">P. Meseta<br><em>0</em> rpm</button></td>
+          <td><button mat-raised-button class="summary-btn">VT máx/i<br><em>12</em> </button></td>
+          <td><button mat-raised-button class="summary-btn">VT max e<br><em>20</em> </button></td>
+          <td><button mat-raised-button class="summary-btn">P. Meseta<br><em>15</em> min</button></td>
         </tr>
       </table>
-      <button id="summary-confirm" mat-raised-button class="confirm-btn">Confirmar</button>
+      <button (click)="beginVent=true" id="summary-confirm" mat-raised-button class="confirm-btn">Confirmar</button>
     </div>
   </div>
 </div>
+
+<div *ngIf="beginVent" class="animated fadeIn faster confirm-vent">
+  <div class="confirm-vent-container">
+    <div>
+      Se comenzará a ventilar al paciente.
+    </div>
+    <div>
+      <button (click)="beginVent = false" mat-raised-button class="confirm-vent-btn">Cancelar</button>
+      <button (click)="onConfirmVent()" mat-raised-button class="confirm-vent-btn gray-bg">Ok</button>
+    </div>
+  </div>
+</div>
+
+
+
 
 <!-- BACK BUTTON -->
 <a (click)="onBack()" *ngIf="step>0" mat-raised-button id="back-btn"><fa-icon [icon]="backIcon"></fa-icon></a>

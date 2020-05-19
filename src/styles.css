@@ -23,6 +23,15 @@ html, body { padding:0; height: 100%; }
 body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important; overflow: hidden;}
 
 
+.dark-bg{
+  background-color: #14263F;
+}
+
+.light-ui{
+  background-color: white;
+}
+
+
 .reading-block{
   overflow: unset !important;
 }

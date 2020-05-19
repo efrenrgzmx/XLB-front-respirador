@@ -412,3 +412,40 @@
   margin-top: 20px;
 }
 
+.confirm-vent{
+  background-color: rgba(0,0,0,0.75);
+  position: absolute;
+  z-index: 9999;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+}
+
+.confirm-vent-container{
+  margin:  85px auto 0;
+  background-color: white;
+  border-radius: 20px;
+  width: 457px;
+  height: 306px;
+}
+
+.confirm-vent-container div{
+  font-size: 20px;
+  color: #6E6E6E;
+  padding-top: 62px;
+  text-align: center;
+}
+
+.confirm-vent-btn{
+  width: 190px;
+  height: 100px;
+
+  border-radius: 15px;
+  border:1px solid #979797;
+  background-color: white;
+  font-size: 20px;
+  color: #6E6E6E;
+  margin: 15px;
+}
+

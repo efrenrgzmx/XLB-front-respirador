@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {faChevronLeft, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-patient',
@@ -12,7 +13,7 @@ export class PatientComponent implements OnInit {
   minusIcon = faMinus;
   backIcon = faChevronLeft;
 
-  step = 4;
+  step = 0;
   doesFromSummary = false;
 
   patientTabSelected = 0;
@@ -32,7 +33,8 @@ export class PatientComponent implements OnInit {
   volMaxMin = 400;
 
   configTabSelected = 0;
-  constructor() { }
+  beginVent = false;
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -140,5 +142,7 @@ export class PatientComponent implements OnInit {
     }
   }
 
-
+  onConfirmVent() {
+    this.router.navigate(['/dashboard']);
+  }
 }
