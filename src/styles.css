@@ -22,17 +22,31 @@
 html, body { padding:0; height: 100%; }
 body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important; overflow: hidden; color: #3d3d3d}
 
-
+.main-container{
+  width: 100vw;
+  height: 100vh;
+}
 .dark-bg{
   background-color: #14263F;
 }
 
+.lightgrey-text{
+  color:#6e6e6e;
+}
 .white-text{
   color:white;
 }
 
 .lilac-text{
   color:#C9D2F3;
+}
+
+.lilac-bg{
+  background-color: #C9D2F3 !important;
+}
+
+.blue-bg{
+  background-color:#526FDC;
 }
 
 .reading-block{

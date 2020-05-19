@@ -19,6 +19,7 @@ import { ConfigurationComponent } from './configuration/configuration.component'
 import {MatProgressBar, MatProgressBarModule} from '@angular/material/progress-bar';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatRippleModule} from '@angular/material/core';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 
@@ -43,6 +44,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatProgressBarModule,
     FontAwesomeModule,
     MatTabsModule,
+    MatRippleModule,
   ],
   providers: [WebsocketService],
   bootstrap: [AppComponent]

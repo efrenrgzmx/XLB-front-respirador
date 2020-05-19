@@ -9,11 +9,13 @@ import {Router} from '@angular/router';
 })
 export class PatientComponent implements OnInit {
 
+  isDarkUI = false;
+
   plusIcon = faPlus;
   minusIcon = faMinus;
   backIcon = faChevronLeft;
 
-  step = 0;
+  step = 1;
   doesFromSummary = false;
 
   patientTabSelected = 0;

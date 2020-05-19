@@ -1,9 +1,19 @@
 <!-- PANTALLA DE SELECCION DE PACIENTE -->
+<div class="main-container" [ngClass]="{'dark-bg': isDarkUI}">
 <div *ngIf="step===0" class="animated fadeIn faster">
-  <div class="container-title">Paciente</div>
+  <div [ngClass]="{'white-text': isDarkUI}" class="container-title">Paciente</div>
   <div class="buttons-container">
-    <button mat-raised-button disabled>Anterior</button>
-    <button (click)="onNewPressed()" mat-raised-button>Nuevo</button>
+    <div class="info-container lilac-bg" mat-raised-button disabled>
+      <img src="assets/patient/past_patient.svg">
+      <p class="lightgrey-text">Se retomará la configuración del último paciente.</p>
+      <button class="blue-bg" mat mat-raised-button disabled>Anterior</button>
+    </div>
+    <div class="info-container lilac-bg" >
+      <img src="assets/patient/new_patient.svg">
+      <p class="lightgrey-text">Configura parámetros para un nuevo paciente.</p>
+      <button (click)="onNewPressed()" class="blue-bg" mat-raised-button>Nuevo</button>
+    </div>
+
   </div>
 </div>
 
@@ -11,11 +21,12 @@
 <!-- PANTALLA DE CONFIGURACIÓN DE NUEVO PACIENTE -->
 
 <div *ngIf="step===1" class="animated fadeIn faster">
-  <div class="container-title">Paciente</div>
+  <div [ngClass]="{'white-text': isDarkUI}" class="container-title">Paciente</div>
   <div class="controls-container">
-    <div class="male-section">
-      <div (click)="sexSelected=0" [ngClass]="{'body-selected': sexSelected===0}" class="body-img">
-        <img src="assets/patient/male.png">
+    <div matRipple class="male-section">
+      <div (click)="sexSelected=0">
+        <img *ngIf="isDarkUI" src="assets/patient/male_dark.png">
+        <img *ngIf="!isDarkUI" src="assets/patient/male_light.png">
       </div>
     </div>
     <div class="menu-section">
@@ -50,9 +61,10 @@
         <button *ngIf="isContinuePosible()" class="confirm-btn" (click)="onConfirm()" mat-raised-button>Confirmar</button>
       </div>
     </div>
-    <div class="female-section">
-      <div (click)="sexSelected=1" [ngClass]="{'body-selected': sexSelected===1}" class="body-img">
-        <img src="assets/patient/female.png">
+    <div matRipple class="female-section">
+      <div (click)="sexSelected=1">
+        <img *ngIf="isDarkUI" src="assets/patient/female_dark.png">
+        <img *ngIf="!isDarkUI" src="assets/patient/female_light.png">
       </div>
     </div>
   </div>
@@ -185,3 +197,4 @@
 
 <!-- BACK BUTTON -->
 <a (click)="onBack()" *ngIf="step>0" mat-raised-button id="back-btn"><fa-icon [icon]="backIcon"></fa-icon></a>
+</div>
