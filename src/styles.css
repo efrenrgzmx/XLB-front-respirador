@@ -20,7 +20,7 @@
 }
 
 html, body { padding:0; height: 100%; }
-body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important; overflow: hidden;}
+body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important; overflow: hidden; overscroll-behavior: none;}
 
 
 .reading-block{

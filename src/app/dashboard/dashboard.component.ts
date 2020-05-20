@@ -13,7 +13,6 @@ import {faBell, faBellSlash} from '@fortawesome/free-regular-svg-icons';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
   /**
    * Keyboard Behaviour
    */
@@ -25,6 +24,7 @@ export class DashboardComponent implements OnInit {
   keyboardUnit = '';
   keyboardError = '';
   isChangeConfirmationOpen = false;
+  isFirstChangeDone = false;
 
   /**
    * Alarm Behaviour
@@ -188,7 +188,7 @@ export class DashboardComponent implements OnInit {
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
             refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            delay: 500,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -236,7 +236,7 @@ export class DashboardComponent implements OnInit {
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
             refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            delay: 500,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -284,7 +284,7 @@ export class DashboardComponent implements OnInit {
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
             refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            delay: 500,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -400,8 +400,14 @@ export class DashboardComponent implements OnInit {
   }
 
   onDigitPressed(digit: string) {
+    if(this.isFirstChangeDone === false && digit !== '-') {
+      this.isFirstChangeDone = true;
+      this.keyboardValue = '';
+    }
+
     this.keyboardError = '';
     if (digit === '-') {
+      this.isFirstChangeDone = true;
       this.keyboardValue = this.keyboardValue .slice(0, -1);
     } else if (this.keyboardValue.length > 7) {
       return;
@@ -423,6 +429,7 @@ export class DashboardComponent implements OnInit {
     this.keyboardMaxValue = max;
     this.keyboardUnit = unit;
     this.isKeyboardOpen = true;
+    this.isFirstChangeDone = false;
   }
 
   closeKeyboard(isOpeningConfirmation) {
