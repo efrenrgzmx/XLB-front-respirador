@@ -74,8 +74,8 @@ export class DashboardComponent implements OnInit {
    * Behaviour
    * **/
   startFlag = false;
-  paramsValues = [2, 10, 400, 30];
-  paramsNames = ['I:E', 'FREC', 'VT', 'PIP'];
+  paramsValues = [2.5, 10, 400, 30];
+  paramsNames = ['TI', 'FREC', 'VT', 'PIP'];
   paramsUnits = ['', '', ''];
   changedValue = 0;
   paramName = '';
