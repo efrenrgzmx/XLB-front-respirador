@@ -3,7 +3,7 @@
   <button id="meseta-btn" mat-button>P. Meseta</button>
   <button mat-button class="close-btn"><fa-icon [icon]="cancelIcon"></fa-icon></button>
   <button mat-button class="pause-btn"><fa-icon [icon]="pauseIcon"></fa-icon></button>
-  <div class="alarm-legend"><fa-icon [icon]="alarmIcon"></fa-icon> <p>Baja presión de suministro</p></div>
+  <div class="alarm-legend"><fa-icon *ngIf="isAlarmActive" [icon]="alarmIcon"></fa-icon> <p>&nbsp;</p></div>
   <button mat-button class="bell-container"><fa-icon [icon]="bellIcon"></fa-icon></button>
 </div>
 <div class="middle-container">
