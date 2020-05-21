@@ -103,6 +103,7 @@ export class DashboardComponent implements OnInit {
 
     sampleData = JSON.parse(sampleData);
     this.userInfo = sampleData;
+    console.log(this.userInfo);
 
     if (this.updateLimiterCounter > this.pointsThreshold) {
 
