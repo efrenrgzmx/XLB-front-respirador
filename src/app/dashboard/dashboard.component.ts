@@ -187,8 +187,8 @@ export class DashboardComponent implements OnInit {
           type: 'realtime',
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            refresh: 350,      // onRefresh callback will be called every 1000 ms
+            delay: 1000,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -202,7 +202,7 @@ export class DashboardComponent implements OnInit {
         }],
         yAxes: [{
           ticks: {
-            suggestedMax: 40,
+            suggestedMax: 60,
             suggestedMin: 0,
             display: false
           },
@@ -235,8 +235,8 @@ export class DashboardComponent implements OnInit {
           type: 'realtime',
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            refresh: 350,      // onRefresh callback will be called every 1000 ms
+            delay: 1000,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -250,8 +250,8 @@ export class DashboardComponent implements OnInit {
         }],
         yAxes: [{
           ticks: {
-            suggestedMax: 1100,
-            suggestedMin: 400,
+            suggestedMax: 1200,
+            suggestedMin: 0,
             display: false
           },
           gridLines: {
@@ -283,8 +283,8 @@ export class DashboardComponent implements OnInit {
           type: 'realtime',
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            refresh: 350,      // onRefresh callback will be called every 1000 ms
+            delay: 1000,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -298,8 +298,8 @@ export class DashboardComponent implements OnInit {
         }],
         yAxes: [{
           ticks: {
-            suggestedMax: 100,
-            suggestedMin: -100,
+            suggestedMax: 120,
+            suggestedMin: -120,
             display: false
           },
           gridLines: {

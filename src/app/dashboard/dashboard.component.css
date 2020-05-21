@@ -300,3 +300,34 @@
 .gray-bg{
   background-color: #d8d8d8;
 }
+
+#volume-value-lbl{
+  position: absolute;
+  z-index: 1000;
+  top: 155px;
+  left: 510px;
+  font-size: 14px;
+  color: #6E6E6E;
+  font-weight: normal;
+}
+
+#volume-value-lbl em{
+  font-style: normal;
+  font-weight: 100;
+}
+
+#flow-value-lbl{
+  position: absolute;
+  z-index: 1000;
+  top: 305px;
+  left: 510px;
+  font-size: 14px;
+  color: #6E6E6E;
+  font-weight: normal;
+}
+
+#flow-value-lbl em{
+  font-style: normal;
+  font-weight: 100;
+}
+
