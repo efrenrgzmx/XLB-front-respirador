@@ -52,8 +52,16 @@ body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important;
   color:#C9D2F3 !important;
 }
 
+strong{
+  font-weight: 500;
+}
+
 .white-text em{
   color:#C9D2F3 !important;
+}
+
+.light-lilac-bg{
+  background-color: #EDF0F7;
 }
 
 
@@ -67,6 +75,10 @@ body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important;
 
 .light-blue-bg{
   background-color: #33C4F9 !important;
+}
+
+.salmon-bg{
+  background-color: #FF726C;
 }
 
 .yellow-bg{
@@ -108,6 +120,10 @@ body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important;
   border-radius: 10px;
   border: 0px solid #bbb !important;
   height: 20px !important;
+}
+
+.white-bg{
+  background-color: white;
 }
 
 

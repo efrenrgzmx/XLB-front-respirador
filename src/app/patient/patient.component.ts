@@ -15,7 +15,7 @@ export class PatientComponent implements OnInit {
   minusIcon = faMinus;
   backIcon = faChevronLeft;
 
-  step = 2;
+  step = 0;
   doesFromSummary = false;
 
   patientTabSelected = 0;

@@ -364,14 +364,14 @@
 
 .summary-controls-container{
   display: flex;
-  height: 82vh;
-  margin-top: 30px;
+  height: 100vh;
 }
 
 .summary-left-panel{
-  width: 200px;
+  width: 180px;
   height: 100%;
-  margin-left: 35px;
+  padding-left: 35px;
+  padding-top: 90px;
   margin-right: 35px;
   font-size: 18px;
   color: #6E6E6E;
@@ -380,14 +380,17 @@
 }
 
 .summary-right-panel{
-  width: 500px;
+  width: 550px;
   height: 100%;
   text-align: right;
+  background-color: white;
+  border-radius: 24px 0 0 24px;
 }
 
 .summary-right-panel table{
+  margin: 0 auto;
   width: 95%;
-  text-align: left;
+  text-align: center;
   height: 200px;
 }
 
@@ -399,8 +402,6 @@
   height: 70px;
   width: 145px;
   border-radius: 10px;
-  background-color: #D8D8D8;
-  border: 1px solid #979797;
   color: #6E6E6E;
   font-size: 16px;
   line-height: 1.5;
@@ -409,7 +410,7 @@
 .summary-btn em{
   font-style: normal;
   font-size: 24px;
-  color:#3D3D3D;
+  color: white;
 }
 
 .summary p{
@@ -420,6 +421,8 @@
 }
 
 .summary-title{
+  margin-left: 30px;
+  margin-top: 40px;
   font-size: 20px;
   color: #6E6E6E;
   width: 100%;
@@ -431,6 +434,7 @@
 
 #summary-confirm{
   margin-top: 20px;
+  margin-right: 30px;
 }
 
 .summary-left-panel button{
@@ -438,14 +442,12 @@
   height: 50px;
   font-size: 20px;
   border-radius: 12px;
-  background-color: white;
   color: #6E6E6E;
-  border: 1px solid #979797;
   margin-top: 20px;
 }
 
 .confirm-vent{
-  background-color: rgba(0,0,0,0.75);
+  background-color: rgba(6,6,6,0.75);
   position: absolute;
   z-index: 9999;
   height: 100vh;
@@ -456,7 +458,7 @@
 
 .confirm-vent-container{
   margin:  85px auto 0;
-  background-color: white;
+  background-color: #f4f4f4;
   border-radius: 20px;
   width: 457px;
   height: 306px;
@@ -474,10 +476,17 @@
   height: 100px;
 
   border-radius: 15px;
-  border:1px solid #979797;
-  background-color: white;
   font-size: 20px;
   color: #6E6E6E;
   margin: 15px;
+}
+
+.summary-right-panel .container-title{
+  text-align: left;
+  margin-left: 30px;
+}
+
+.dark-sum{
+
 }
 
