@@ -81,79 +81,23 @@
 
 <!-- PANTALLA DE SELECCION DE MODO -->
 <div *ngIf="step===2" class="animated fadeIn faster">
-  <div class="container-title">Configuración</div>
-  <div class="conf-title">Modo</div>
-  <div class="conf-btn-container">
-    <button [ngClass]="{'gray-bg': mode===0}" (click)="onChangeMode(0)" mat-raised-button disabled>Asistido</button>
-    <button [ngClass]="{'gray-bg': mode===1}" (click)="onChangeMode(1)" mat-raised-button>Controlado</button>
-  </div>
-</div>
-
-
-<!-- PANTALLA DE CONFIGURACIÓN DE MODO -->
-<div *ngIf="step===3" class="animated fadeIn faster">
-  <div class="container-title">Configuración</div>
-  <div class="conf-params-title">Variantes modo controlado</div>
-  <div class="conf-container">
-    <div class="tabs">
-      <div (click)="onConfTabPressed(0)" [ngClass]="{'conf-active-tab': configTabSelected===0}" class="param-tab">Tiempo</div>
-      <div (click)="onConfTabPressed(1)" [ngClass]="{'conf-active-tab': configTabSelected===1}" class="param-tab">Volumen</div>
-      <div (click)="onConfTabPressed(2)" [ngClass]="{'conf-active-tab': configTabSelected===2}"  class="param-tab">Flujo</div>
-      <div (click)="onConfTabPressed(3)" [ngClass]="{'conf-active-tab': configTabSelected===3}"  class="param-tab">Vol. max. e/min</div>
+  <div [ngClass]="{'white-text': isDarkUI}" class="container-title">Modo de operación</div>
+  <div class="buttons-container">
+    <div class="info-container op lilac-bg" mat-raised-button disabled>
+      <img src="assets/patient/icon_assisted.svg">
+      <p class="lightgrey-text">El sistema auxiliará la respiración del <br>paciente.</p>
+      <button class="blue-bg t-box-shadow" (click)="onChangeMode(0)" mat-raised-button disabled>Asistido</button>
     </div>
-    <div [ngClass]="{'params-control-container-left': configTabSelected===0, 'params-control-container-right': configTabSelected===3}" class="conf-params-control-container">
-      <div class="conf-controls-container-position">
-        <div *ngIf="configTabSelected===0">
-          <table>
-            <tr>
-              <td style="width: 24%;">
-                <button class="time-type-btn" (click)="timeSelected = 0" [ngClass]="{'gray-bg': timeSelected===0}" mat-raised-button>Frecuencia</button>
-              </td>
-              <td rowspan="2">
-                <div *ngIf="timeSelected === 0">
-                  <div><button (click)="changeFreq(false)" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-                  <div class="param-value">{{freq | number}}<br><em>rpm</em></div>
-                  <div><button (click)="changeFreq(true)" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
-                </div>
-                <div *ngIf="timeSelected === 1">
-                  <div><button (click)="changeIE(false)" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-                  <div class="param-value">1:{{ie | number}}<br><em>I:E</em></div>
-                  <div><button (click)="changeIE(true)" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <button class="time-type-btn" (click)="timeSelected = 1" [ngClass]="{'gray-bg': timeSelected===1}" mat-raised-button>Ti:Te</button>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div *ngIf="configTabSelected===1">
-          <div><button (click)="changeVolumen(false)" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-          <div class="param-value">{{vol | number}}<br><em>mL/Kg</em></div>
-          <div><button (click)="changeVolumen(true)" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
-        </div>
-        <div *ngIf="configTabSelected===2">
-          <div><button (click)="changeFlow(false)" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-          <div class="param-value">{{flow | number}}<br><em>mL/min</em></div>
-          <div><button (click)="changeFlow(true)" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
-        </div>
-        <div *ngIf="configTabSelected===3">
-          <div><button (click)="changeVolMaxMin(false)" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-          <div class="param-value">{{volMaxMin | number}}<br><em>L/min</em></div>
-          <div><button (click)="changeVolMaxMin(true)" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
-        </div>
-      </div>
+    <div class="info-container op lilac-bg" >
+      <img src="assets/patient/icon_controlled.svg">
+      <p class="lightgrey-text">El sistema controlará totalmente la respiración del paciente.</p>
+      <button (click)="onChangeMode(1)" class="blue-bg t-box-shadow" mat-raised-button>Controlado</button>
     </div>
-  </div>
-  <div class="continue-container">
-    <button mat-raised-button (click)="step = 4" class="confirm-btn">Continuar</button>
   </div>
 </div>
 
 <!-- PANTALLA DE RESUMEN -->
-<div *ngIf="step===4" class="animated fadeIn faster">
+<div *ngIf="step===3" class="animated fadeIn faster">
   <div class="container-title">Resumen paciente</div>
   <div class="summary-controls-container">
     <div class="summary-left-panel">

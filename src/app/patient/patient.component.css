@@ -264,6 +264,10 @@
   margin-top: 20vh;
 }
 
+.op p{
+  width: 83% !important;
+}
+
 .conf-btn-container{
   width: 100%;
   text-align: center;

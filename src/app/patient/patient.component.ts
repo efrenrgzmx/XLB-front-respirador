@@ -15,7 +15,7 @@ export class PatientComponent implements OnInit {
   minusIcon = faMinus;
   backIcon = faChevronLeft;
 
-  step = 1;
+  step = 2;
   doesFromSummary = false;
 
   patientTabSelected = 0;
@@ -103,46 +103,6 @@ export class PatientComponent implements OnInit {
   onChangeMode(modeType) {
     this.mode = modeType;
     this.step++;
-  }
-
-  changeFreq(isAdding: boolean) {
-    if (isAdding === true) {
-      this.freq++;
-    } else {
-      this.freq--;
-    }
-  }
-
-  changeIE(isAdding: boolean) {
-    if (isAdding === true) {
-      this.ie++;
-    } else {
-      this.ie--;
-    }
-  }
-
-  changeVolumen(isAdding: boolean) {
-    if (isAdding === true) {
-      this.vol++;
-    } else {
-      this.vol--;
-    }
-  }
-
-  changeFlow(isAdding: boolean) {
-    if (isAdding === true) {
-      this.flow++;
-    } else {
-      this.flow--;
-    }
-  }
-
-  changeVolMaxMin(isAdding: boolean) {
-    if (isAdding === true) {
-      this.volMaxMin++;
-    } else {
-      this.volMaxMin--;
-    }
   }
 
   onConfirmVent() {
