@@ -107,10 +107,13 @@
 .params-control-container{
   width: 426px;
   height: 68%;
-  background-color: white;
   margin-top: -1px;
   border-radius: 20px;
-  border: 1px solid #979797;
+  border: 1px solid #526FDC;
+}
+
+.params-control-container .isDarkUI{
+
 }
 
 
@@ -127,25 +130,27 @@
 }
 
 .param-tab{
-  color: grey;
+  color: #526FDC;
   text-align: center;
   font-size: large;
   line-height: 3;
   width: 35%;
   height: 53px;
-
+  font-weight: 100;
   z-index: 1000;
 }
 
 .active-tab {
 
-  background-color: white;
-  border-top: 1px solid #979797;
-  border-left: 1px solid #979797;
-  border-right: 1px solid #979797;
+  font-weight: 500;
+  border-top: 1px solid #526FDC;
+  border-left: 1px solid #526FDC;
+  border-right: 1px solid #526FDC;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   margin-right: -4px;
+  z-index: 1001;
+  background-color:white;
 }
 
 .controls-container-position{
@@ -162,10 +167,9 @@
   width: 120px;
   height: 70px;
   border-radius: 15px;
-  border:1px solid #979797;
-  background-color: #D8D8D8;
-  font-size: 20px;
-  color: #979797;
+  background-color:  #B8C7FF;
+  font-size: 30px;
+  color: #526FDC;
 }
 
 .param-value{
@@ -190,14 +194,11 @@
   height: 70px;
   width: 170px;
   border-radius: 15px;
-  border:1px solid #979797;
-  background-color: white;
   font-size: 20px;
-  color: #6E6E6E;
 }
 
 .right-profile-btn{
- margin-left: 28px !important;
+  margin-left: 28px !important;
 }
 
 .gray-bg{
@@ -225,7 +226,6 @@
   width: 220px;
   height: 100%;
   margin-right: 30px;
-  color: #6E6E6E;
   font-size: 18px;
   font-weight: lighter;
 }
@@ -240,12 +240,9 @@
 .confirm-btn{
   width: 190px;
   height: 100px;
-
+  color: white;
   border-radius: 15px;
-  border:1px solid #979797;
-  background-color: #D8D8D8;
   font-size: 20px;
-  color: #6E6E6E;
 }
 
 #back-btn{
@@ -254,11 +251,9 @@
   left: 33px;
   height: 40px;
   min-width: 40px !important;
-  border: 1px solid #979797;
   border-radius: 50px;
-  background-color: #D8D8D8;
-  color: #636363;
-  font-size: 15px;
+  font-size: 17px;
+  line-height: 2.3;
 }
 
 .conf-title{

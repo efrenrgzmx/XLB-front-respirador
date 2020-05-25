@@ -15,6 +15,12 @@
 
 @font-face {
   font-family: poppins;
+  src: url(assets/fonts/Poppins-SemiBold.ttf) format("truetype");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: poppins;
   src: url(assets/fonts/Poppins-Bold.ttf) format("truetype");
   font-weight: 700;
 }
@@ -27,26 +33,52 @@ body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important;
   height: 100vh;
 }
 .dark-bg{
-  background-color: #14263F;
+  background-color: #14263F !important;
 }
 
 .lightgrey-text{
   color:#6e6e6e;
 }
+
+.h-lightgrey-text{
+  color: #8a8a8a;
+}
+
 .white-text{
-  color:white;
+  color:white !important;
 }
 
 .lilac-text{
-  color:#C9D2F3;
+  color:#C9D2F3 !important;
 }
+
+.white-text em{
+  color:#C9D2F3 !important;
+}
+
 
 .lilac-bg{
   background-color: #C9D2F3 !important;
 }
 
 .blue-bg{
-  background-color:#526FDC;
+  background-color:#526FDC !important;
+}
+
+.light-blue-bg{
+  background-color: #33C4F9 !important;
+}
+
+.yellow-bg{
+  background-color: #F6BE62;
+}
+
+.t-box-shadow{
+  box-shadow: -6px -6px 17px -2px rgba(255,255,255,0.35) !important;
+}
+
+.blue-color{
+  color: #526FDC;
 }
 
 .reading-block{

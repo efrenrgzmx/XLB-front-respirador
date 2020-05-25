@@ -23,34 +23,41 @@
 <div *ngIf="step===1" class="animated fadeIn faster">
   <div [ngClass]="{'white-text': isDarkUI}" class="container-title">Paciente</div>
   <div class="controls-container">
-    <div matRipple class="male-section">
+    <div matRipple class="male-section t-box-shadow">
       <div (click)="sexSelected=0">
-        <img *ngIf="isDarkUI" src="assets/patient/male_dark.png">
-        <img *ngIf="!isDarkUI" src="assets/patient/male_light.png">
+        <img *ngIf="isDarkUI && sexSelected==0" src="assets/patient/male_dark.png">
+        <img *ngIf="!isDarkUI && sexSelected==0" src="assets/patient/male_light.png">
+        <img *ngIf="sexSelected==1" src="assets/patient/unselected_male.png">
       </div>
     </div>
     <div class="menu-section">
-      <div id="params-container">
+      <div id="params-container" >
         <div class="tabs">
-          <div (click)="onTabPressed(0)" [ngClass]="{'active-tab': patientTabSelected===0}" class="param-tab">Altura</div>
-          <div (click)="onTabPressed(1)" [ngClass]="{'active-tab': patientTabSelected===1}" class="param-tab">Perfil</div>
+          <div (click)="onTabPressed(0)" [ngClass]="{'active-tab': patientTabSelected===0, 'dark-bg': isDarkUI}" class="param-tab">Altura</div>
+          <div (click)="onTabPressed(1)" [ngClass]="{'active-tab': patientTabSelected===1, 'dark-bg': isDarkUI}" class="param-tab">Perfil</div>
+          <div (click)="onTabPressed(2)" [ngClass]="{'active-tab': patientTabSelected===2, 'dark-bg': isDarkUI}" class="param-tab">Peso</div>
         </div>
         <div [ngClass]="{'params-control-container-left': patientTabSelected===0, 'params-control-container-right': patientTabSelected===2}" class="params-control-container">
           <div class="controls-container-position">
             <div *ngIf="patientTabSelected===0">
-              <div><button (click)="subsHeight()" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-              <div class="param-value">{{height | number:'1.2-5'}}<br><em>m</em></div>
-              <div><button (click)="addHeight()" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
+              <div><button (click)="subsHeight()" mat-raised-button class="control-btn t-box-shadow"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
+              <div [ngClass]="{'white-text': isDarkUI}" class="param-value">{{height | number:'1.2-5'}}<br><em>m</em></div>
+              <div><button (click)="addHeight()" mat-raised-button  class="control-btn t-box-shadow"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
             </div>
             <div *ngIf="patientTabSelected===1">
-              <div><button mat-raised-button [ngClass]="{'gray-bg': profile===0}" (click)="profile = 0" class="profile-btn">Adulto</button></div>
-              <div><button mat-raised-button [ngClass]="{'gray-bg': profile===1}" (click)="profile = 1" class="profile-btn right-profile-btn">Infante</button></div>
+              <div><button mat-raised-button [ngClass]="{'blue-bg white-text': profile===0}" (click)="profile = 0" class="t-box-shadow lilac-bg h-lightgrey-text  profile-btn">Adulto</button></div>
+              <div><button mat-raised-button [ngClass]="{'light-blue-bg white-text': profile===1}" (click)="profile = 1" class="t-box-shadow lilac-bg h-lightgrey-text profile-btn right-profile-btn">Infante</button></div>
+            </div>
+            <div *ngIf="patientTabSelected===2">
+              <div><button (click)="subsHeight()" mat-raised-button class="control-btn t-box-shadow"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
+              <div [ngClass]="{'white-text': isDarkUI}" class="param-value">{{weight | number:'1.1-5'}}<br><em>kg</em></div>
+              <div><button (click)="addHeight()" mat-raised-button  class="control-btn t-box-shadow"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
             </div>
           </div>
         </div>
       </div>
       <div id="confirmation-container">
-        <div class="summary">
+        <div  [ngClass]="{'lilac-text': isDarkUI}" class="summary">
           <em>Resumen</em><br>
           Sexo: {{getSexDescription()}}<br>
           Altura: {{height | number:'1.2-5'}} m<br>
@@ -58,13 +65,14 @@
           Perfil: {{getProfileDescription()}}
         </div>
 
-        <button *ngIf="isContinuePosible()" class="confirm-btn" (click)="onConfirm()" mat-raised-button>Confirmar</button>
+        <button *ngIf="isContinuePosible()" class="t-box-shadow yellow-bg confirm-btn" (click)="onConfirm()" mat-raised-button>Confirmar</button>
       </div>
     </div>
-    <div matRipple class="female-section">
+    <div matRipple class="female-section t-box-shadow">
       <div (click)="sexSelected=1">
-        <img *ngIf="isDarkUI" src="assets/patient/female_dark.png">
-        <img *ngIf="!isDarkUI" src="assets/patient/female_light.png">
+        <img *ngIf="isDarkUI && sexSelected==1" src="assets/patient/female_dark.png">
+        <img *ngIf="!isDarkUI && sexSelected==1" src="assets/patient/female_light.png">
+        <img *ngIf="sexSelected==0" src="assets/patient/unselected_female.png">
       </div>
     </div>
   </div>
@@ -196,5 +204,5 @@
 
 
 <!-- BACK BUTTON -->
-<a (click)="onBack()" *ngIf="step>0" mat-raised-button id="back-btn"><fa-icon [icon]="backIcon"></fa-icon></a>
+<a (click)="onBack()" *ngIf="step>0" mat-raised-button id="back-btn" class="lilac-bg blue-color"><fa-icon [icon]="backIcon"></fa-icon></a>
 </div>

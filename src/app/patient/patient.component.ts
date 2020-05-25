@@ -23,6 +23,7 @@ export class PatientComponent implements OnInit {
   sexSelected = 0;
   mode = -1;
   height = 1.50;
+  weight = 50;
 
 
 
