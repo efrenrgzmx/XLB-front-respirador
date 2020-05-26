@@ -13,7 +13,7 @@ import {faBell, faBellSlash} from '@fortawesome/free-regular-svg-icons';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  isDarkUI = true;
+  isDarkUI = false;
   /**
    * Time
    */
