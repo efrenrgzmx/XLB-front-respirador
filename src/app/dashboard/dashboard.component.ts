@@ -3,7 +3,7 @@ import {Color, NgChartjsDirective} from 'ng-chartjs';
 import 'chartjs-plugin-streaming';
 import { Observable, Subscription } from 'rxjs';
 import {WebsocketService} from '../websocket.service';
-import {faBackspace, faExclamationTriangle, faGripLinesVertical, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faBackspace, faExclamationTriangle, faGripLinesVertical, faPause, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {faBell, faBellSlash} from '@fortawesome/free-regular-svg-icons';
 
 
@@ -13,6 +13,12 @@ import {faBell, faBellSlash} from '@fortawesome/free-regular-svg-icons';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  isDarkUI = true;
+  /**
+   * Time
+   */
+  public now: Date = new Date();
 
   /**
    * Keyboard Behaviour
@@ -31,8 +37,7 @@ export class DashboardComponent implements OnInit {
    */
   isAlarmActive = false;
 
-  cancelIcon = faTimes;
-  pauseIcon = faGripLinesVertical;
+  pauseIcon = faPause;
   alarmIcon = faExclamationTriangle;
   bellIcon = faBell;
   bellSlashedIcon = faBellSlash;
@@ -94,6 +99,9 @@ export class DashboardComponent implements OnInit {
     this.changedValue = this.paramsValues[this.toggleCount];
     this.paramUnit = this.paramsUnits[this.toggleCount];
 
+
+
+
   }
 
   addData(sampleData) {
@@ -101,9 +109,11 @@ export class DashboardComponent implements OnInit {
     if(!this.ngChartjsPressure)
       return;
 
+    //this.ngChartjsPressure.colors = '#8e5ea2';
+
+
     sampleData = JSON.parse(sampleData);
     this.userInfo = sampleData;
-    console.log(this.userInfo);
 
     if (this.updateLimiterCounter > this.pointsThreshold) {
 
@@ -121,18 +131,15 @@ export class DashboardComponent implements OnInit {
   chartInitA() {
     this.pressureData = [
       {
+        borderColor: '#F6BE62',
         label: 'Presion',
         fill: false,
-        lineTension: 0,
-        backgroundColor: 'rgb(255,169,140)',
-        borderColor: 'rgba(0, 0, 0, 0.1)',
+        lineTension: 0.2,
         borderCapStyle: 'round',
-        borderDashOffset: 1.0,
         borderJoinStyle: 'round',
-        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
         borderWidth: 2,
         pointRadius: 0,
-        pointHitRadius: 0,
+        pointHitRadius: 5,
         data: [],
       },
     ];
@@ -142,12 +149,10 @@ export class DashboardComponent implements OnInit {
         label: 'Volumen',
         fill: false,
         lineTension: 0,
-        backgroundColor: 'rgb(255,169,140)',
-        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderColor: '#33C4F9',
         borderCapStyle: 'round',
         borderDashOffset: 1.0,
         borderJoinStyle: 'round',
-        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
         borderWidth: 2,
         pointRadius: 0,
         pointHitRadius: 0,
@@ -160,12 +165,10 @@ export class DashboardComponent implements OnInit {
         label: 'Flujo',
         fill: false,
         lineTension: 0,
-        backgroundColor: 'rgb(255,169,140)',
-        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderColor: '#00D6DC',
         borderCapStyle: 'round',
         borderDashOffset: 1.0,
         borderJoinStyle: 'round',
-        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
         borderWidth: 2,
         pointRadius: 0,
         pointHitRadius: 0,
@@ -188,8 +191,8 @@ export class DashboardComponent implements OnInit {
           type: 'realtime',
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            refresh: 500,      // onRefresh callback will be called every 1000 ms
+            delay: 1000,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -209,8 +212,9 @@ export class DashboardComponent implements OnInit {
           },
           gridLines: {
             color: 'rgba(240,240,240,1)',
-            display: true,
+            display: false,
             drawBorder: true,
+            drawTicks: false,
           },
         }]
       },
@@ -223,7 +227,7 @@ export class DashboardComponent implements OnInit {
       responsiveAnimationDuration: 0,    // animation duration after a resize
       plugins: {
         streaming: {
-          frameRate: 30              // chart is drawn 5 times every second
+          frameRate: 25              // chart is drawn 5 times every second
         }
       }
     };
@@ -236,8 +240,8 @@ export class DashboardComponent implements OnInit {
           type: 'realtime',
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            refresh: 500,      // onRefresh callback will be called every 1000 ms
+            delay: 1000,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -257,8 +261,9 @@ export class DashboardComponent implements OnInit {
           },
           gridLines: {
             color: 'rgba(240,240,240,1)',
-            display: true,
+            display: false,
             drawBorder: true,
+            drawTicks: false,
           },
         }]
       },
@@ -271,7 +276,7 @@ export class DashboardComponent implements OnInit {
       responsiveAnimationDuration: 0,    // animation duration after a resize
       plugins: {
         streaming: {
-          frameRate: 30              // chart is drawn 5 times every second
+          frameRate: 25              // chart is drawn 5 times every second
         }
       }
     };
@@ -284,8 +289,8 @@ export class DashboardComponent implements OnInit {
           type: 'realtime',
           realtime: {         // per-axis options
             duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            refresh: 500,      // onRefresh callback will be called every 1000 ms
+            delay: 1000,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -304,11 +309,12 @@ export class DashboardComponent implements OnInit {
             display: false
           },
           gridLines: {
-            color: 'rgba(240,240,240,1)',
+            color: 'rgba(240,240,240,0)',
             display: true,
             drawBorder: true,
-            zeroLineColor: '#999',
-            zeroLineWidth: 2
+            drawTicks: false,
+            zeroLineColor: '#00D6DC',
+            zeroLineWidth: 1
           },
         }]
       },
@@ -321,7 +327,7 @@ export class DashboardComponent implements OnInit {
       responsiveAnimationDuration: 0,    // animation duration after a resize
       plugins: {
         streaming: {
-          frameRate: 30              // chart is drawn 5 times every second
+          frameRate: 25              // chart is drawn 5 times every second
         }
       }
     };

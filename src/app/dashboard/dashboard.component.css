@@ -5,18 +5,15 @@
 }
 
 #mode-active{
-  font-size: 20px;
-  width: 66px;
+  font-size: 32px;
+  width: 50px;
   text-align: center;
-  color: #6E6E6E;
-  line-height: 2.5;
+  color: #526FDC;
+  line-height: 1.6;
 }
 
 #meseta-btn{
   width: 116px;
-  color: #6E6E6E;
-  background-color: #C4C4C4;
-  border: 1px solid #979797;
   border-radius: 0;
   font-size: 18px;
   font-weight: lighter;
@@ -28,8 +25,7 @@
   font-size: 30px;
   font-weight: lighter;
   color: #6E6E6E;
-  background-color: white;
-  border-right: 1px solid #979797;
+  background-color: #F3CEC8;
 }
 
 .pause-btn{
@@ -37,37 +33,42 @@
   font-size: 25px;
   font-weight: lighter;
   color: white;
-  background-color: #C4C4C4;
-  border-right: 1px solid #979797;
+  background-color: #DFE5F5;
+}
+
+.pause-btn fa-icon{
+  color: #526FDC;
 }
 
 .alarm-legend{
-  width: 420px;
+  width: 440px;
   height: 50px;
-  margin-left: 15px;
-  border-left: 1px solid #979797;
+  border-left: 1px solid #C9D2F3;
   display: flex;
 }
 
 .alarm-legend fa-icon{
   font-size: 35px;
   line-height: 1.5;
-  color: gray;
+  color: #F4F4F4;
   margin-left: 10px;
 
 }
 
+.alarm-legend fa-icon{
+  color:#FFB6AA;
+}
+
 .alarm-legend p{
   font-size: 20px;
-  color: #6E6E6E;
+  color:#F4F4F4;
   margin-top: 15px;
   margin-left: 15px;
 }
 
 .bell-container{
-  font-size: 30px;
-  color: #6E6E6E;
-  border-left: 1px solid #979797;
+  border-radius: none;
+  background-color: #FFB6AA;
 }
 
 
@@ -79,11 +80,12 @@
 
 .left-charts-container{
   width: 640px;
+  background-color: white;
 }
 
 .right-summary-container{
   width: 160px;
-  border-left: 1px solid #979797;
+  border-left: 1px solid #C9D2F3;
 }
 
 .prog-btn{
@@ -92,8 +94,6 @@
   border-radius: 10px;
   margin-left: 6px;
   margin-top: 16px;
-  background-color: #D8D8D8;
-  border: 1px solid #979797;
   font-size: 20px;
   color: #6e6e6e;
 }
@@ -115,7 +115,7 @@
 
 .params-container{
   height: 90px;
-  border-top: 1px solid #979797;
+  border-top: 1px solid #C9D2F3;
 }
 
 .params-container table{
@@ -137,7 +137,7 @@
 .param-btn em{
   font-style: normal;
   font-size: 24px;
-  color:#3D3D3D;
+  color: white;
 }
 
 
@@ -153,7 +153,7 @@
   top: 55px;
   left: 510px;
   font-size: 14px;
-  color: #6E6E6E;
+  color: #F6BE62;
   font-weight: normal;
 }
 
@@ -167,7 +167,14 @@
   top: 55px;
   left: 25px;
   font-size: 14px;
-  color: #6E6E6E;
+  color: #F6BE62;
+  line-height: 1;
+}
+
+#pressure-lbl em{
+  font-style: normal;
+  font-size: 10px;
+  font-weight: lighter;
 }
 
 #volume-lbl{
@@ -175,7 +182,24 @@
   top: 160px;
   left: 25px;
   font-size: 14px;
-  color: #6E6E6E;
+  color: #33C4F9;
+  line-height: 1;
+}
+
+#volume-lbl em{
+  font-style: normal;
+  font-size: 10px;
+  font-weight: lighter;
+}
+
+#vpeak-lbl{
+  position: absolute;
+  z-index: 1000;
+  top: 160px;
+  left: 510px;
+  font-size: 14px;
+  color: #33C4F9;
+  font-weight: normal;
 }
 
 #flow-lbl{
@@ -183,7 +207,33 @@
   top: 274px;
   left: 25px;
   font-size: 14px;
-  color: #6E6E6E;
+  color: #00D6DC;
+  line-height: 1;
+}
+#vpeak-lbl em{
+  font-style: normal;
+  font-weight: lighter;
+}
+
+#fpeak-lbl em{
+  font-style: normal;
+  font-weight: lighter;
+}
+
+#flow-lbl em{
+  font-style: normal;
+  font-size: 10px;
+  font-weight: lighter;
+}
+
+#fpeak-lbl{
+  position: absolute;
+  z-index: 1000;
+  top: 274px;
+  left: 510px;
+  font-size: 14px;
+  color: #00D6DC;
+  font-weight: normal;
 }
 
 .keyboard{
@@ -209,19 +259,26 @@
   width: 119px;
   height: 52px;
   border-radius: 10px;
-  background-color: #D8D8D8;
-  border: 1px solid #979797;
+  font-weight: lighter;
   color: #6E6E6E;
   font-size: 20px;
+  box-shadow: -6px -6px 12px 0px rgba(255,255,255,0.35);
 }
 
 .change-digit{
   width: 118px;
   height: 118px;
+  font-weight: normal;
 }
 
 .cancel-digit{
   background-color: white;
+  font-weight: normal;
+  background-color: #F3E3C8;
+}
+
+.del-digit{
+  background-color: #F3CEC8;
 }
 
 .digit fa-icon{
@@ -238,7 +295,7 @@
   text-align: center;
   padding-top: 24px;
   font-size: 19px;
-  font-weight: lighter;
+  font-weight: normal;
 }
 
 .value-changer{
@@ -299,4 +356,19 @@
 
 .gray-bg{
   background-color: #d8d8d8;
+}
+
+
+.dashboard-time{
+  font-size: 14px;
+  font-weight: 500;
+  width: 510px;
+  height: 50px;
+  background-color: #EDF0F7;
+  text-align: right;
+}
+
+.dashboard-time p{
+  padding-top: 15px;
+  padding-right: 10px;
 }

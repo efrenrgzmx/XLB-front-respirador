@@ -16,7 +16,7 @@
 @font-face {
   font-family: poppins;
   src: url(assets/fonts/Poppins-SemiBold.ttf) format("truetype");
-  font-weight: 600;
+  font-weight: 500;
 }
 
 @font-face {
@@ -42,6 +42,10 @@ body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important;
 
 .h-lightgrey-text{
   color: #8a8a8a;
+}
+
+.l-white-background{
+  background-color: #F4F4F4;
 }
 
 .white-text{
@@ -79,6 +83,10 @@ strong{
 
 .salmon-bg{
   background-color: #FF726C;
+}
+
+.alarm-bg{
+  background-color: #F66862 !important;
 }
 
 .yellow-bg{
