@@ -296,6 +296,7 @@
   padding-top: 24px;
   font-size: 19px;
   font-weight: normal;
+  color: #6e6e6e;
 }
 
 .value-changer{
@@ -304,6 +305,10 @@
   margin-top: 27px;
   justify-content: center;
 
+}
+
+.lilac-bottom-border{
+  border-bottom: 1px solid #526FDC !important;
 }
 
 .value-changer #value{
@@ -346,11 +351,8 @@
 .confirm-change-btn{
   width: 181px;
   height: 118px;
-  background-color: white;
   font-size: 20px;
   border-radius: 15px;
-  border: 1px solid #6e6e6e;
-  color: #6e6e6e;
   margin: 15px;
 }
 

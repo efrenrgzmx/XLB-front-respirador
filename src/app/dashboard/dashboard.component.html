@@ -44,7 +44,7 @@
         <td><button (click)="openKeyboard(0, paramsValues[0],'Tiempo de inspiración',0, 2.5, 'segundos')" mat-raised-button class="param-btn blue-bg lilac-text">TI<br><em>{{paramsValues[0] | number:'1.1-2'}}</em> segs</button></td>
         <td><button (click)="openKeyboard(2, paramsValues[2],'Volumen',50, 1300, 'mL')" mat-raised-button class="param-btn blue-bg lilac-text">Volumen<br><em>{{paramsValues[2]}}</em> mL</button></td>
         <td><button (click)="openKeyboard(3, paramsValues[3],'Peak Inspiratory Pressure',10, 40, 'cmH2O')" mat-raised-button class="param-btn blue-bg lilac-text">PIP<br><em>{{paramsValues[3]}}</em> cmH2O</button></td>
-        <td><button mat-raised-button class="param-btn" disabled>PEEP<br><em></em></button></td>
+        <!--<td><button mat-raised-button class="param-btn" disabled>PEEP<br><em></em></button></td>-->
       </tr>
     </table>
   </div>
@@ -62,7 +62,7 @@
     <div class="kb-container" [ngClass]="{'dark-bg': isDarkUI}">
       <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}">{{keyboardDescription}}</div>
       <div class="value-changer">
-        <div [ngClass]="{'lilac-text': isDarkUI}" id="value">{{keyboardValue}}</div>
+        <div [ngClass]="{'lilac-text lilac-bottom-border': isDarkUI}" id="value">{{keyboardValue}}</div>
         <div [ngClass]="{'lilac-text': isDarkUI}" id="unit">{{keyboardUnit}}</div>
       </div>
       <div id="error-lbl">&nbsp;{{keyboardError}}</div>
@@ -127,15 +127,15 @@
 
 
   <div *ngIf="isChangeConfirmationOpen" class="keyboard">
-    <div class="confirm-change animated fadeIn faster">
-      <div class="kb-param-desc">{{keyboardDescription}}<br>será cambiado a:</div>
+    <div class="confirm-change" [ngClass]="{'dark-bg': isDarkUI}">
+      <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}"><strong>{{keyboardDescription}}</strong><br>será cambiado a:</div>
       <div class="value-changer">
-        <div id="value">{{keyboardValue}}</div>
-        <div id="unit">{{keyboardUnit}}</div>
+        <div [ngClass]="{'lilac-text lilac-bottom-border': isDarkUI}" id="value">{{keyboardValue}}</div>
+        <div [ngClass]="{'lilac-text': isDarkUI}" id="unit">{{keyboardUnit}}</div>
       </div>
       <div class="confirm-change-buttons-container">
-        <button (click)="closeConfirm()" mat-raised-button class="confirm-change-btn">Cancelar</button>
-        <button (click)="onConfirmChange()" mat-raised-button class="confirm-change-btn gray-bg">Confirmar</button>
+        <button (click)="closeConfirm()" mat-raised-button class="confirm-change-btn white-bg lightgrey-text">Cancelar</button>
+        <button (click)="onConfirmChange()" mat-raised-button class="confirm-change-btn yellow-bg">Confirmar</button>
       </div>
     </div>
   </div>
