@@ -151,7 +151,7 @@
   position: absolute;
   z-index: 1000;
   top: 55px;
-  left: 510px;
+  left: 475px;
   font-size: 14px;
   color: #F6BE62;
   font-weight: normal;
@@ -358,7 +358,6 @@
   background-color: #d8d8d8;
 }
 
-
 .dashboard-time{
   font-size: 14px;
   font-weight: 500;
@@ -372,3 +371,4 @@
   padding-top: 15px;
   padding-right: 10px;
 }
+

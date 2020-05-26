@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="main-container">
   <div id="top-bar">
     <div [ngClass]="{'dark-bg': isDarkUI}"  id="mode-active" class="l-white-background">C</div>
@@ -9,6 +10,27 @@
     <div [ngClass]="{'dark-bg lilac-text': isDarkUI}" *ngIf="!isAlarmActive" class="dashboard-time blue-color">
       <p>{{now | date: 'd/MM/yy H:mm'}}</p>
     </div>
+=======
+<div id="top-bar">
+  <div id="mode-active">C</div>
+  <button id="meseta-btn" mat-button>P. Meseta</button>
+  <button mat-button class="close-btn"><fa-icon [icon]="cancelIcon"></fa-icon></button>
+  <button mat-button class="pause-btn"><fa-icon [icon]="pauseIcon"></fa-icon></button>
+  <div class="alarm-legend"><fa-icon *ngIf="isAlarmActive" [icon]="alarmIcon"></fa-icon> <p>&nbsp;</p></div>
+  <button mat-button class="bell-container"><fa-icon [icon]="bellIcon"></fa-icon></button>
+</div>
+<div class="middle-container">
+  <div class="left-charts-container">
+    <canvas height="93px" width="612px" ngChartjs [datasets]="pressureData"
+            [options]="chartOptionsPressure" [legend]="lineChartLegend" [labels]="pressureLbls" [chartType]="'line'" #ngChartjsPresion="ngChartjs">
+    </canvas>
+    <canvas height="93px" width="612px" ngChartjs [datasets]="volumeData"
+            [options]="chartOptionsVolume" [legend]="lineChartLegend" [labels]="volumeLbls" [chartType]="'line'" #ngChartjsVolume="ngChartjs">
+    </canvas>
+    <canvas height="93px" width="612px" ngChartjs [datasets]="flowData"
+            [options]="chartOptionsFlow" [legend]="lineChartLegend" [labels]="flowLbls" [chartType]="'line'" #ngChartjsFlow="ngChartjs">
+    </canvas>
+>>>>>>> tmp/test
   </div>
   <div class="middle-container">
     <div class="left-charts-container" [ngClass]="{'dark-bg': isDarkUI}">
@@ -37,6 +59,7 @@
     </div>
   </div>
 
+<<<<<<< HEAD
   <div class="params-container l-white-background">
     <table>
       <tr>
@@ -57,6 +80,28 @@
   <div id="ppeak-lbl"><em>PPeak:</em> {{userInfo?.data.params.ppeak}} cmH2O</div>
   <div id="vpeak-lbl"><em>VPeak:</em> {{userInfo?.data.params.ppeak}} mL</div>
   <div id="fpeak-lbl"><em>FPeak:</em> {{userInfo?.data.params.ppeak}} l/min</div>
+=======
+<div class="params-container">
+  <table>
+    <tr>
+      <td><button (click)="openKeyboard(1, paramsValues[1],'Frecuencia',1, 100, 'rpm')" mat-raised-button class="param-btn">Frecuencia<br><em>{{paramsValues[1]}}</em> rpm</button></td>
+      <td><button (click)="openKeyboard(0, paramsValues[0],'Tiempo de inspiración',0, 2.5, 'segundos')" mat-raised-button class="param-btn">TI<br><em>{{paramsValues[0] | number:'1.1-2'}}</em> segs</button></td>
+      <td><button (click)="openKeyboard(2, paramsValues[2],'Volumen',50, 1300, 'mL')" mat-raised-button class="param-btn">Volumen<br><em>{{paramsValues[2]}}</em> mL</button></td>
+      <td><button (click)="openKeyboard(3, paramsValues[3],'Peak Inspiratory Pressure',10, 40, 'cmH2O')" mat-raised-button class="param-btn">PIP<br><em>{{paramsValues[3]}}</em> cmH2O</button></td>
+      <td><button mat-raised-button class="param-btn" disabled><br><em></em></button></td>
+    </tr>
+  </table>
+</div>
+
+
+<!-- -->
+<div id="pressure-lbl">Presión</div>
+<div id="volume-lbl">Volumen</div>
+<div id="flow-lbl">Flujo</div>
+<div id="ppeak-lbl"><em>PPeak:</em> {{userInfo?.data.params.ppeak}} cmH2O</div>
+<div id="volume-value-lbl"><em>Volumen:</em> {{userInfo?.data.chartsData.vol}} mL</div>
+<div id="flow-value-lbl"><em>Flujo:</em> {{userInfo?.data.chartsData.freq}} L/min</div>
+>>>>>>> tmp/test
 
 
 
