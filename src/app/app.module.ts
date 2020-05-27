@@ -20,6 +20,7 @@ import {MatProgressBar, MatProgressBarModule} from '@angular/material/progress-b
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatRippleModule} from '@angular/material/core';
+import { KeyboardComponent } from './common/keyboard/keyboard.component';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 
@@ -32,7 +33,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     PatientComponent,
     DashboardComponent,
     EditboxComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    KeyboardComponent
   ],
   imports: [
     BrowserModule,

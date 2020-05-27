@@ -61,7 +61,7 @@ export class TestComponent implements OnInit {
 
       this.finishTests = true;
       await this.delay(200);
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/patient']);
     })();
   }
 

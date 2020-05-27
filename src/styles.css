@@ -31,6 +31,7 @@ body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important;
 .main-container{
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 .dark-bg{
   background-color: #14263F !important;

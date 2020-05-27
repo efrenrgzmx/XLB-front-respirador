@@ -49,9 +49,9 @@
                 <div><button mat-raised-button [ngClass]="{'light-blue-bg white-text': profile===1}" (click)="profile = 1" class="t-box-shadow lilac-bg h-lightgrey-text profile-btn right-profile-btn">Infante</button></div>
               </div>
               <div *ngIf="patientTabSelected===2">
-                <div><button (click)="subsHeight()" mat-raised-button class="control-btn t-box-shadow"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
+                <div><button (click)="subsWeight()" mat-raised-button class="control-btn t-box-shadow"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
                 <div [ngClass]="{'white-text': isDarkUI}" class="param-value">{{weight | number:'1.1-5'}}<br><em>kg</em></div>
-                <div><button (click)="addHeight()" mat-raised-button  class="control-btn t-box-shadow"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
+                <div><button (click)="addWeight()" mat-raised-button  class="control-btn t-box-shadow"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
               </div>
             </div>
           </div>
@@ -61,7 +61,7 @@
             <em>Resumen</em><br>
             Sexo: {{getSexDescription()}}<br>
             Altura: {{height | number:'1.2-5'}} m<br>
-            P. Predicho: {{height*100 - 100 | number:'1.1-5'}} kg <br>
+            Peso: {{getWeight() | number:'1.1-5'}} kg <br>
             Perfil: {{getProfileDescription()}}
           </div>
 
@@ -103,13 +103,13 @@
         <div>
           Sexo: <strong>{{getSexDescription()}}</strong><br>
           Altura: <strong>{{height | number:'1.2-5'}}</strong><br>
-          P. Predicho: <strong>{{(height - 1) * 100}}</strong> <br>
+          Peso: <strong>{{getWeight() | number:'1.1-5'}}</strong> <br>
           Perfil: <strong>{{getProfileDescription()}}</strong>
         </div>
         <div>
-          <div><button (click)="step=1" class="t-box-shadow lilac-bg" mat-raised-button>Editar paciente</button></div>
-          <div><button (click)="step=2" class="t-box-shadow lilac-bg" mat-raised-button>Cambiar Modo</button></div>
-          <div><button (click)="step=0" class="t-box-shadow salmon-bg white-text" mat-raised-button>Restablecer</button></div>
+          <div><button (click)="goToStep(1, 3)" class="t-box-shadow lilac-bg" mat-raised-button>Editar paciente</button></div>
+          <div><button (click)="goToStep(2, 3)" class="t-box-shadow lilac-bg" mat-raised-button>Cambiar Modo</button></div>
+          <div><button (click)="reset()" class="t-box-shadow salmon-bg white-text" mat-raised-button>Restablecer</button></div>
         </div>
       </div>
       <div class="summary-right-panel" [ngClass]="{'lilac-bg': isDarkUI}">
@@ -117,14 +117,13 @@
         <div class="summary-title">Modo controlado</div>
         <table>
           <tr>
-            <td><button mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Frecuencia<br><em>{{freq}}</em> rpm</button></td>
-            <td><button mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Ti<br><em>{{ie}}</em> segs</button></td>
-            <td><button mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">VT<br><em>{{vol}}</em> mL</button></td>
+            <td><button (click)="openKeyboard(1, freq,'Frecuencia',1, 100, 'rpm')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Frecuencia<br><em>{{freq}}</em> rpm</button></td>
+            <td><button (click)="openKeyboard( 2, ti,'Tiempo de inspiración',0, 2.5, 'segundos')"mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Ti<br><em>{{ti}}</em> segs</button></td>
+            <td><button (click)="openKeyboard( 3, vol,'Volumen',50, 1300, 'mL')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">VT<br><em>{{vol}}</em> mL</button></td>
           </tr>
           <tr>
-            <td><button mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">PIP<br><em>12</em> cmH2O</button></td>
-            <td><button mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">PEEP<br><em>20</em> cmH2O</button></td>
-            <td><button mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">P. Meseta<br><em>15</em> min</button></td>
+            <td><button (click)="openKeyboard(4, pip,'Peak Inspiratory Pressure',10, 40, 'cmH2O')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">PIP<br><em>{{pip}}</em> cmH2O</button></td>
+            <td><button (click)="openKeyboard(5, pmeseta,'Presión Meseta',5, 30, 'mins')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">P. Meseta<br><em>{{pmeseta}}</em> mins</button></td>
           </tr>
         </table>
         <button (click)="beginVent=true" id="summary-confirm" mat-raised-button class="t-box-shadow yellow-bg confirm-btn">Confirmar</button>
@@ -149,4 +148,88 @@
 
   <!-- BACK BUTTON -->
   <a (click)="onBack()" *ngIf="step>0" mat-raised-button id="back-btn" class="lilac-bg blue-color"><fa-icon [icon]="backIcon"></fa-icon></a>
+
+  <!-- KEYBOARD -->
+  <div *ngIf="isKeyboardOpen" class="keyboard">
+    <div class="kb-container" [ngClass]="{'dark-bg': isDarkUI}">
+      <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}">{{keyboardDescription}}</div>
+      <div class="value-changer">
+        <div [ngClass]="{'lilac-text lilac-bottom-border': isDarkUI}" id="value">{{keyboardValue}}</div>
+        <div [ngClass]="{'lilac-text': isDarkUI}" id="unit">{{keyboardUnit}}</div>
+      </div>
+      <div id="error-lbl">&nbsp;{{keyboardError}}</div>
+      <div>
+        <table>
+          <tr>
+            <td>
+              <button (click)="onDigitPressed('1')" mat-raised-button class="digit lilac-bg">1</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('2')" mat-raised-button class="digit lilac-bg">2</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('3')" mat-raised-button class="digit lilac-bg">3</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('-')" mat-raised-button class="digit del-digit" ><img src="assets/dashboard/del-icon.svg"></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button (click)="onDigitPressed('4')" mat-raised-button class="digit lilac-bg">4</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('5')" mat-raised-button class="digit lilac-bg">5</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('6')" mat-raised-button class="digit lilac-bg">6</button>
+            </td>
+            <td>
+              <button (click)="closeKeyboard(false)" mat-button class="digit cancel-digit ">Cancelar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button (click)="onDigitPressed('7')" mat-raised-button class="digit lilac-bg">7</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('8')" mat-raised-button class="digit lilac-bg">8</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('9')" mat-raised-button class="digit lilac-bg">9</button>
+            </td>
+            <td rowspan="2">
+              <button (click)="onChangePressed()" mat-raised-button class="digit change-digit blue-bg white-text">Cambiar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button (click)="onDigitPressed('.')" mat-raised-button class="digit lilac-bg">.</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('0')" mat-raised-button class="digit lilac-bg">0</button>
+            </td>
+            <td>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="isChangeConfirmationOpen" class="keyboard">
+    <div class="confirm-change" [ngClass]="{'dark-bg': isDarkUI}">
+      <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}"><strong>{{keyboardDescription}}</strong><br>será cambiado a:</div>
+      <div class="value-changer">
+        <div [ngClass]="{'lilac-text lilac-bottom-border': isDarkUI}" id="value">{{keyboardValue}}</div>
+        <div [ngClass]="{'lilac-text': isDarkUI}" id="unit">{{keyboardUnit}}</div>
+      </div>
+      <div class="confirm-change-buttons-container">
+        <button (click)="closeConfirm()" mat-raised-button class="confirm-change-btn white-bg lightgrey-text">Cancelar</button>
+        <button (click)="onConfirmChange()" mat-raised-button class="confirm-change-btn yellow-bg">Confirmar</button>
+      </div>
+    </div>
+  </div>
 </div>
+

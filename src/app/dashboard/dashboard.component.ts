@@ -474,7 +474,7 @@ export class DashboardComponent implements OnInit {
     this.closeConfirm();
   }
 
-  closeConfirm(){
+  closeConfirm() {
     this.isChangeConfirmationOpen = false;
   }
 
