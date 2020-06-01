@@ -2,7 +2,8 @@
   <div id="top-bar">
     <div [ngClass]="{'dark-bg': isDarkUI}"  id="mode-active" class="l-white-background">C</div>
     <button mat-button class="close-btn"><img src="assets/dashboard/close-icon.svg"></button>
-    <button mat-button class="pause-btn"><fa-icon [icon]="pauseIcon"></fa-icon></button>
+    <button *ngIf="isVentilating === 1" (click)="onPausePressed()" mat-button class="pause-btn"><fa-icon [icon]="pauseIcon"></fa-icon></button>
+    <button *ngIf="isVentilating === 0" (click)="onPlayPressed()" mat-button class="pause-btn"><fa-icon [icon]="playIcon"></fa-icon></button>
     <button class="blue-bg lilac-text" id="meseta-btn" mat-button>P. Meseta</button>
     <div *ngIf="isAlarmActive" class="alarm-legend" [ngClass]="{'alarm-bg': isAlarmActive}"><fa-icon class="animated flash infinite slow" *ngIf="isAlarmActive" [icon]="alarmIcon"></fa-icon> <p *ngIf="isAlarmActive">Mensaje Alarma</p></div>
     <button *ngIf="isAlarmActive"  mat-button class="bell-container" disabled><img src="assets/dashboard/alarm-icon.svg"></button>
@@ -139,5 +140,29 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="isChangeVentilatinigPauseConfirm" class="keyboard">
+    <div class="confirm-change" [ngClass]="{'dark-bg': isDarkUI}">
+      <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}">El sistema <strong>pausará</strong> la operación y el paciente dejará de ser ventilado.<br><br>
+      <strong>¿Está seguro que quiere continuar?</strong><br><br><br></div>
+      <div class="confirm-change-buttons-container">
+        <button (click)="closeConfirm()" mat-raised-button class="confirm-change-btn white-bg lightgrey-text">Cancelar</button>
+        <button (click)="onVentilatingEvent(0)" mat-raised-button class="confirm-change-btn yellow-bg">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isChangeVentilatinigPlayConfirm" class="keyboard">
+    <div class="confirm-change" [ngClass]="{'dark-bg': isDarkUI}">
+      <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}">El sistema <strong>iniciará</strong> la operación y el paciente sera ventilado.<br><br>
+        <strong>¿Está seguro que quiere continuar?</strong><br><br><br></div>
+      <div class="confirm-change-buttons-container">
+        <button (click)="closeConfirm()" mat-raised-button class="confirm-change-btn white-bg lightgrey-text">Cancelar</button>
+        <button (click)="onVentilatingEvent(1)" mat-raised-button class="confirm-change-btn yellow-bg">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+
 
 </div>

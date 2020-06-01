@@ -217,7 +217,6 @@ export class PatientComponent implements OnInit {
   }
 
   onChangePressed() {
-
     const sendValue = Number(this.keyboardValue);
     if (!isNaN(sendValue)) {
       if (sendValue <= this.keyboardMaxValue && sendValue >= this.keyboardMinValue) {

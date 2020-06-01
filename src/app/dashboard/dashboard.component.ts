@@ -3,7 +3,7 @@ import {Color, NgChartjsDirective} from 'ng-chartjs';
 import 'chartjs-plugin-streaming';
 import { Observable, Subscription } from 'rxjs';
 import {WebsocketService} from '../websocket.service';
-import {faBackspace, faExclamationTriangle, faGripLinesVertical, faPause, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faBackspace, faExclamationTriangle, faGripLinesVertical, faPause, faPlay, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {faBell, faBellSlash} from '@fortawesome/free-regular-svg-icons';
 
 
@@ -38,9 +38,7 @@ export class DashboardComponent implements OnInit {
 
   pauseIcon = faPause;
   alarmIcon = faExclamationTriangle;
-  bellIcon = faBell;
-  bellSlashedIcon = faBellSlash;
-  backspaceIcon = faBackspace;
+  playIcon = faPlay;
 
   /**
    * Subscription
@@ -77,7 +75,9 @@ export class DashboardComponent implements OnInit {
   /**
    * Behaviour
    * **/
-  startFlag = false;
+  isVentilating = 1;
+  isChangeVentilatinigPauseConfirm = false;
+  isChangeVentilatinigPlayConfirm = false;
   paramsValues = [2.5, 10, 400, 30];
   paramsNames = ['TI', 'FREC', 'VT', 'PIP'];
   paramsUnits = ['', '', ''];
@@ -335,21 +335,29 @@ export class DashboardComponent implements OnInit {
   onChangeSettings(setInfo) {
     setInfo = JSON.parse(setInfo);
     this.settingsInfo = setInfo;
+    console.log(setInfo);
 
     this.paramsValues = [this.settingsInfo.settings.ie,
       this.settingsInfo.settings.freq,
       this.settingsInfo.settings.vt,
       this.settingsInfo.settings.pip];
 
+    this.isVentilating = this.settingsInfo.settings.ventilating;
+
     this.changedValue = this.paramsValues[this.toggleCount];
   }
 
-  onInitPressed() {
-    this.startFlag = true;
+  onPlayPressed() {
+    this.isChangeVentilatinigPlayConfirm = true;
   }
 
-  onStopPressed() {
-    this.startFlag = false;
+  onPausePressed() {
+    this.isChangeVentilatinigPauseConfirm = true;
+  }
+
+  onVentilatingEvent(status) {
+    this.closeConfirm();
+    this.socket.sendData(`%${this.paramsValues[0]},${this.paramsValues[1]},${this.paramsValues[2]},${this.paramsValues[3]},${status}`);
   }
 
   onToggleParam() {
@@ -475,11 +483,13 @@ export class DashboardComponent implements OnInit {
   }
 
   closeConfirm() {
+    this.isChangeVentilatinigPauseConfirm = false;
+    this.isChangeVentilatinigPlayConfirm = false;
     this.isChangeConfirmationOpen = false;
   }
 
   sendData() {
-    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]}`);
+    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]},${this.isVentilating}`);
   }
 
 }
@@ -492,11 +502,12 @@ export class UserInfo {
   };
 }
 
-export class SettingsInfo{
+export class SettingsInfo {
   settings: {
     ie: number,
     freq: number,
     vt: number,
     pip: number,
+    ventilating: number,
   };
 }

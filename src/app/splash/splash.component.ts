@@ -17,7 +17,7 @@ export class SplashComponent implements OnInit {
       await this.delay(1500);
       this.beginFade = true;
       await this.delay(2000);
-      this.router.navigate(['/test']);
+      this.router.navigate(['/dashboard']);
     })();
   }
 
