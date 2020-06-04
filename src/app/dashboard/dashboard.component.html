@@ -1,7 +1,7 @@
 <div class="main-container">
   <div id="top-bar">
     <div [ngClass]="{'dark-bg': isDarkUI}"  id="mode-active" class="l-white-background">C</div>
-    <button mat-button class="close-btn"><img src="assets/dashboard/close-icon.svg"></button>
+    <!--<button mat-button class="close-btn"><img src="assets/dashboard/close-icon.svg"></button>-->
     <button *ngIf="isVentilating === 1" (click)="onPausePressed()" mat-button class="pause-btn"><fa-icon [icon]="pauseIcon"></fa-icon></button>
     <button *ngIf="isVentilating === 0" (click)="onPlayPressed()" mat-button class="pause-btn"><fa-icon [icon]="playIcon"></fa-icon></button>
     <button class="blue-bg lilac-text" id="meseta-btn" mat-button>P. Meseta</button>
@@ -24,7 +24,7 @@
       </canvas>
     </div>
     <div class="right-summary-container l-white-background">
-      <div><button mat-raised-button class="lilac-bg prog-btn">Configurar</button></div>
+      <div><button (click)="onSettingsPressed()" mat-raised-button class="lilac-bg prog-btn">Configurar</button></div>
       <div><button mat-raised-button class="lilac-bg prog-btn">Alertas</button></div>
       <div><button mat-raised-button class="lilac-bg prog-btn">Ayuda</button></div>
 
@@ -56,8 +56,8 @@
   <div id="volume-lbl">Volumen<br><em>{{userInfo?.data.chartsData.vol}} mL</em></div>
   <div id="flow-lbl">Flujo<br><em>{{userInfo?.data.chartsData.vol}} l/min</em></div>
   <div id="ppeak-lbl"><em>PPeak:</em> {{userInfo?.data.params.ppeak}} cmH2O</div>
-  <div id="vpeak-lbl"><em>VPeak:</em> {{userInfo?.data.params.ppeak}} mL</div>
-  <div id="fpeak-lbl"><em>FPeak:</em> {{userInfo?.data.params.ppeak}} l/min</div>
+  <div id="vpeak-lbl"><em>VPeak:</em> {{userInfo?.data.params.vte}} mL</div>
+  <div id="fpeak-lbl"><em>FPeak:</em> {{userInfo?.data.params.fpeak}} l/min</div>
 
   <div *ngIf="isKeyboardOpen" class="keyboard">
     <div class="kb-container" [ngClass]="{'dark-bg': isDarkUI}">

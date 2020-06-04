@@ -5,6 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 import {WebsocketService} from '../websocket.service';
 import {faBackspace, faExclamationTriangle, faGripLinesVertical, faPause, faPlay, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {faBell, faBellSlash} from '@fortawesome/free-regular-svg-icons';
+import {Router} from '@angular/router';
+import {PatientComponent} from '../patient/patient.component';
 
 
 @Component({
@@ -75,7 +77,7 @@ export class DashboardComponent implements OnInit {
   /**
    * Behaviour
    * **/
-  isVentilating = 1;
+  isVentilating = 0;
   isChangeVentilatinigPauseConfirm = false;
   isChangeVentilatinigPlayConfirm = false;
   paramsValues = [2.5, 10, 400, 30];
@@ -86,7 +88,7 @@ export class DashboardComponent implements OnInit {
   paramUnit = '';
   toggleCount = 0;
 
-  constructor( private socket: WebsocketService) {
+  constructor( private socket: WebsocketService, private router: Router) {
     this.chartInitA();
   }
 
@@ -107,9 +109,6 @@ export class DashboardComponent implements OnInit {
 
     if(!this.ngChartjsPressure)
       return;
-
-    //this.ngChartjsPressure.colors = '#8e5ea2';
-
 
     sampleData = JSON.parse(sampleData);
     this.userInfo = sampleData;
@@ -335,7 +334,6 @@ export class DashboardComponent implements OnInit {
   onChangeSettings(setInfo) {
     setInfo = JSON.parse(setInfo);
     this.settingsInfo = setInfo;
-    console.log(setInfo);
 
     this.paramsValues = [this.settingsInfo.settings.ie,
       this.settingsInfo.settings.freq,
@@ -489,7 +487,13 @@ export class DashboardComponent implements OnInit {
   }
 
   sendData() {
+    // tslint:disable-next-line:max-line-length
     this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]},${this.isVentilating}`);
+  }
+
+  onSettingsPressed() {
+    localStorage.setItem('settingsStep', JSON.stringify(3));
+    this.router.navigate(['/patient']);
   }
 
 }
@@ -498,7 +502,7 @@ export class DashboardComponent implements OnInit {
 export class UserInfo {
   data: {
     chartsData: { paw: number, freq: number, vol: number }
-    params: { ppeak: number, volmin: number, vte: number, ftotal: number, peep: number, pip: number }
+    params: { ppeak: number, volmin: number, vte: number, ftotal: number, peep: number, pip: number, fpeak: number}
   };
 }
 

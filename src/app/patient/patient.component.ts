@@ -60,6 +60,12 @@ export class PatientComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    const resStep = localStorage.getItem('settingsStep');
+
+    if (!isNaN(Number(resStep))) {
+      this.step = Number(resStep);
+      localStorage.removeItem('settingsStep');
+    }
   }
 
   onNewPressed() {
