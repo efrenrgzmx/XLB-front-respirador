@@ -1,6 +1,6 @@
 <div class="main-container">
   <div id="top-bar">
-    <div [ngClass]="{'dark-bg': isDarkUI}"  id="mode-active" class="l-white-background">C</div>
+    <div [ngClass]="{'dark-bg': isDarkUI}"  id="mode-active" class="l-white-background">{{getModeDescription()}}</div>
     <!--<button mat-button class="close-btn"><img src="assets/dashboard/close-icon.svg"></button>-->
     <button *ngIf="isVentilating === 1" (click)="onPausePressed()" mat-button class="pause-btn"><fa-icon [icon]="pauseIcon"></fa-icon></button>
     <button *ngIf="isVentilating === 0" (click)="onPlayPressed()" mat-button class="pause-btn"><fa-icon [icon]="playIcon"></fa-icon></button>
@@ -30,10 +30,10 @@
 
       <h2>Paciente</h2>
       <div id="summary-info">
-        Sexo: <strong>Masculino</strong><br>
-        Altura: <strong>1.70 m.</strong><br>
-        Peso: <strong>75 Kg.</strong><br>
-        Perfil: <strong>Adulto</strong>
+        Sexo: <strong>{{getSexDescription()}}</strong><br>
+        Altura: <strong>{{height}} m.</strong><br>
+        Peso: <strong>{{weight}} Kg.</strong><br>
+        Perfil: <strong>{{getProfileDescription()}}</strong>
       </div>
     </div>
   </div>

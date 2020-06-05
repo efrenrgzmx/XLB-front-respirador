@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
   /**
    * Behaviour
    * **/
-  isVentilating = 0;
+  isVentilating = 1;
   isChangeVentilatinigPauseConfirm = false;
   isChangeVentilatinigPlayConfirm = false;
   paramsValues = [2.5, 10, 400, 30];
@@ -87,8 +87,32 @@ export class DashboardComponent implements OnInit {
   paramName = '';
   paramUnit = '';
   toggleCount = 0;
+  sex = 0;
+  profile = 0;
+  height = 170;
+  weight = 70;
+  pmeseta = 15;
+  mode = 0;
+
 
   constructor( private socket: WebsocketService, private router: Router) {
+    if (localStorage.getItem('programData') !== null) {
+      const programData : ScreenData = JSON.parse(localStorage.getItem('programData'));
+
+      this.sex = programData.sex;
+      this.profile = programData.profile;
+      this.weight = programData.weight;
+      this.mode = programData.mode;
+
+      console.log(programData);
+      this.paramsValues = [programData.ti, programData.freq, programData.volume, programData.pip];
+      this.toggleCount = -1;
+      this.sendData();
+      this.toggleCount = 0;
+
+
+
+    }
     this.chartInitA();
   }
 
@@ -353,60 +377,8 @@ export class DashboardComponent implements OnInit {
 
   onVentilatingEvent(status) {
     this.closeConfirm();
-    this.socket.sendData(`%${this.paramsValues[0]},${this.paramsValues[1]},${this.paramsValues[2]},${this.paramsValues[3]},${status}`);
-  }
-
-  onToggleParam() {
-    this.toggleCount ++;
-    if (this.toggleCount >= this.paramsNames.length) {
-      this.toggleCount = 0;
-    }
-    this.changedValue = this.paramsValues[this.toggleCount];
-    this.paramName = this.paramsNames[this.toggleCount];
-  }
-
-  addValue(){
-
-    if(this.toggleCount === 0) { // I:E
-      if (this.changedValue < 3) {
-        this.changedValue ++;
-      }
-    } else if (this.toggleCount === 1) { // FREC
-      this.changedValue++;
-    } else if (this.toggleCount === 2) { // VT
-      this.changedValue += 50;
-    } else { // PIP
-      if (this.changedValue < 40) {
-        this.changedValue++;
-      }
-    }
-
-  }
-
-  subValue() {
-
-    if (this.toggleCount === 0) {
-      if (this.changedValue - 1 > 0) {
-        this.changedValue --;
-      }
-    } else if (this.toggleCount === 1) {
-      if (this.changedValue > 1) {
-        this.changedValue--;
-      }
-    } else if (this.toggleCount === 2) {
-      if (this.changedValue > 50) {
-        this.changedValue -= 50;
-      }
-    }else {
-      if (this.changedValue > 10) {
-        this.changedValue --;
-      }
-    }
-  }
-
-  onConfirm() {
     // tslint:disable-next-line:max-line-length
-    this.socket.sendData(`%${this.toggleCount === 0 ? this.changedValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.changedValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.changedValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.changedValue : this.paramsValues[3]}`);
+    this.socket.sendData(`%${this.paramsValues[0]},${this.paramsValues[1]},${this.paramsValues[2]},${this.paramsValues[3]},${status}`);
   }
 
   onDigitPressed(digit: string) {
@@ -490,13 +462,73 @@ export class DashboardComponent implements OnInit {
   }
 
   onSettingsPressed() {
+    const screenInfo = new ScreenData();
+
+    if (this.userInfo !== undefined) {
+      screenInfo.freq = this.settingsInfo.settings.freq;
+      screenInfo.ti = this.settingsInfo.settings.ie;
+      screenInfo.volume = this.settingsInfo.settings.vt;
+      screenInfo.pip = this.settingsInfo.settings.pip;
+    } else {
+      screenInfo.freq = this.paramsValues[1];
+      screenInfo.ti = this.paramsValues[0];
+      screenInfo.volume = this.paramsValues[2];
+      screenInfo.pip = this.paramsValues[3];
+    }
+
+    screenInfo.sex = this.sex;
+    screenInfo.pmeseta = this.pmeseta;
+    screenInfo.weight = this.weight;
+    screenInfo.height = this.height;
+    screenInfo.mode = this.mode;
+    screenInfo.profile = this.profile;
+
+    localStorage.setItem('status', status);
     localStorage.setItem('settingsStep', JSON.stringify(3));
+    localStorage.setItem('programData', JSON.stringify(screenInfo));
+
     this.router.navigate(['/patient']);
   }
 
   checkAndApplyTheme() {
     if (localStorage.getItem('theme') !== null) {
       this.isDarkUI = localStorage.getItem('theme') === '1';
+    }
+  }
+
+  getSexDescription(): string {
+    switch (this.sex) {
+      case 0:
+        return 'Hombre';
+
+      case 1:
+        return 'Mujer';
+    }
+  }
+
+  getProfileDescription(): string {
+    switch (this.profile) {
+      case 0:
+        return 'Adulto';
+
+      case 1:
+        return 'Infante';
+
+      default:
+        return '-';
+    }
+  }
+
+  getModeDescription(): string {
+    switch (this.mode) {
+      case 0:
+        return 'C';
+
+      case 1:
+        return 'A';
+
+      case 2:
+        return 'AC';
     }
   }
 
@@ -518,4 +550,17 @@ export class SettingsInfo {
     pip: number,
     ventilating: number,
   };
+}
+
+export class ScreenData {
+  freq: number;
+  ti: number;
+  volume: number;
+  pip: number;
+  pmeseta: number;
+  sex: number;
+  height: number;
+  weight: number;
+  profile: number;
+  mode: number;
 }

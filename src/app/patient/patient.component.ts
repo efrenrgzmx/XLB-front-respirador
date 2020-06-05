@@ -35,7 +35,7 @@ export class PatientComponent implements OnInit {
   backIcon = faChevronLeft;
 
   step = 3;
-  doesFromSummary = false;
+  comeFromDashboard = false;
 
   patientTabSelected = 0;
   profile = -1;
@@ -65,14 +65,31 @@ export class PatientComponent implements OnInit {
     const resStep = localStorage.getItem('settingsStep');
     const resStatus = localStorage.getItem('status');
 
-    if (resStep!==null && !isNaN(Number(resStep))) {
+    if (resStep !== null && !isNaN(Number(resStep))) {
       this.step = Number(resStep);
       if (resStatus !== null) {
-        this.status = resStatus === '0' ? false : true;
+        this.status = resStatus !== '0';
       }
 
+      if (localStorage.getItem('programData') !== null) {
+        const programData: ScreenData  = JSON.parse(localStorage.getItem('programData'));
+        this.sexSelected = programData.sex;
+        this.profile = programData.profile;
+        this.height = programData.height;
+        this.weight = programData.weight;
+        this.doesChangeWeight = true;
+        this.pip = programData.pip;
+        this.pmeseta = programData.pmeseta;
+        this.mode = programData.mode;
+        this.vol = programData.volume;
+        this.freq = programData.freq;
+        this.ti = programData.ti;
+      }
+
+      this.comeFromDashboard = true;
+
       localStorage.removeItem('settingsStep');
-      console.log(localStorage);
+      localStorage.removeItem('programData');
     }
 
     this.checkAndApplyTheme();
@@ -113,7 +130,7 @@ export class PatientComponent implements OnInit {
     }
   }
 
-  subsHeight(){
+  subsHeight() {
     this.height -= 0.01;
 
     if (!this.doesChangeWeight) {
@@ -121,7 +138,7 @@ export class PatientComponent implements OnInit {
     }
   }
 
-  addHeight(){
+  addHeight() {
     this.height += 0.01;
 
     if (!this.doesChangeWeight) {
@@ -129,22 +146,18 @@ export class PatientComponent implements OnInit {
     }
   }
 
-  subsWeight(){
+  subsWeight() {
     this.weight -= 1;
     this.doesChangeWeight = true;
   }
 
-  addWeight(){
+  addWeight() {
     this.weight += 1;
     this.doesChangeWeight = true;
   }
 
   isContinuePosible(): boolean {
-    if (this.profile > -1) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.profile > -1;
   }
 
   onConfirm() {
@@ -152,6 +165,10 @@ export class PatientComponent implements OnInit {
   }
 
   onBack() {
+
+    if (this.comeFromDashboard && this.step === 3) {
+      this.router.navigate(['/dashboard']);
+    }
 
     if (this.routeOrigin !== undefined) {
       console.log(this.routeOrigin);
@@ -178,12 +195,11 @@ export class PatientComponent implements OnInit {
 
 
 
-
   /***
    * keyboard
    * */
   onDigitPressed(digit: string) {
-    if(this.isFirstChangeDone === false && digit !== '-') {
+    if (this.isFirstChangeDone === false && digit !== '-') {
       this.isFirstChangeDone = true;
       this.keyboardValue = '';
     }
@@ -302,8 +318,43 @@ export class PatientComponent implements OnInit {
   }
 
   checkAndApplyTheme() {
-    if (localStorage.getItem('theme') !== null){
+    if (localStorage.getItem('theme') !== null) {
       this.isDarkUI = localStorage.getItem('theme') === '1';
     }
   }
+
+  onBeginVentConfirmationPressed() {
+    if (this.status === false) {
+      this.beginVent = true;
+    }else{
+      const programData = new ScreenData();
+      programData.sex = this.sexSelected;
+      programData.profile = this.profile;
+      programData.height = this.height;
+      programData.weight = this.weight;
+      programData.pip = this.pip;
+      programData.pmeseta = this.pmeseta;
+      programData.mode = this.mode;
+      programData.volume = this.vol;
+      programData.freq = this.freq;
+      programData.ti = this.ti;
+      localStorage.setItem('programData', JSON.stringify(programData));
+      this.router.navigate(['/dashboard']);
+    }
+
+  }
+}
+
+
+export class ScreenData {
+  freq: number;
+  ti: number;
+  volume: number;
+  pip: number;
+  pmeseta: number;
+  sex: number;
+  height: number;
+  weight: number;
+  profile: number;
+  mode: number;
 }

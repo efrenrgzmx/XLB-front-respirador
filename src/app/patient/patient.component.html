@@ -86,12 +86,12 @@
       <div class="info-container op lilac-bg" mat-raised-button disabled>
         <img src="assets/patient/icon_assisted.svg">
         <p class="lightgrey-text">El sistema auxiliará la respiración del <br>paciente.</p>
-        <button class="blue-bg t-box-shadow" (click)="onChangeMode(0)" mat-raised-button disabled>Asistido</button>
+        <button class="blue-bg t-box-shadow" (click)="onChangeMode(1)" mat-raised-button disabled>Asistido</button>
       </div>
       <div class="info-container op lilac-bg" >
         <img src="assets/patient/icon_controlled.svg">
         <p class="lightgrey-text">El sistema controlará totalmente la respiración del paciente.</p>
-        <button (click)="onChangeMode(1)" class="blue-bg t-box-shadow" mat-raised-button>Controlado</button>
+        <button (click)="onChangeMode(0)" class="blue-bg t-box-shadow" mat-raised-button>Controlado</button>
       </div>
     </div>
   </div>
@@ -112,7 +112,7 @@
       <div class="summary-left-panel" [ngClass]="{'lilac-text': isDarkUI}">
         <div>
           Sexo: <strong>{{getSexDescription()}}</strong><br>
-          Altura: <strong>{{height | number:'1.2-5'}}</strong><br>
+          Altura: <strong>{{height | number:'1.2-4'}}</strong><br>
           Peso: <strong>{{getWeight() | number:'1.1-5'}}</strong> <br>
           Perfil: <strong>{{getProfileDescription()}}</strong>
         </div>
@@ -136,7 +136,7 @@
             <td><button (click)="openKeyboard(5, pmeseta,'Presión Meseta',5, 30, 'mins')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">P. Meseta<br><em>{{pmeseta}}</em> mins</button></td>
           </tr>
         </table>
-        <button (click)="beginVent=true" id="summary-confirm" mat-raised-button class="t-box-shadow yellow-bg confirm-btn">Confirmar</button>
+        <button (click)="onBeginVentConfirmationPressed()" id="summary-confirm" mat-raised-button class="t-box-shadow yellow-bg confirm-btn">Confirmar</button>
       </div>
     </div>
   </div>
