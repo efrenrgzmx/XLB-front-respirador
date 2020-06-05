@@ -26,7 +26,7 @@
     <div class="right-summary-container l-white-background">
       <div><button (click)="onSettingsPressed()" mat-raised-button class="lilac-bg prog-btn">Configurar</button></div>
       <div><button mat-raised-button class="lilac-bg prog-btn">Alertas</button></div>
-      <div><button mat-raised-button class="lilac-bg prog-btn">Ayuda</button></div>
+      <div><button (click)="isHelpOpenned=true" mat-raised-button class="lilac-bg prog-btn">Ayuda</button></div>
 
       <h2>Paciente</h2>
       <div id="summary-info">
@@ -162,7 +162,20 @@
       </div>
     </div>
   </div>
+</div>
 
 
+<!-- AYUDA -->
 
+<div *ngIf="isHelpOpenned" class="main-container white-bg help" [ngClass]="{'dark-bg': isDarkUI}">
+  <a (click)="onHelpBack()" mat-raised-button id="back-btn" class="lilac-bg blue-color"><fa-icon [icon]="backIcon"></fa-icon></a>
+  <div class="help-icons">
+    <fa-icon id="mailIcon" [icon]="mailIcon"></fa-icon>
+  </div>
+  <div style="margin-top: 36px" class="help-msg" [ngClass]="{'lilac-text': isDarkUI}">
+    Si necesitas ayuda escribenos a:
+  </div>
+  <div class="help-msg blue-color">
+    xlab@protexa.com.mx
+  </div>
 </div>

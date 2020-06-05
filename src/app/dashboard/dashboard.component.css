@@ -374,3 +374,41 @@
   padding-right: 10px;
 }
 
+
+.help{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+}
+
+#back-btn{
+  position: absolute;
+  top: 21px;
+  left: 33px;
+  height: 40px;
+  min-width: 40px !important;
+  border-radius: 50px;
+  font-size: 17px;
+  line-height: 2.3;
+}
+
+.help-icons{
+  margin-top: 134px;
+  width: 100%;
+  text-align: center;
+}
+
+.help-icons fa-icon{
+  color: #526FDC;
+  font-size: 120px;
+  font-weight: lighter;
+}
+
+.help-msg{
+  font-size: 19px;
+  font-weight: lighter;
+  width: 100%;
+  text-align: center;
+  margin-top: 8px;
+}

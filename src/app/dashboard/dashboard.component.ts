@@ -3,8 +3,16 @@ import {Color, NgChartjsDirective} from 'ng-chartjs';
 import 'chartjs-plugin-streaming';
 import { Observable, Subscription } from 'rxjs';
 import {WebsocketService} from '../websocket.service';
-import {faBackspace, faExclamationTriangle, faGripLinesVertical, faPause, faPlay, faTimes} from '@fortawesome/free-solid-svg-icons';
-import {faBell, faBellSlash} from '@fortawesome/free-regular-svg-icons';
+import {
+  faBackspace,
+  faChevronLeft,
+  faExclamationTriangle,
+  faGripLinesVertical,
+  faPause,
+  faPlay,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
+import {faBell, faBellSlash, faEnvelope, faQuestionCircle} from '@fortawesome/free-regular-svg-icons';
 import {Router} from '@angular/router';
 import {PatientComponent} from '../patient/patient.component';
 
@@ -44,7 +52,7 @@ export class DashboardComponent implements OnInit {
 
   /**
    * Subscription
-   * * **/
+   */
   userInfo: UserInfo;
   settingsInfo: SettingsInfo;
   chartDataSub: Subscription;
@@ -76,7 +84,7 @@ export class DashboardComponent implements OnInit {
 
   /**
    * Behaviour
-   * **/
+   */
   isVentilating = 1;
   isChangeVentilatinigPauseConfirm = false;
   isChangeVentilatinigPlayConfirm = false;
@@ -94,10 +102,18 @@ export class DashboardComponent implements OnInit {
   pmeseta = 15;
   mode = 0;
 
+  /**
+   * HELP
+   */
+  backIcon = faChevronLeft;
+  mailIcon = faEnvelope;
+  questionIcon = faQuestionCircle;
+  isHelpOpenned = false;
+
 
   constructor( private socket: WebsocketService, private router: Router) {
     if (localStorage.getItem('programData') !== null) {
-      const programData : ScreenData = JSON.parse(localStorage.getItem('programData'));
+      const programData: ScreenData = JSON.parse(localStorage.getItem('programData'));
 
       this.sex = programData.sex;
       this.profile = programData.profile;
@@ -129,8 +145,9 @@ export class DashboardComponent implements OnInit {
 
   addData(sampleData) {
 
-    if(!this.ngChartjsPressure)
+    if (!this.ngChartjsPressure) {
       return;
+    }
 
     sampleData = JSON.parse(sampleData);
     this.userInfo = sampleData;
@@ -382,7 +399,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onDigitPressed(digit: string) {
-    if(this.isFirstChangeDone === false && digit !== '-') {
+    if (this.isFirstChangeDone === false && digit !== '-') {
       this.isFirstChangeDone = true;
       this.keyboardValue = '';
     }
@@ -530,6 +547,10 @@ export class DashboardComponent implements OnInit {
       case 2:
         return 'AC';
     }
+  }
+
+  onHelpBack(){
+    this.isHelpOpenned = false;
   }
 
 }
