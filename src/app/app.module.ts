@@ -21,6 +21,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatRippleModule} from '@angular/material/core';
 import { KeyboardComponent } from './common/keyboard/keyboard.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 
@@ -47,6 +48,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     FontAwesomeModule,
     MatTabsModule,
     MatRippleModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [WebsocketService],
   bootstrap: [AppComponent]

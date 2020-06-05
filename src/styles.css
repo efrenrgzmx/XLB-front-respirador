@@ -33,6 +33,11 @@ body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important;
   height: 100vh;
   overflow: hidden;
 }
+
+div{
+  transition: background-color 0.5s ease, color 0.2s ease !important;
+}
+
 .dark-bg{
   background-color: #14263F !important;
 }
@@ -80,6 +85,14 @@ strong{
 
 .light-blue-bg{
   background-color: #33C4F9 !important;
+}
+
+.cyan-color{
+  color:#00D6DC;
+}
+
+.yellow-color{
+  color: #F6BE62;
 }
 
 .salmon-bg{

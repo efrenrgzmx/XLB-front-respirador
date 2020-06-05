@@ -98,6 +98,16 @@
 
   <!-- PANTALLA DE RESUMEN -->
   <div *ngIf="step===3" class="animated fadeIn faster">
+
+    <div id="ventilating-status">Función: <strong [ngClass]="{'cyan-color': status, 'yellow-color': !status }">{{status===true ? 'Activa' : 'Pausada'}}</strong></div>
+    <div id="theme-selection">
+      <label class="switch">
+        <input type="checkbox" (click)="onChangeThemePressed()">
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <img id="sun-icon" src="assets/patient/sun.svg">
+    <img id="moon-icon" src="assets/patient/moon.svg">
     <div class="light-lilac-bg summary-controls-container" [ngClass]="{'dark-bg': isDarkUI}">
       <div class="summary-left-panel" [ngClass]="{'lilac-text': isDarkUI}">
         <div>

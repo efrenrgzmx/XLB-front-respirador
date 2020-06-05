@@ -100,9 +100,7 @@ export class DashboardComponent implements OnInit {
     this.changedValue = this.paramsValues[this.toggleCount];
     this.paramUnit = this.paramsUnits[this.toggleCount];
 
-
-
-
+    this.checkAndApplyTheme();
   }
 
   addData(sampleData) {
@@ -494,6 +492,12 @@ export class DashboardComponent implements OnInit {
   onSettingsPressed() {
     localStorage.setItem('settingsStep', JSON.stringify(3));
     this.router.navigate(['/patient']);
+  }
+
+  checkAndApplyTheme() {
+    if (localStorage.getItem('theme') !== null) {
+      this.isDarkUI = localStorage.getItem('theme') === '1';
+    }
   }
 
 }

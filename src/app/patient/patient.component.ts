@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 export class PatientComponent implements OnInit {
 
   isDarkUI = false;
-
+  status = false;
   /**
    * Keyboard Behaviour
    */
@@ -34,7 +34,7 @@ export class PatientComponent implements OnInit {
   minusIcon = faMinus;
   backIcon = faChevronLeft;
 
-  step = 0;
+  step = 3;
   doesFromSummary = false;
 
   patientTabSelected = 0;
@@ -57,15 +57,25 @@ export class PatientComponent implements OnInit {
 
   configTabSelected = 0;
   beginVent = false;
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    this.status = false;
+  }
 
   ngOnInit(): void {
     const resStep = localStorage.getItem('settingsStep');
+    const resStatus = localStorage.getItem('status');
 
-    if (!isNaN(Number(resStep))) {
+    if (resStep!==null && !isNaN(Number(resStep))) {
       this.step = Number(resStep);
+      if (resStatus !== null) {
+        this.status = resStatus === '0' ? false : true;
+      }
+
       localStorage.removeItem('settingsStep');
+      console.log(localStorage);
     }
+
+    this.checkAndApplyTheme();
   }
 
   onNewPressed() {
@@ -144,8 +154,8 @@ export class PatientComponent implements OnInit {
   onBack() {
 
     if (this.routeOrigin !== undefined) {
-        console.log(this.routeOrigin);
-        this.step = Number(this.routeOrigin);
+      console.log(this.routeOrigin);
+      this.step = Number(this.routeOrigin);
     } else {
       this.step--;
     }
@@ -284,5 +294,16 @@ export class PatientComponent implements OnInit {
       return this.weight;
     }
     return this.height * 100 - 100;
+  }
+
+  onChangeThemePressed() {
+    this.isDarkUI = !this.isDarkUI;
+    localStorage.setItem('theme', this.isDarkUI ? '1' : '0' );
+  }
+
+  checkAndApplyTheme() {
+    if (localStorage.getItem('theme') !== null){
+      this.isDarkUI = localStorage.getItem('theme') === '1';
+    }
   }
 }
