@@ -85,7 +85,7 @@ export class DashboardComponent implements OnInit {
   /**
    * Behaviour
    */
-  isVentilating = 1;
+  isVentilating = 0;
   isChangeVentilatinigPauseConfirm = false;
   isChangeVentilatinigPlayConfirm = false;
   paramsValues = [2.5, 10, 400, 30];
