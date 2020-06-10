@@ -146,6 +146,15 @@
   pointer-events: none;
 }
 
+#profile-lbl{
+  position: absolute;
+  z-index: 1001;
+  top: 55px;
+  width: 80%;
+  text-align: center;
+  font-size: 14px;
+  font-weight:500;
+}
 
 #ppeak-lbl{
   position: absolute;
@@ -288,6 +297,7 @@
 .kb-container table{
   width: 100%;
   text-align: center;
+  height: 265px;
 }
 
 .kb-param-desc{
@@ -333,7 +343,7 @@
   text-align: center;
   margin-top: 5px;
   color: red;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 .confirm-change{

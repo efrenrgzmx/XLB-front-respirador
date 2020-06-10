@@ -189,6 +189,19 @@ export class PatientComponent implements OnInit {
   }
 
   onConfirmVent() {
+    const programData = new ScreenData();
+    programData.sex = this.sexSelected;
+    programData.profile = this.profile;
+    programData.height = this.height;
+    programData.weight = this.weight;
+    programData.pip = this.pip;
+    programData.pmeseta = this.pmeseta;
+    programData.mode = this.mode;
+    programData.volume = this.vol;
+    programData.freq = this.freq;
+    programData.ti = this.ti;
+    localStorage.setItem('programData', JSON.stringify(programData));
+    localStorage.setItem('status', '2');
     this.router.navigate(['/dashboard']);
   }
 
@@ -324,9 +337,11 @@ export class PatientComponent implements OnInit {
   }
 
   onBeginVentConfirmationPressed() {
+
     if (this.status === false) {
       this.beginVent = true;
     }else{
+      console.log('LE SEE');
       const programData = new ScreenData();
       programData.sex = this.sexSelected;
       programData.profile = this.profile;
@@ -339,6 +354,7 @@ export class PatientComponent implements OnInit {
       programData.freq = this.freq;
       programData.ti = this.ti;
       localStorage.setItem('programData', JSON.stringify(programData));
+      localStorage.setItem('status', '1');
       this.router.navigate(['/dashboard']);
     }
 

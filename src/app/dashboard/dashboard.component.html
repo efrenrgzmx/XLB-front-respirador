@@ -33,7 +33,8 @@
         Sexo: <strong>{{getSexDescription()}}</strong><br>
         Altura: <strong>{{height}} m.</strong><br>
         Peso: <strong>{{weight}} Kg.</strong><br>
-        Perfil: <strong>{{getProfileDescription()}}</strong>
+        Perfil: <strong>{{getProfileDescription()}}</strong><br>
+        I:E: <strong>1:{{getIEDescription() | number: '1.1-2'}}</strong>
       </div>
     </div>
   </div>
@@ -58,6 +59,7 @@
   <div id="ppeak-lbl"><em>PPeak:</em> {{userInfo?.data.params.ppeak}} cmH2O</div>
   <div id="vpeak-lbl"><em>VPeak:</em> {{userInfo?.data.params.vte}} mL</div>
   <div id="fpeak-lbl"><em>FPeak:</em> {{userInfo?.data.params.fpeak}} l/min</div>
+  <div id="profile-lbl" [ngClass]="{'blue-color': this.profile === 0 , 'cyan-color': this.profile === 1 }">{{getProfileDescription()}}</div>
 
   <div *ngIf="isKeyboardOpen" class="keyboard">
     <div class="kb-container" [ngClass]="{'dark-bg': isDarkUI}">

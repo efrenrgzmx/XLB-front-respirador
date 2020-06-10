@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
   toggleCount = 0;
   sex = 0;
   profile = 0;
-  height = 170;
+  height = 1.70;
   weight = 70;
   pmeseta = 15;
   mode = 0;
@@ -112,6 +112,9 @@ export class DashboardComponent implements OnInit {
 
 
   constructor( private socket: WebsocketService, private router: Router) {
+    if (localStorage.getItem('status') !== null && localStorage.getItem('status') === '1') {
+        this.isVentilating = 1;
+    }
     if (localStorage.getItem('programData') !== null) {
       const programData: ScreenData = JSON.parse(localStorage.getItem('programData'));
 
@@ -124,10 +127,7 @@ export class DashboardComponent implements OnInit {
       this.paramsValues = [programData.ti, programData.freq, programData.volume, programData.pip];
       this.toggleCount = -1;
       this.sendData();
-      this.toggleCount = 0;
-
-
-
+      this.toggleCount = 0
     }
     this.chartInitA();
   }
@@ -141,6 +141,8 @@ export class DashboardComponent implements OnInit {
     this.paramUnit = this.paramsUnits[this.toggleCount];
 
     this.checkAndApplyTheme();
+
+    console.log(this.profile);
   }
 
   addData(sampleData) {
@@ -474,8 +476,12 @@ export class DashboardComponent implements OnInit {
   }
 
   sendData() {
+    let queuedVentFlag = null;
+    if (localStorage.getItem('status') !== null && this.isVentilating !== 1) {
+       queuedVentFlag = 1;
+    }
     // tslint:disable-next-line:max-line-length
-    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]},${this.isVentilating}`);
+    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]},${queuedVentFlag === null ? this.isVentilating : queuedVentFlag}`);
   }
 
   onSettingsPressed() {
@@ -500,7 +506,7 @@ export class DashboardComponent implements OnInit {
     screenInfo.mode = this.mode;
     screenInfo.profile = this.profile;
 
-    localStorage.setItem('status', status);
+    localStorage.setItem('status', `${this.isVentilating}`);
     localStorage.setItem('settingsStep', JSON.stringify(3));
     localStorage.setItem('programData', JSON.stringify(screenInfo));
 
@@ -549,8 +555,16 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onHelpBack(){
+  onHelpBack() {
     this.isHelpOpenned = false;
+  }
+
+  getIEDescription() {
+    const freq = this.paramsValues[1];
+    const rpm = 60 / freq;
+    const te = rpm - this.paramsValues[0];
+
+    return te / this.paramsValues[0];
   }
 
 }
