@@ -127,7 +127,7 @@ export class DashboardComponent implements OnInit {
       this.paramsValues = [programData.ti, programData.freq, programData.volume, programData.pip];
       this.toggleCount = -1;
       this.sendData();
-      this.toggleCount = 0
+      this.toggleCount = 0;
     }
     this.chartInitA();
   }
@@ -294,7 +294,7 @@ export class DashboardComponent implements OnInit {
         }],
         yAxes: [{
           ticks: {
-            suggestedMax: 1200,
+            suggestedMax: 700,
             suggestedMin: 0,
             display: false
           },
@@ -478,10 +478,13 @@ export class DashboardComponent implements OnInit {
   sendData() {
     let queuedVentFlag = null;
     if (localStorage.getItem('status') !== null && this.isVentilating !== 1) {
-       queuedVentFlag = 1;
+        localStorage.removeItem('status');
+        queuedVentFlag = 1;
     }
+    console.log("con: "+queuedVentFlag);
     // tslint:disable-next-line:max-line-length
     this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]},${queuedVentFlag === null ? this.isVentilating : queuedVentFlag}`);
+    queuedVentFlag = null;
   }
 
   onSettingsPressed() {

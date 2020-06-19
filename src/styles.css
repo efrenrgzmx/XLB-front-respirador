@@ -27,7 +27,7 @@
 
 html, body { padding:0; height: 100%; }
 
-body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important; overflow: hidden; overscroll-behavior: none;}
+body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important; overflow: hidden; overscroll-behavior: none; user-select: none;}
 .main-container{
   width: 100vw;
   height: 100vh;
