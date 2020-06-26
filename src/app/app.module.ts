@@ -22,6 +22,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatRippleModule} from '@angular/material/core';
 import { KeyboardComponent } from './common/keyboard/keyboard.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { DateAgoPipe } from './piipes/date-ago.pipe';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 
@@ -35,7 +36,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     DashboardComponent,
     EditboxComponent,
     ConfigurationComponent,
-    KeyboardComponent
+    KeyboardComponent,
+    DateAgoPipe
   ],
   imports: [
     BrowserModule,

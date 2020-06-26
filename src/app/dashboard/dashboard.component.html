@@ -5,7 +5,7 @@
     <button *ngIf="isVentilating === 1" (click)="onPausePressed()" mat-button class="pause-btn"><fa-icon [icon]="pauseIcon"></fa-icon></button>
     <button *ngIf="isVentilating === 0" (click)="onPlayPressed()" mat-button class="pause-btn"><fa-icon [icon]="playIcon"></fa-icon></button>
     <button class="blue-bg lilac-text" id="meseta-btn" mat-button>P. Meseta</button>
-    <div *ngIf="isAlarmActive" class="alarm-legend" [ngClass]="{'alarm-bg': isAlarmActive}"><fa-icon class="animated flash infinite slow" *ngIf="isAlarmActive" [icon]="alarmIcon"></fa-icon> <p *ngIf="isAlarmActive">Mensaje Alarma</p></div>
+    <div *ngIf="isAlarmActive" class="alarm-legend" [ngClass]="{'alarm-bg': isAlarmActive}"><fa-icon class="animated flash infinite slow" *ngIf="isAlarmActive" [icon]="alarmIcon"></fa-icon> <p *ngIf="isAlarmActive">{{currentAlarm.title | titlecase}}</p></div>
     <button *ngIf="isAlarmActive"  mat-button class="bell-container" disabled><img src="assets/dashboard/alarm-icon.svg"></button>
     <div [ngClass]="{'dark-bg lilac-text': isDarkUI}" *ngIf="!isAlarmActive" class="dashboard-time blue-color">
       <p>{{now | date: 'd/MM/yy H:mm'}}</p>
@@ -25,8 +25,8 @@
     </div>
     <div class="right-summary-container l-white-background">
       <div><button (click)="onSettingsPressed()" mat-raised-button class="lilac-bg prog-btn">Configurar</button></div>
-      <div><button mat-raised-button class="lilac-bg prog-btn">Alertas</button></div>
-      <div><button (click)="isHelpOpenned=true" mat-raised-button class="lilac-bg prog-btn">Ayuda</button></div>
+      <div><button (click)="isAlarmOpen=true" mat-raised-button class="lilac-bg prog-btn">Alertas</button></div>
+      <div><button (click)="isHelpOpen=true" mat-raised-button class="lilac-bg prog-btn">Ayuda</button></div>
 
       <h2>Paciente</h2>
       <div id="summary-info">
@@ -34,7 +34,6 @@
         Altura: <strong>{{height}} m.</strong><br>
         Peso: <strong>{{weight}} Kg.</strong><br>
         Perfil: <strong>{{getProfileDescription()}}</strong><br>
-        I:E: <strong>1:{{getIEDescription() | number: '1.1-2'}}</strong>
       </div>
     </div>
   </div>
@@ -69,6 +68,7 @@
         <div [ngClass]="{'lilac-text': isDarkUI}" id="unit">{{keyboardUnit}}</div>
       </div>
       <div id="error-lbl">&nbsp;{{keyboardError}}</div>
+      <div id="ie-kb-desc" *ngIf="toggleCount<2" [ngClass]="{'lilac-text': isDarkUI}">&nbsp;I:E 1:{{getIEDescription()}}</div>
       <div>
         <table>
           <tr>
@@ -169,7 +169,7 @@
 
 <!-- AYUDA -->
 
-<div *ngIf="isHelpOpenned" class="main-container white-bg help" [ngClass]="{'dark-bg': isDarkUI}">
+<div *ngIf="isHelpOpen" class="main-container white-bg help" [ngClass]="{'dark-bg': isDarkUI}">
   <a (click)="onHelpBack()" mat-raised-button id="back-btn" class="lilac-bg blue-color"><fa-icon [icon]="backIcon"></fa-icon></a>
   <div class="help-icons">
     <fa-icon id="mailIcon" [icon]="mailIcon"></fa-icon>
@@ -181,3 +181,45 @@
     xlab@protexa.com.mx
   </div>
 </div>
+
+
+<!-- Alarmas -->
+<div *ngIf="isAlarmOpen" class="main-container white-bg help" [ngClass]="{'dark-bg': isDarkUI}">
+  <a (click)="onAlarmBack()" mat-raised-button id="alarm-back-btn" class="lilac-bg blue-color"><fa-icon [icon]="backIcon"></fa-icon></a>
+  <h1 id="alarm-cont-title" [ngClass]="{'lilac-text': isDarkUI}">Alertas</h1>
+  <div id="params-container" >
+    <div class="tabs">
+      <div (click)="onTabPressed(0)" [ngClass]="{'active-tab': alarmTabSelected===0, 'dark-bg': isDarkUI}" class="param-tab">Actuales</div>
+      <div (click)="onTabPressed(1)" [ngClass]="{'active-tab': alarmTabSelected===1, 'dark-bg': isDarkUI}" class="param-tab">Historial</div>
+         </div>
+    <div [ngClass]="{'params-control-container-left': alarmTabSelected===0, 'params-control-container-right': alarmTabSelected===2}" class="params-control-container">
+      <div class="controls-container-position">
+        <div *ngIf="alarmTabSelected===0">
+          <div class="alert" *ngFor="let alert of currentAlarms" [ngClass]="{'lilac-bg': alert.severity === 0, 'yellow-bg': alert.severity === 1, 'alarm-bg': alert.severity === 2}">
+            <table>
+              <tr>
+                <td><div class="seen" [ngClass]="{'blue-bg': !alert.seen}"></div></td>
+                <td><div class="alert-title">{{alert.title}}</div></td>
+                <td><div class="time"></div></td>
+                <td><div class="info"><fa-icon [icon]="questionSoloIcon"></fa-icon></div></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div *ngIf="alarmTabSelected===1">
+          <div class="alert" *ngFor="let alert of alarmHistory" [ngClass]="{'lilac-bg': alert.severity === 0, 'yellow-bg': alert.severity === 1, 'alarm-bg': alert.severity === 2}">
+            <table>
+              <tr>
+                <td><div class="seen" [ngClass]="{'blue-bg': !alert.seen}"></div></td>
+                <td><div class="alert-title">{{alert.title}}</div></td>
+                <td><div class="time"></div></td>
+                <td><div class="info"><fa-icon [icon]="questionSoloIcon"></fa-icon></div></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

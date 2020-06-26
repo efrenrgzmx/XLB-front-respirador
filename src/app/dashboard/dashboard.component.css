@@ -41,7 +41,7 @@
 }
 
 .alarm-legend{
-  width: 440px;
+  width: 506px;
   height: 50px;
   border-left: 1px solid #C9D2F3;
   display: flex;
@@ -52,7 +52,6 @@
   line-height: 1.5;
   color: #F4F4F4;
   margin-left: 10px;
-
 }
 
 .alarm-legend fa-icon{
@@ -67,7 +66,7 @@
 }
 
 .bell-container{
-  border-radius: none;
+  border-radius: 0;
   background-color: #FFB6AA;
 }
 
@@ -421,4 +420,162 @@
   width: 100%;
   text-align: center;
   margin-top: 8px;
+}
+
+
+#alarm-back-btn{
+  position: absolute;
+  top: 21px;
+  left: 33px;
+  height: 40px;
+  min-width: 40px !important;
+  border-radius: 50px;
+  font-size: 17px;
+  line-height: 2.3;
+}
+
+#params-container{
+  margin: 0 auto;
+  width: 734px;
+  height: 366px;
+}
+
+#alarm-cont-title{
+  text-align: center;
+  font-size: 24px;
+  padding-top: 25px;
+  padding-bottom: 24px;
+  color: #303030;
+  font-weight: 700;
+}
+
+.tabs{
+  display: flex;
+}
+.tabs div{
+  transition: none !important;
+}
+
+.param-tab{
+  color: #526FDC;
+  text-align: center;
+  font-size: large;
+  line-height: 3;
+  width: 35%;
+  height: 52px;
+  font-weight: 100;
+  z-index: 1000;
+}
+
+.active-tab {
+
+  font-weight: 500;
+  border-top: 1px solid #526FDC;
+  border-left: 1px solid #526FDC;
+  border-right: 1px solid #526FDC;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  margin-right: -4px;
+  z-index: 1001;
+  background-color:white;
+}
+
+.params-control-container-left{
+  border-radius: 0 20px 20px 20px !important;
+}
+
+.params-control-container-right{
+  border-radius: 20px 0px 20px 20px !important;
+}
+
+.params-control-container{
+  width: 100%;
+  height: 300px;
+  margin-top: -1px;
+  border-radius: 20px;
+  border: 1px solid #526FDC;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.controls-container-position{
+  margin-top: 15px;
+
+}
+
+.alert{
+  width: 100%;
+  height: 60px;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.alert table{
+  width: 685px;
+  text-align: center;
+  height: 100%;
+}
+
+.alert .seen {
+  background-color: white;
+  height: 17px;
+  width: 17px;
+  margin: 0 19px;
+
+  border-radius: 25px;
+}
+
+.alert .alert-title{
+  width: 481px;
+  text-align: left;
+}
+
+.alert .time{
+  font-size: 18px;
+  color: #F8F8F8;
+}
+
+.alert .info{
+  background-color: white;
+  border-radius: 25px;
+  height: 40px;
+  width: 40px;
+  color: #526FDC;
+}
+
+.info fa-icon{
+  line-height: 2.3;
+  margin-left: -1px;
+  font-size: 18px;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 30px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #526FDC;
+  border-radius: 25px;
+  height: 10px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: #d1cad1ff;
+  border: 13px solid transparent;
+  background-clip: content-box;   /* THIS IS IMPORTANT */
+  border-radius: 25px;
+}
+
+
+#ie-kb-desc {
+  position: fixed;
+  width: 100%;
+  top: 65px;
+  text-align: center;
+  left: 0;
+  color: #636363;
 }

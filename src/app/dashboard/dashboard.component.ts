@@ -1,20 +1,11 @@
-import {Component, ViewChild, OnInit} from '@angular/core';
-import {Color, NgChartjsDirective} from 'ng-chartjs';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {NgChartjsDirective} from 'ng-chartjs';
 import 'chartjs-plugin-streaming';
-import { Observable, Subscription } from 'rxjs';
+import {Subscription} from 'rxjs';
 import {WebsocketService} from '../websocket.service';
-import {
-  faBackspace,
-  faChevronLeft,
-  faExclamationTriangle,
-  faGripLinesVertical,
-  faPause,
-  faPlay,
-  faTimes
-} from '@fortawesome/free-solid-svg-icons';
-import {faBell, faBellSlash, faEnvelope, faQuestionCircle} from '@fortawesome/free-regular-svg-icons';
+import {faChevronLeft, faExclamationTriangle, faPause, faPlay, faQuestion} from '@fortawesome/free-solid-svg-icons';
+import {faEnvelope, faQuestionCircle} from '@fortawesome/free-regular-svg-icons';
 import {Router} from '@angular/router';
-import {PatientComponent} from '../patient/patient.component';
 
 
 @Component({
@@ -45,10 +36,15 @@ export class DashboardComponent implements OnInit {
    * Alarm Behaviour
    */
   isAlarmActive = false;
-
+  isAlarmOpen =  false;
   pauseIcon = faPause;
   alarmIcon = faExclamationTriangle;
   playIcon = faPlay;
+  questionSoloIcon = faQuestion;
+  alarmTabSelected = 0;
+  currentAlarms = [];
+  alarmHistory = [];
+  currentAlarm : Alarm;
 
   /**
    * Subscription
@@ -57,6 +53,7 @@ export class DashboardComponent implements OnInit {
   settingsInfo: SettingsInfo;
   chartDataSub: Subscription;
   settingsDataSub: Subscription;
+  alertsDataSub: Subscription;
 
 
   /**
@@ -108,7 +105,7 @@ export class DashboardComponent implements OnInit {
   backIcon = faChevronLeft;
   mailIcon = faEnvelope;
   questionIcon = faQuestionCircle;
-  isHelpOpenned = false;
+  isHelpOpen = false;
 
 
   constructor( private socket: WebsocketService, private router: Router) {
@@ -135,6 +132,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.chartDataSub = this.socket.currentChartData.subscribe(chartData => this.addData(chartData));
     this.settingsDataSub = this.socket.currentSettingsData.subscribe(settingsData => this.onChangeSettings(settingsData));
+    this.alertsDataSub = this.socket.currentAlertData.subscribe(alert => this.onReceiveAlert(alert));
 
     this.paramName = this.paramsNames[this.toggleCount];
     this.changedValue = this.paramsValues[this.toggleCount];
@@ -481,7 +479,7 @@ export class DashboardComponent implements OnInit {
         localStorage.removeItem('status');
         queuedVentFlag = 1;
     }
-    console.log("con: "+queuedVentFlag);
+    console.log('con: ' + queuedVentFlag);
     // tslint:disable-next-line:max-line-length
     this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]},${queuedVentFlag === null ? this.isVentilating : queuedVentFlag}`);
     queuedVentFlag = null;
@@ -559,7 +557,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onHelpBack() {
-    this.isHelpOpenned = false;
+    this.isHelpOpen = false;
   }
 
   getIEDescription() {
@@ -570,6 +568,20 @@ export class DashboardComponent implements OnInit {
     return te / this.paramsValues[0];
   }
 
+  onAlarmBack() {
+    this.isAlarmOpen = false;
+  }
+
+  onTabPressed(index) {
+    this.alarmTabSelected = index;
+  }
+
+  onReceiveAlert(alert) {
+    this.currentAlarm = JSON.parse(alert);
+    this.currentAlarms.push(this.currentAlarm);
+    this.alarmHistory.push(this.currentAlarm);
+    this.isAlarmActive = true;
+  }
 }
 
 
@@ -601,4 +613,33 @@ export class ScreenData {
   weight: number;
   profile: number;
   mode: number;
+}
+
+export class  Alarm {
+  /*
+  0 - Presion
+  2 - Temperatura driver
+  3 - Temperatura Driver Crítica
+  4 - Temperatura Motor
+  5 - Temperatura Motor
+  6 - Corriente Driver Crítica
+   */
+
+  constructor( affectedSector, title, description, value, severity, seen, time) {
+    this.affectedSector = affectedSector;
+    this.title = title;
+    this.description = description;
+    this.value = value;
+    this.severity = severity;
+    this.seen = seen;
+    this.timestamp = time;
+  }
+
+  affectedSector: number;
+  title: string;
+  description: string;
+  value: number;
+  severity: number;
+  seen: boolean;
+  timestamp: Date;
 }
