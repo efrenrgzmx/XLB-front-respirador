@@ -2,10 +2,20 @@ table{
   height: 100vh;
   width: 100vw;
   text-align: center;
-  background-color: white;
 }
 
 table img{
-  width: 250px;
+  width: 350px;
 }
 
+td{
+  vertical-align: bottom;
+}
+
+.logo{
+  width: 180px !important;
+}
+
+.row{
+  vertical-align: middle !important;
+}

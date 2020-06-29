@@ -1,172 +1,245 @@
 <!-- PANTALLA DE SELECCION DE PACIENTE -->
-<div *ngIf="step===0" class="animated fadeIn faster">
-  <div class="container-title">Paciente</div>
-  <div class="buttons-container">
-    <button mat-raised-button disabled>Anterior</button>
-    <button (click)="onNewPressed()" mat-raised-button>Nuevo</button>
-  </div>
-</div>
-
-
-<!-- PANTALLA DE CONFIGURACIÓN DE NUEVO PACIENTE -->
-
-<div *ngIf="step===1" class="animated fadeIn faster">
-  <div class="container-title">Paciente</div>
-  <div class="controls-container">
-    <div class="male-section">
-      <div (click)="sexSelected=0" [ngClass]="{'body-selected': sexSelected===0}" class="body-img">
-        <img src="assets/patient/male.png">
+<div class="main-container" [ngClass]="{'dark-bg': isDarkUI}">
+  <div *ngIf="step===0" class="animated fadeIn faster">
+    <div [ngClass]="{'white-text': isDarkUI}" class="container-title">Paciente</div>
+    <div class="buttons-container">
+      <div class="info-container lilac-bg" mat-raised-button disabled>
+        <img src="assets/patient/past_patient.svg">
+        <p class="lightgrey-text">Se retomará la configuración del último paciente.</p>
+        <button class="blue-bg" mat mat-raised-button disabled>Anterior</button>
       </div>
+      <div class="info-container lilac-bg" >
+        <img src="assets/patient/new_patient.svg">
+        <p class="lightgrey-text">Configura parámetros para un nuevo paciente.</p>
+        <button (click)="onNewPressed()" class="blue-bg" mat-raised-button>Nuevo</button>
+      </div>
+
     </div>
-    <div class="menu-section">
-      <div id="params-container">
-        <div class="tabs">
-          <div (click)="onTabPressed(0)" [ngClass]="{'active-tab': patientTabSelected===0}" class="param-tab">Altura</div>
-          <div (click)="onTabPressed(1)" [ngClass]="{'active-tab': patientTabSelected===1}" class="param-tab">Perfil</div>
+  </div>
+
+
+  <!-- PANTALLA DE CONFIGURACIÓN DE NUEVO PACIENTE -->
+
+  <div *ngIf="step===1" class="animated fadeIn faster">
+    <div [ngClass]="{'white-text': isDarkUI}" class="container-title">Paciente</div>
+    <div class="controls-container">
+      <div matRipple class="male-section t-box-shadow">
+        <div (click)="sexSelected=0">
+          <img *ngIf="isDarkUI && sexSelected==0" src="assets/patient/male_dark.png">
+          <img *ngIf="!isDarkUI && sexSelected==0" src="assets/patient/male_light.png">
+          <img *ngIf="sexSelected==1" src="assets/patient/unselected_male.png">
         </div>
-        <div [ngClass]="{'params-control-container-left': patientTabSelected===0, 'params-control-container-right': patientTabSelected===2}" class="params-control-container">
-          <div class="controls-container-position">
-            <div *ngIf="patientTabSelected===0">
-              <div><button (click)="subsHeight()" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-              <div class="param-value">{{height | number:'1.2-5'}}<br><em>m</em></div>
-              <div><button (click)="addHeight()" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
-            </div>
-            <div *ngIf="patientTabSelected===1">
-              <div><button mat-raised-button [ngClass]="{'gray-bg': profile===0}" (click)="profile = 0" class="profile-btn">Adulto</button></div>
-              <div><button mat-raised-button [ngClass]="{'gray-bg': profile===1}" (click)="profile = 1" class="profile-btn right-profile-btn">Infante</button></div>
+      </div>
+      <div class="menu-section">
+        <div id="params-container" >
+          <div class="tabs">
+            <div (click)="onTabPressed(0)" [ngClass]="{'active-tab': patientTabSelected===0, 'dark-bg': isDarkUI}" class="param-tab">Altura</div>
+            <div (click)="onTabPressed(1)" [ngClass]="{'active-tab': patientTabSelected===1, 'dark-bg': isDarkUI}" class="param-tab">Perfil</div>
+            <div (click)="onTabPressed(2)" [ngClass]="{'active-tab': patientTabSelected===2, 'dark-bg': isDarkUI}" class="param-tab">Peso</div>
+          </div>
+          <div [ngClass]="{'params-control-container-left': patientTabSelected===0, 'params-control-container-right': patientTabSelected===2}" class="params-control-container">
+            <div class="controls-container-position">
+              <div *ngIf="patientTabSelected===0">
+                <div><button (click)="subsHeight()" mat-raised-button class="control-btn t-box-shadow"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
+                <div [ngClass]="{'white-text': isDarkUI}" class="param-value">{{height | number:'1.2-5'}}<br><em>m</em></div>
+                <div><button (click)="addHeight()" mat-raised-button  class="control-btn t-box-shadow"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
+              </div>
+              <div *ngIf="patientTabSelected===1">
+                <div><button mat-raised-button [ngClass]="{'blue-bg white-text': profile===0}" (click)="profile = 0" class="t-box-shadow lilac-bg h-lightgrey-text  profile-btn">Adulto</button></div>
+                <div><button mat-raised-button [ngClass]="{'light-blue-bg white-text': profile===1}" (click)="profile = 1" class="t-box-shadow lilac-bg h-lightgrey-text profile-btn right-profile-btn">Infante</button></div>
+              </div>
+              <div *ngIf="patientTabSelected===2">
+                <div><button (click)="subsWeight()" mat-raised-button class="control-btn t-box-shadow"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
+                <div [ngClass]="{'white-text': isDarkUI}" class="param-value">{{weight | number:'1.1-5'}}<br><em>kg</em></div>
+                <div><button (click)="addWeight()" mat-raised-button  class="control-btn t-box-shadow"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
+              </div>
             </div>
           </div>
         </div>
+        <div id="confirmation-container">
+          <div  [ngClass]="{'lilac-text': isDarkUI}" class="summary">
+            <em>Resumen</em><br>
+            Sexo: {{getSexDescription()}}<br>
+            Altura: {{height | number:'1.2-5'}} m<br>
+            Peso: {{getWeight() | number:'1.1-5'}} kg <br>
+            Perfil: {{getProfileDescription()}}
+          </div>
+
+          <button *ngIf="isContinuePosible()" class="t-box-shadow yellow-bg confirm-btn" (click)="onConfirm()" mat-raised-button>Confirmar</button>
+        </div>
       </div>
-      <div id="confirmation-container">
-        <div class="summary">
-          <em>Resumen</em><br>
-          Sexo: {{getSexDescription()}}<br>
-          Altura: {{height | number:'1.2-5'}} m<br>
-          P. Predicho: {{height*100 - 100 | number:'1.1-5'}} kg <br>
-          Perfil: {{getProfileDescription()}}
-        </div>
-
-        <button *ngIf="isContinuePosible()" class="confirm-btn" (click)="onConfirm()" mat-raised-button>Confirmar</button>
-      </div>
-    </div>
-    <div class="female-section">
-      <div (click)="sexSelected=1" [ngClass]="{'body-selected': sexSelected===1}" class="body-img">
-        <img src="assets/patient/female.png">
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- PANTALLA DE SELECCION DE MODO -->
-<div *ngIf="step===2" class="animated fadeIn faster">
-  <div class="container-title">Configuración</div>
-  <div class="conf-title">Modo</div>
-  <div class="conf-btn-container">
-    <button [ngClass]="{'gray-bg': mode===0}" (click)="onChangeMode(0)" mat-raised-button disabled>Asistido</button>
-    <button [ngClass]="{'gray-bg': mode===1}" (click)="onChangeMode(1)" mat-raised-button>Controlado</button>
-  </div>
-</div>
-
-
-<!-- PANTALLA DE CONFIGURACIÓN DE MODO -->
-<div *ngIf="step===3" class="animated fadeIn faster">
-  <div class="container-title">Configuración</div>
-  <div class="conf-params-title">Variantes modo controlado</div>
-  <div class="conf-container">
-    <div class="tabs">
-      <div (click)="onConfTabPressed(0)" [ngClass]="{'conf-active-tab': configTabSelected===0}" class="param-tab">Tiempo</div>
-      <div (click)="onConfTabPressed(1)" [ngClass]="{'conf-active-tab': configTabSelected===1}" class="param-tab">Volumen</div>
-      <div (click)="onConfTabPressed(2)" [ngClass]="{'conf-active-tab': configTabSelected===2}"  class="param-tab">Flujo</div>
-      <div (click)="onConfTabPressed(3)" [ngClass]="{'conf-active-tab': configTabSelected===3}"  class="param-tab">Vol. max. e/min</div>
-    </div>
-    <div [ngClass]="{'params-control-container-left': configTabSelected===0, 'params-control-container-right': configTabSelected===3}" class="conf-params-control-container">
-      <div class="conf-controls-container-position">
-        <div *ngIf="configTabSelected===0">
-          <table>
-            <tr>
-              <td style="width: 24%;">
-                <button class="time-type-btn" (click)="timeSelected = 0" [ngClass]="{'gray-bg': timeSelected===0}" mat-raised-button>Frecuencia</button>
-              </td>
-              <td rowspan="2">
-                <div *ngIf="timeSelected === 0">
-                  <div><button (click)="changeFreq(false)" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-                  <div class="param-value">{{freq | number}}<br><em>rpm</em></div>
-                  <div><button (click)="changeFreq(true)" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
-                </div>
-                <div *ngIf="timeSelected === 1">
-                  <div><button (click)="changeIE(false)" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-                  <div class="param-value">1:{{ie | number}}<br><em>I:E</em></div>
-                  <div><button (click)="changeIE(true)" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <button class="time-type-btn" (click)="timeSelected = 1" [ngClass]="{'gray-bg': timeSelected===1}" mat-raised-button>Ti:Te</button>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div *ngIf="configTabSelected===1">
-          <div><button (click)="changeVolumen(false)" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-          <div class="param-value">{{vol | number}}<br><em>mL/Kg</em></div>
-          <div><button (click)="changeVolumen(true)" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
-        </div>
-        <div *ngIf="configTabSelected===2">
-          <div><button (click)="changeFlow(false)" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-          <div class="param-value">{{flow | number}}<br><em>mL/min</em></div>
-          <div><button (click)="changeFlow(true)" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
-        </div>
-        <div *ngIf="configTabSelected===3">
-          <div><button (click)="changeVolMaxMin(false)" mat-raised-button class="control-btn"><fa-icon [icon]="minusIcon"></fa-icon></button></div>
-          <div class="param-value">{{volMaxMin | number}}<br><em>L/min</em></div>
-          <div><button (click)="changeVolMaxMin(true)" mat-raised-button  class="control-btn"><fa-icon [icon]="plusIcon"></fa-icon></button></div>
+      <div matRipple class="female-section t-box-shadow">
+        <div (click)="sexSelected=1">
+          <img *ngIf="isDarkUI && sexSelected==1" src="assets/patient/female_dark.png">
+          <img *ngIf="!isDarkUI && sexSelected==1" src="assets/patient/female_light.png">
+          <img *ngIf="sexSelected==0" src="assets/patient/unselected_female.png">
         </div>
       </div>
     </div>
   </div>
-  <div class="continue-container">
-    <button mat-raised-button (click)="step = 4" class="confirm-btn">Continuar</button>
-  </div>
-</div>
 
-<!-- PANTALLA DE RESUMEN -->
-<div *ngIf="step===4" class="animated fadeIn faster">
-  <div class="container-title">Resumen paciente</div>
-  <div class="summary-controls-container">
-    <div class="summary-left-panel">
-      <div>
-        Sexo: {{getSexDescription()}}<br>
-        Altura: {{height | number:'1.2-5'}}<br>
-        P. Predicho: {{(height - 1) * 100}} <br>
-        Perfil: {{getProfileDescription()}}
+
+  <!-- PANTALLA DE SELECCION DE MODO -->
+  <div *ngIf="step===2" class="animated fadeIn faster">
+    <div [ngClass]="{'white-text': isDarkUI}" class="container-title">Modo de operación</div>
+    <div class="buttons-container">
+      <div class="info-container op lilac-bg" mat-raised-button disabled>
+        <img src="assets/patient/icon_assisted.svg">
+        <p class="lightgrey-text">El sistema auxiliará la respiración del <br>paciente.</p>
+        <button class="blue-bg t-box-shadow" (click)="onChangeMode(1)" mat-raised-button disabled>Asistido</button>
+      </div>
+      <div class="info-container op lilac-bg" >
+        <img src="assets/patient/icon_controlled.svg">
+        <p class="lightgrey-text">El sistema controlará totalmente la respiración del paciente.</p>
+        <button (click)="onChangeMode(0)" class="blue-bg t-box-shadow" mat-raised-button>Controlado</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA DE RESUMEN -->
+  <div *ngIf="step===3" class="animated fadeIn faster">
+
+    <div id="ventilating-status">Función: <strong [ngClass]="{'cyan-color': status, 'yellow-color': !status }">{{status===true ? 'Activa' : 'Pausada'}}</strong></div>
+    <div id="theme-selection">
+      <label class="switch">
+        <input type="checkbox" (click)="onChangeThemePressed()">
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <img id="sun-icon" src="assets/patient/sun.svg">
+    <img id="moon-icon" src="assets/patient/moon.svg">
+    <div class="light-lilac-bg summary-controls-container" [ngClass]="{'dark-bg': isDarkUI}">
+      <div class="summary-left-panel" [ngClass]="{'lilac-text': isDarkUI}">
+        <div>
+          Sexo: <strong>{{getSexDescription()}}</strong><br>
+          Altura: <strong>{{height | number:'1.2-4'}}</strong><br>
+          Peso: <strong>{{getWeight() | number:'1.1-5'}}</strong> <br>
+          Perfil: <strong>{{getProfileDescription()}}</strong>
+        </div>
+        <div>
+          <div><button (click)="goToStep(1, 3)" class="t-box-shadow lilac-bg" mat-raised-button>Editar paciente</button></div>
+          <div><button (click)="goToStep(2, 3)" class="t-box-shadow lilac-bg" mat-raised-button>Cambiar Modo</button></div>
+          <div><button (click)="reset()" class="t-box-shadow salmon-bg white-text" mat-raised-button>Restablecer</button></div>
+        </div>
+      </div>
+      <div class="summary-right-panel" [ngClass]="{'lilac-bg': isDarkUI}">
+        <div class="container-title">Resumen paciente</div>
+        <div class="summary-title">Modo controlado</div>
+        <table>
+          <tr>
+            <td><button (click)="openKeyboard(1, freq,'Frecuencia',1, 100, 'rpm')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Frecuencia<br><em>{{freq}}</em> rpm</button></td>
+            <td><button (click)="openKeyboard( 2, ti,'Tiempo de inspiración',0, 2.5, 'segundos')"mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Ti<br><em>{{ti}}</em> segs</button></td>
+            <td><button (click)="openKeyboard( 3, vol,'Volumen',50, 1300, 'mL')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">VT<br><em>{{vol}}</em> mL</button></td>
+          </tr>
+          <tr>
+            <td><button (click)="openKeyboard(4, pip,'Peak Inspiratory Pressure',10, 40, 'cmH2O')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">PIP<br><em>{{pip}}</em> cmH2O</button></td>
+            <td><button (click)="openKeyboard(5, pmeseta,'Presión Meseta',5, 30, 'mins')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">P. Meseta<br><em>{{pmeseta}}</em> mins</button></td>
+          </tr>
+        </table>
+        <button (click)="onBeginVentConfirmationPressed()" id="summary-confirm" mat-raised-button class="t-box-shadow yellow-bg confirm-btn">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="beginVent" class="animated fadeIn faster confirm-vent">
+    <div class="confirm-vent-container" [ngClass]="{'dark-bg': isDarkUI}">
+      <div [ngClass]="{'lilac-text': isDarkUI}">
+        Se comenzará a ventilar al paciente.
       </div>
       <div>
-        <div><button mat-raised-button>Editar paciente</button></div>
-        <div><button mat-raised-button>Cambiar Modo</button></div>
-        <div><button mat-raised-button>Restablecer</button></div>
+        <button (click)="beginVent = false" mat-raised-button class="t-box-shadow white-bg confirm-vent-btn" [ngClass]="{'dark-bg lilac-text': isDarkUI}">Cancelar</button>
+        <button (click)="onConfirmVent()" mat-raised-button class="t-box-shadow confirm-vent-btn yellow-bg white-text">Ok</button>
       </div>
     </div>
-    <div class="summary-right-panel">
-      <div class="summary-title">Modo controlado</div>
-      <table>
-        <tr>
-          <td><button mat-raised-button class="summary-btn">Frecuencia<br><em>{{freq}}</em> rpm</button></td>
-          <td><button mat-raised-button class="summary-btn">Ti:Te<br><em>1:{{ie}}</em></button></td>
-          <td><button mat-raised-button class="summary-btn">VT/peso<br><em>{{vol}}</em> mL/Kg</button></td>
-        </tr>
-        <tr>
-          <td><button mat-raised-button class="summary-btn">VT máx/i<br><em>0</em> rpm</button></td>
-          <td><button mat-raised-button class="summary-btn">VT max e<br><em>0</em> rpm</button></td>
-          <td><button mat-raised-button class="summary-btn">P. Meseta<br><em>0</em> rpm</button></td>
-        </tr>
-      </table>
-      <button id="summary-confirm" mat-raised-button class="confirm-btn">Confirmar</button>
+  </div>
+
+
+
+
+  <!-- BACK BUTTON -->
+  <a (click)="onBack()" *ngIf="step>0" mat-raised-button id="back-btn" class="lilac-bg blue-color"><fa-icon [icon]="backIcon"></fa-icon></a>
+
+  <!-- KEYBOARD -->
+  <div *ngIf="isKeyboardOpen" class="keyboard">
+    <div class="kb-container" [ngClass]="{'dark-bg': isDarkUI}">
+      <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}">{{keyboardDescription}}</div>
+      <div class="value-changer">
+        <div [ngClass]="{'lilac-text lilac-bottom-border': isDarkUI}" id="value">{{keyboardValue}}</div>
+        <div [ngClass]="{'lilac-text': isDarkUI}" id="unit">{{keyboardUnit}}</div>
+      </div>
+      <div id="error-lbl">&nbsp;{{keyboardError}}</div>
+      <div>
+        <table>
+          <tr>
+            <td>
+              <button (click)="onDigitPressed('1')" mat-raised-button class="digit lilac-bg">1</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('2')" mat-raised-button class="digit lilac-bg">2</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('3')" mat-raised-button class="digit lilac-bg">3</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('-')" mat-raised-button class="digit del-digit" ><img src="assets/dashboard/del-icon.svg"></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button (click)="onDigitPressed('4')" mat-raised-button class="digit lilac-bg">4</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('5')" mat-raised-button class="digit lilac-bg">5</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('6')" mat-raised-button class="digit lilac-bg">6</button>
+            </td>
+            <td>
+              <button (click)="closeKeyboard(false)" mat-button class="digit cancel-digit ">Cancelar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button (click)="onDigitPressed('7')" mat-raised-button class="digit lilac-bg">7</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('8')" mat-raised-button class="digit lilac-bg">8</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('9')" mat-raised-button class="digit lilac-bg">9</button>
+            </td>
+            <td rowspan="2">
+              <button (click)="onChangePressed()" mat-raised-button class="digit change-digit blue-bg white-text">Cambiar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('0')" mat-raised-button class="digit lilac-bg">0</button>
+            </td>
+            <td>
+              <button (click)="onDigitPressed('.')" mat-raised-button class="digit lilac-bg">.</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="isChangeConfirmationOpen" class="keyboard">
+    <div class="confirm-change" [ngClass]="{'dark-bg': isDarkUI}">
+      <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}"><strong>{{keyboardDescription}}</strong><br>será cambiado a:</div>
+      <div class="value-changer">
+        <div [ngClass]="{'lilac-text lilac-bottom-border': isDarkUI}" id="value">{{keyboardValue}}</div>
+        <div [ngClass]="{'lilac-text': isDarkUI}" id="unit">{{keyboardUnit}}</div>
+      </div>
+      <div class="confirm-change-buttons-container">
+        <button (click)="closeConfirm()" mat-raised-button class="confirm-change-btn white-bg lightgrey-text">Cancelar</button>
+        <button (click)="onConfirmChange()" mat-raised-button class="confirm-change-btn yellow-bg">Confirmar</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- BACK BUTTON -->
-<a (click)="onBack()" *ngIf="step>0" mat-raised-button id="back-btn"><fa-icon [icon]="backIcon"></fa-icon></a>

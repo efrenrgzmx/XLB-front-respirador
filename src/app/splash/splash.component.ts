@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./splash.component.css']
 })
 export class SplashComponent implements OnInit {
+  isDarkUI = false;
   beginFade = false;
 
   constructor(public router: Router) { }

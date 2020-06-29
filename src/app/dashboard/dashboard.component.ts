@@ -1,10 +1,11 @@
-import {Component, ViewChild, OnInit} from '@angular/core';
-import {Color, NgChartjsDirective} from 'ng-chartjs';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {NgChartjsDirective} from 'ng-chartjs';
 import 'chartjs-plugin-streaming';
-import { Observable, Subscription } from 'rxjs';
+import {Subscription} from 'rxjs';
 import {WebsocketService} from '../websocket.service';
-import {faBackspace, faExclamationTriangle, faGripLinesVertical, faTimes} from '@fortawesome/free-solid-svg-icons';
-import {faBell, faBellSlash} from '@fortawesome/free-regular-svg-icons';
+import {faChevronLeft, faExclamationTriangle, faPause, faPlay, faQuestion} from '@fortawesome/free-solid-svg-icons';
+import {faEnvelope, faQuestionCircle} from '@fortawesome/free-regular-svg-icons';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -13,7 +14,11 @@ import {faBell, faBellSlash} from '@fortawesome/free-regular-svg-icons';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
+  isDarkUI = false;
+  /**
+   * Time
+   */
+  public now: Date = new Date();
   /**
    * Keyboard Behaviour
    */
@@ -25,26 +30,30 @@ export class DashboardComponent implements OnInit {
   keyboardUnit = '';
   keyboardError = '';
   isChangeConfirmationOpen = false;
+  isFirstChangeDone = false;
 
   /**
    * Alarm Behaviour
    */
   isAlarmActive = false;
-
-  cancelIcon = faTimes;
-  pauseIcon = faGripLinesVertical;
+  isAlarmOpen =  false;
+  pauseIcon = faPause;
   alarmIcon = faExclamationTriangle;
-  bellIcon = faBell;
-  bellSlashedIcon = faBellSlash;
-  backspaceIcon = faBackspace;
+  playIcon = faPlay;
+  questionSoloIcon = faQuestion;
+  alarmTabSelected = 0;
+  currentAlarms = [];
+  alarmHistory = [];
+  currentAlarm : Alarm;
 
   /**
    * Subscription
-   * * **/
+   */
   userInfo: UserInfo;
   settingsInfo: SettingsInfo;
   chartDataSub: Subscription;
   settingsDataSub: Subscription;
+  alertsDataSub: Subscription;
 
 
   /**
@@ -72,8 +81,10 @@ export class DashboardComponent implements OnInit {
 
   /**
    * Behaviour
-   * **/
-  startFlag = false;
+   */
+  isVentilating = 0;
+  isChangeVentilatinigPauseConfirm = false;
+  isChangeVentilatinigPlayConfirm = false;
   paramsValues = [2.5, 10, 400, 30];
   paramsNames = ['TI', 'FREC', 'VT', 'PIP'];
   paramsUnits = ['', '', ''];
@@ -81,25 +92,62 @@ export class DashboardComponent implements OnInit {
   paramName = '';
   paramUnit = '';
   toggleCount = 0;
+  sex = 0;
+  profile = 0;
+  height = 1.70;
+  weight = 70;
+  pmeseta = 15;
+  mode = 0;
 
-  constructor( private socket: WebsocketService) {
+  /**
+   * HELP
+   */
+  backIcon = faChevronLeft;
+  mailIcon = faEnvelope;
+  questionIcon = faQuestionCircle;
+  isHelpOpen = false;
+
+
+  constructor( private socket: WebsocketService, private router: Router) {
+    if (localStorage.getItem('status') !== null && localStorage.getItem('status') === '1') {
+        this.isVentilating = 1;
+    }
+    if (localStorage.getItem('programData') !== null) {
+      const programData: ScreenData = JSON.parse(localStorage.getItem('programData'));
+
+      this.sex = programData.sex;
+      this.profile = programData.profile;
+      this.weight = programData.weight;
+      this.mode = programData.mode;
+
+      console.log(programData);
+      this.paramsValues = [programData.ti, programData.freq, programData.volume, programData.pip];
+      this.toggleCount = -1;
+      this.sendData();
+      this.toggleCount = 0;
+    }
     this.chartInitA();
   }
 
   ngOnInit() {
     this.chartDataSub = this.socket.currentChartData.subscribe(chartData => this.addData(chartData));
     this.settingsDataSub = this.socket.currentSettingsData.subscribe(settingsData => this.onChangeSettings(settingsData));
+    this.alertsDataSub = this.socket.currentAlertData.subscribe(alert => this.onReceiveAlert(alert));
 
     this.paramName = this.paramsNames[this.toggleCount];
     this.changedValue = this.paramsValues[this.toggleCount];
     this.paramUnit = this.paramsUnits[this.toggleCount];
 
+    this.checkAndApplyTheme();
+
+    console.log(this.profile);
   }
 
   addData(sampleData) {
 
-    if(!this.ngChartjsPressure)
+    if (!this.ngChartjsPressure) {
       return;
+    }
 
     sampleData = JSON.parse(sampleData);
     this.userInfo = sampleData;
@@ -120,18 +168,15 @@ export class DashboardComponent implements OnInit {
   chartInitA() {
     this.pressureData = [
       {
+        borderColor: '#F6BE62',
         label: 'Presion',
         fill: false,
-        lineTension: 0,
-        backgroundColor: 'rgb(255,169,140)',
-        borderColor: 'rgba(0, 0, 0, 0.1)',
+        lineTension: 0.2,
         borderCapStyle: 'round',
-        borderDashOffset: 1.0,
         borderJoinStyle: 'round',
-        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
         borderWidth: 2,
         pointRadius: 0,
-        pointHitRadius: 0,
+        pointHitRadius: 5,
         data: [],
       },
     ];
@@ -141,12 +186,10 @@ export class DashboardComponent implements OnInit {
         label: 'Volumen',
         fill: false,
         lineTension: 0,
-        backgroundColor: 'rgb(255,169,140)',
-        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderColor: '#33C4F9',
         borderCapStyle: 'round',
         borderDashOffset: 1.0,
         borderJoinStyle: 'round',
-        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
         borderWidth: 2,
         pointRadius: 0,
         pointHitRadius: 0,
@@ -159,12 +202,10 @@ export class DashboardComponent implements OnInit {
         label: 'Flujo',
         fill: false,
         lineTension: 0,
-        backgroundColor: 'rgb(255,169,140)',
-        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderColor: '#00D6DC',
         borderCapStyle: 'round',
         borderDashOffset: 1.0,
         borderJoinStyle: 'round',
-        pointBorderColor: 'rgba(0, 0, 0, 0.1)',
         borderWidth: 2,
         pointRadius: 0,
         pointHitRadius: 0,
@@ -186,9 +227,9 @@ export class DashboardComponent implements OnInit {
         xAxes: [{
           type: 'realtime',
           realtime: {         // per-axis options
-            duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            duration: 14000,
+            refresh: 500,
+            delay: 1000,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -202,14 +243,15 @@ export class DashboardComponent implements OnInit {
         }],
         yAxes: [{
           ticks: {
-            suggestedMax: 40,
+            suggestedMax: 60,
             suggestedMin: 0,
             display: false
           },
           gridLines: {
             color: 'rgba(240,240,240,1)',
-            display: true,
+            display: false,
             drawBorder: true,
+            drawTicks: false,
           },
         }]
       },
@@ -222,7 +264,7 @@ export class DashboardComponent implements OnInit {
       responsiveAnimationDuration: 0,    // animation duration after a resize
       plugins: {
         streaming: {
-          frameRate: 30              // chart is drawn 5 times every second
+          frameRate: 25              // chart is drawn 5 times every second
         }
       }
     };
@@ -234,9 +276,9 @@ export class DashboardComponent implements OnInit {
         xAxes: [{
           type: 'realtime',
           realtime: {         // per-axis options
-            duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            duration: 14000,
+            refresh: 500,      // onRefresh callback will be called every 1000 ms
+            delay: 1000,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -250,14 +292,15 @@ export class DashboardComponent implements OnInit {
         }],
         yAxes: [{
           ticks: {
-            suggestedMax: 1100,
-            suggestedMin: 400,
+            suggestedMax: 700,
+            suggestedMin: 0,
             display: false
           },
           gridLines: {
             color: 'rgba(240,240,240,1)',
-            display: true,
+            display: false,
             drawBorder: true,
+            drawTicks: false,
           },
         }]
       },
@@ -270,7 +313,7 @@ export class DashboardComponent implements OnInit {
       responsiveAnimationDuration: 0,    // animation duration after a resize
       plugins: {
         streaming: {
-          frameRate: 30              // chart is drawn 5 times every second
+          frameRate: 25              // chart is drawn 5 times every second
         }
       }
     };
@@ -282,9 +325,9 @@ export class DashboardComponent implements OnInit {
         xAxes: [{
           type: 'realtime',
           realtime: {         // per-axis options
-            duration: 14000,    // data in the past 20000 ms will be displayed
-            refresh: 100,      // onRefresh callback will be called every 1000 ms
-            delay: 2500,        // delay of 1000 ms, so upcoming values are known before plotting a line
+            duration: 14000,
+            refresh: 500,
+            delay: 1000,        // delay of 1000 ms, so upcoming values are known before plotting a line
             pause: false,       // chart is not paused
             ttl: undefined,     // data will be automatically deleted as it disappears off the chart
           },
@@ -298,16 +341,17 @@ export class DashboardComponent implements OnInit {
         }],
         yAxes: [{
           ticks: {
-            suggestedMax: 100,
-            suggestedMin: -100,
+            suggestedMax: 120,
+            suggestedMin: -120,
             display: false
           },
           gridLines: {
-            color: 'rgba(240,240,240,1)',
+            color: 'rgba(240,240,240,0)',
             display: true,
             drawBorder: true,
-            zeroLineColor: '#999',
-            zeroLineWidth: 2
+            drawTicks: false,
+            zeroLineColor: '#00D6DC',
+            zeroLineWidth: 1
           },
         }]
       },
@@ -320,7 +364,7 @@ export class DashboardComponent implements OnInit {
       responsiveAnimationDuration: 0,    // animation duration after a resize
       plugins: {
         streaming: {
-          frameRate: 30              // chart is drawn 5 times every second
+          frameRate: 25              // chart is drawn 5 times every second
         }
       }
     };
@@ -335,73 +379,34 @@ export class DashboardComponent implements OnInit {
       this.settingsInfo.settings.vt,
       this.settingsInfo.settings.pip];
 
+    this.isVentilating = this.settingsInfo.settings.ventilating;
+
     this.changedValue = this.paramsValues[this.toggleCount];
   }
 
-  onInitPressed() {
-    this.startFlag = true;
+  onPlayPressed() {
+    this.isChangeVentilatinigPlayConfirm = true;
   }
 
-  onStopPressed() {
-    this.startFlag = false;
+  onPausePressed() {
+    this.isChangeVentilatinigPauseConfirm = true;
   }
 
-  onToggleParam() {
-    this.toggleCount ++;
-    if (this.toggleCount >= this.paramsNames.length) {
-      this.toggleCount = 0;
-    }
-    this.changedValue = this.paramsValues[this.toggleCount];
-    this.paramName = this.paramsNames[this.toggleCount];
-  }
-
-  addValue(){
-
-    if(this.toggleCount === 0) { // I:E
-      if (this.changedValue < 3) {
-        this.changedValue ++;
-      }
-    } else if (this.toggleCount === 1) { // FREC
-      this.changedValue++;
-    } else if (this.toggleCount === 2) { // VT
-      this.changedValue += 50;
-    } else { // PIP
-      if (this.changedValue < 40) {
-        this.changedValue++;
-      }
-    }
-
-  }
-
-  subValue() {
-
-    if (this.toggleCount === 0) {
-      if (this.changedValue - 1 > 0) {
-        this.changedValue --;
-      }
-    } else if (this.toggleCount === 1) {
-      if (this.changedValue > 1) {
-        this.changedValue--;
-      }
-    } else if (this.toggleCount === 2) {
-      if (this.changedValue > 50) {
-        this.changedValue -= 50;
-      }
-    }else {
-      if (this.changedValue > 10) {
-        this.changedValue --;
-      }
-    }
-  }
-
-  onConfirm() {
+  onVentilatingEvent(status) {
+    this.closeConfirm();
     // tslint:disable-next-line:max-line-length
-    this.socket.sendData(`%${this.toggleCount === 0 ? this.changedValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.changedValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.changedValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.changedValue : this.paramsValues[3]}`);
+    this.socket.sendData(`%${this.paramsValues[0]},${this.paramsValues[1]},${this.paramsValues[2]},${this.paramsValues[3]},${status}`);
   }
 
   onDigitPressed(digit: string) {
+    if (this.isFirstChangeDone === false && digit !== '-') {
+      this.isFirstChangeDone = true;
+      this.keyboardValue = '';
+    }
+
     this.keyboardError = '';
     if (digit === '-') {
+      this.isFirstChangeDone = true;
       this.keyboardValue = this.keyboardValue .slice(0, -1);
     } else if (this.keyboardValue.length > 7) {
       return;
@@ -423,6 +428,7 @@ export class DashboardComponent implements OnInit {
     this.keyboardMaxValue = max;
     this.keyboardUnit = unit;
     this.isKeyboardOpen = true;
+    this.isFirstChangeDone = false;
   }
 
   closeKeyboard(isOpeningConfirmation) {
@@ -461,29 +467,179 @@ export class DashboardComponent implements OnInit {
     this.closeConfirm();
   }
 
-  closeConfirm(){
+  closeConfirm() {
+    this.isChangeVentilatinigPauseConfirm = false;
+    this.isChangeVentilatinigPlayConfirm = false;
     this.isChangeConfirmationOpen = false;
   }
 
   sendData() {
-    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]}`);
+    let queuedVentFlag = null;
+    if (localStorage.getItem('status') !== null && this.isVentilating !== 1) {
+        localStorage.removeItem('status');
+        queuedVentFlag = 1;
+    }
+    console.log('con: ' + queuedVentFlag);
+    // tslint:disable-next-line:max-line-length
+    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]},${queuedVentFlag === null ? this.isVentilating : queuedVentFlag}`);
+    queuedVentFlag = null;
   }
 
+  onSettingsPressed() {
+    const screenInfo = new ScreenData();
+
+    if (this.userInfo !== undefined) {
+      screenInfo.freq = this.settingsInfo.settings.freq;
+      screenInfo.ti = this.settingsInfo.settings.ie;
+      screenInfo.volume = this.settingsInfo.settings.vt;
+      screenInfo.pip = this.settingsInfo.settings.pip;
+    } else {
+      screenInfo.freq = this.paramsValues[1];
+      screenInfo.ti = this.paramsValues[0];
+      screenInfo.volume = this.paramsValues[2];
+      screenInfo.pip = this.paramsValues[3];
+    }
+
+    screenInfo.sex = this.sex;
+    screenInfo.pmeseta = this.pmeseta;
+    screenInfo.weight = this.weight;
+    screenInfo.height = this.height;
+    screenInfo.mode = this.mode;
+    screenInfo.profile = this.profile;
+
+    localStorage.setItem('status', `${this.isVentilating}`);
+    localStorage.setItem('settingsStep', JSON.stringify(3));
+    localStorage.setItem('programData', JSON.stringify(screenInfo));
+
+    this.router.navigate(['/patient']);
+  }
+
+  checkAndApplyTheme() {
+    if (localStorage.getItem('theme') !== null) {
+      this.isDarkUI = localStorage.getItem('theme') === '1';
+    }
+  }
+
+  getSexDescription(): string {
+    switch (this.sex) {
+      case 0:
+        return 'Hombre';
+
+      case 1:
+        return 'Mujer';
+    }
+  }
+
+  getProfileDescription(): string {
+    switch (this.profile) {
+      case 0:
+        return 'Adulto';
+
+      case 1:
+        return 'Infante';
+
+      default:
+        return '-';
+    }
+  }
+
+  getModeDescription(): string {
+    switch (this.mode) {
+      case 0:
+        return 'C';
+
+      case 1:
+        return 'A';
+
+      case 2:
+        return 'AC';
+    }
+  }
+
+  onHelpBack() {
+    this.isHelpOpen = false;
+  }
+
+  getIEDescription() {
+    const freq = this.paramsValues[1];
+    const rpm = 60 / freq;
+    const te = rpm - this.paramsValues[0];
+
+    return te / this.paramsValues[0];
+  }
+
+  onAlarmBack() {
+    this.isAlarmOpen = false;
+  }
+
+  onTabPressed(index) {
+    this.alarmTabSelected = index;
+  }
+
+  onReceiveAlert(alert) {
+    this.currentAlarm = JSON.parse(alert);
+    this.currentAlarms.push(this.currentAlarm);
+    this.alarmHistory.push(this.currentAlarm);
+    this.isAlarmActive = true;
+  }
 }
 
 
 export class UserInfo {
   data: {
     chartsData: { paw: number, freq: number, vol: number }
-    params: { ppeak: number, volmin: number, vte: number, ftotal: number, peep: number, pip: number }
+    params: { ppeak: number, volmin: number, vte: number, ftotal: number, peep: number, pip: number, fpeak: number}
   };
 }
 
-export class SettingsInfo{
+export class SettingsInfo {
   settings: {
     ie: number,
     freq: number,
     vt: number,
     pip: number,
+    ventilating: number,
   };
+}
+
+export class ScreenData {
+  freq: number;
+  ti: number;
+  volume: number;
+  pip: number;
+  pmeseta: number;
+  sex: number;
+  height: number;
+  weight: number;
+  profile: number;
+  mode: number;
+}
+
+export class  Alarm {
+  /*
+  0 - Presion
+  2 - Temperatura driver
+  3 - Temperatura Driver Crítica
+  4 - Temperatura Motor
+  5 - Temperatura Motor
+  6 - Corriente Driver Crítica
+   */
+
+  constructor( affectedSector, title, description, value, severity, seen, time) {
+    this.affectedSector = affectedSector;
+    this.title = title;
+    this.description = description;
+    this.value = value;
+    this.severity = severity;
+    this.seen = seen;
+    this.timestamp = time;
+  }
+
+  affectedSector: number;
+  title: string;
+  description: string;
+  value: number;
+  severity: number;
+  seen: boolean;
+  timestamp: Date;
 }

@@ -19,6 +19,10 @@ import { ConfigurationComponent } from './configuration/configuration.component'
 import {MatProgressBar, MatProgressBarModule} from '@angular/material/progress-bar';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatRippleModule} from '@angular/material/core';
+import { KeyboardComponent } from './common/keyboard/keyboard.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { DateAgoPipe } from './piipes/date-ago.pipe';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 
@@ -31,7 +35,9 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     PatientComponent,
     DashboardComponent,
     EditboxComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    KeyboardComponent,
+    DateAgoPipe
   ],
   imports: [
     BrowserModule,
@@ -43,6 +49,9 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatProgressBarModule,
     FontAwesomeModule,
     MatTabsModule,
+    MatRippleModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [WebsocketService],
   bootstrap: [AppComponent]

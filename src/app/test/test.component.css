@@ -1,7 +1,12 @@
+.main-container{
+  width: 100vw;
+  height: 100vh;
+}
+
 .bar-container{
   margin:0 auto;
   width: 50%;
-  padding-top: 30vh;
+  padding-top: 10vh;
 }
 
 .example-margin {
@@ -13,9 +18,19 @@
   text-align: center;
   width: 20px;
   height: 20px;
-  color: lightgrey;
-  border: 1px solid lightgrey;
+  color: #C9D2F3;
+  border: 1px solid #C9D2F3;
   border-radius: 40px;
+}
+
+.error{
+  color: #F66862;
+  border: 1px solid #F66862 !important;
+}
+
+.success{
+  color: #526FDC;
+  border: 1px solid #526FDC !important;
 }
 
 
@@ -35,6 +50,18 @@
   font-weight: lighter;
 }
 
+.title{
+  text-align: center;
+  padding-top: 60px;
+  font-size: 20px;
+}
+
+.img-tidal{
+  text-align: center;
+  margin-top: 30px;
+}
+
+
 /**
 animatated loading
  */
@@ -51,10 +78,10 @@ animatated loading
   stroke-linejoin: round;
 }
 .indicator svg polyline#back {
-  stroke: rgba(200,200,200,0.3);
+  stroke: rgba(82, 140, 249, 0.4);
 }
 .indicator svg polyline#front {
-  stroke: #CCC;
+  stroke: #526FDC;
   stroke-dasharray: 12, 36;
   stroke-dashoffset: 48;
   animation: dash 1s linear infinite;
@@ -63,7 +90,7 @@ animatated loading
   position: fixed;
   bottom: 20px;
   right: 30px;
-  color: #222;
+  color: #526FDC;
   font-weight: bold;
 }
 @-moz-keyframes dash {

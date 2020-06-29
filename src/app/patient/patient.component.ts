@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {faChevronLeft, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-patient',
@@ -8,33 +9,90 @@ import {faChevronLeft, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons'
 })
 export class PatientComponent implements OnInit {
 
+  isDarkUI = false;
+  status = false;
+  /**
+   * Keyboard Behaviour
+   */
+  valueIndex = 0;
+  keyboardValue = '';
+  isKeyboardOpen = false;
+  keyboardDescription = '';
+  keyboardMinValue = 0;
+  keyboardMaxValue = 10;
+  keyboardUnit = '';
+  keyboardError = '';
+  isChangeConfirmationOpen = false;
+  isFirstChangeDone = false;
+
+
+
+
+  routeOrigin = undefined;
+
   plusIcon = faPlus;
   minusIcon = faMinus;
   backIcon = faChevronLeft;
 
-  step = 4;
-  doesFromSummary = false;
+  step = 3;
+  comeFromDashboard = false;
 
   patientTabSelected = 0;
   profile = -1;
   sexSelected = 0;
   mode = -1;
   height = 1.50;
+  weight = 50;
+  doesChangeWeight = false;
 
 
 
   // controlled mode
-  timeSelected = 0;
   freq = 14;
-  ie = 2;
+  ti = 2;
   vol = 8;
   flow = 21;
-  volMaxMin = 400;
+  pip = 30;
+  pmeseta = 15;
 
   configTabSelected = 0;
-  constructor() { }
+  beginVent = false;
+  constructor(private router: Router) {
+    this.status = false;
+  }
 
   ngOnInit(): void {
+    const resStep = localStorage.getItem('settingsStep');
+    const resStatus = localStorage.getItem('status');
+
+    if (resStep !== null && !isNaN(Number(resStep))) {
+      this.step = Number(resStep);
+      if (resStatus !== null) {
+        this.status = resStatus !== '0';
+      }
+
+      if (localStorage.getItem('programData') !== null) {
+        const programData: ScreenData  = JSON.parse(localStorage.getItem('programData'));
+        this.sexSelected = programData.sex;
+        this.profile = programData.profile;
+        this.height = programData.height;
+        this.weight = programData.weight;
+        this.doesChangeWeight = true;
+        this.pip = programData.pip;
+        this.pmeseta = programData.pmeseta;
+        this.mode = programData.mode;
+        this.vol = programData.volume;
+        this.freq = programData.freq;
+        this.ti = programData.ti;
+      }
+
+      this.comeFromDashboard = true;
+
+      localStorage.removeItem('settingsStep');
+      localStorage.removeItem('programData');
+    }
+
+    this.checkAndApplyTheme();
   }
 
   onNewPressed() {
@@ -72,19 +130,34 @@ export class PatientComponent implements OnInit {
     }
   }
 
-  subsHeight(){
+  subsHeight() {
     this.height -= 0.01;
+
+    if (!this.doesChangeWeight) {
+      this.weight = this.height * 100 - 100;
+    }
   }
 
-  addHeight(){
+  addHeight() {
     this.height += 0.01;
-  }
-  isContinuePosible(): boolean {
-    if (this.profile > -1) {
-      return true;
-    } else {
-      return false;
+
+    if (!this.doesChangeWeight) {
+      this.weight = this.height * 100 - 100;
     }
+  }
+
+  subsWeight() {
+    this.weight -= 1;
+    this.doesChangeWeight = true;
+  }
+
+  addWeight() {
+    this.weight += 1;
+    this.doesChangeWeight = true;
+  }
+
+  isContinuePosible(): boolean {
+    return this.profile > -1;
   }
 
   onConfirm() {
@@ -92,7 +165,22 @@ export class PatientComponent implements OnInit {
   }
 
   onBack() {
-    this.step--;
+
+    if (this.comeFromDashboard && this.step === 3) {
+      this.router.navigate(['/dashboard']);
+    }
+
+    if (this.routeOrigin !== undefined) {
+      console.log(this.routeOrigin);
+      this.step = Number(this.routeOrigin);
+    } else {
+      this.step--;
+    }
+  }
+
+  goToStep(lstep, origin) {
+    this.routeOrigin = origin;
+    this.step = lstep;
   }
 
   onChangeMode(modeType) {
@@ -100,45 +188,189 @@ export class PatientComponent implements OnInit {
     this.step++;
   }
 
-  changeFreq(isAdding: boolean) {
-    if (isAdding === true) {
-      this.freq++;
-    } else {
-      this.freq--;
-    }
-  }
-
-  changeIE(isAdding: boolean) {
-    if (isAdding === true) {
-      this.ie++;
-    } else {
-      this.ie--;
-    }
-  }
-
-  changeVolumen(isAdding: boolean) {
-    if (isAdding === true) {
-      this.vol++;
-    } else {
-      this.vol--;
-    }
-  }
-
-  changeFlow(isAdding: boolean) {
-    if (isAdding === true) {
-      this.flow++;
-    } else {
-      this.flow--;
-    }
-  }
-
-  changeVolMaxMin(isAdding: boolean) {
-    if (isAdding === true) {
-      this.volMaxMin++;
-    } else {
-      this.volMaxMin--;
-    }
+  onConfirmVent() {
+    const programData = new ScreenData();
+    programData.sex = this.sexSelected;
+    programData.profile = this.profile;
+    programData.height = this.height;
+    programData.weight = this.weight;
+    programData.pip = this.pip;
+    programData.pmeseta = this.pmeseta;
+    programData.mode = this.mode;
+    programData.volume = this.vol;
+    programData.freq = this.freq;
+    programData.ti = this.ti;
+    localStorage.setItem('programData', JSON.stringify(programData));
+    localStorage.setItem('status', '2');
+    this.router.navigate(['/dashboard']);
   }
 
 
+
+
+  /***
+   * keyboard
+   * */
+  onDigitPressed(digit: string) {
+    if (this.isFirstChangeDone === false && digit !== '-') {
+      this.isFirstChangeDone = true;
+      this.keyboardValue = '';
+    }
+
+    this.keyboardError = '';
+    if (digit === '-') {
+      this.isFirstChangeDone = true;
+      this.keyboardValue = this.keyboardValue .slice(0, -1);
+    } else if (this.keyboardValue.length > 7) {
+      return;
+    } else if (digit === '.') {
+      if (this.keyboardValue.indexOf('.') === -1) {
+        this.keyboardValue += digit;
+      }
+    } else {
+      this.keyboardValue += digit;
+    }
+  }
+
+  openKeyboard(valueIndex, currentValue: number, desc: string, min: number, max: number, unit: string) {
+    this.cleanKeyboardData();
+    this.valueIndex = valueIndex;
+    this.keyboardValue = `${currentValue}`;
+    this.keyboardDescription = desc;
+    this.keyboardMinValue = min;
+    this.keyboardMaxValue = max;
+    this.keyboardUnit = unit;
+    this.isKeyboardOpen = true;
+    this.isFirstChangeDone = false;
+  }
+
+  closeKeyboard(isOpeningConfirmation) {
+    this.isKeyboardOpen = false;
+    if (isOpeningConfirmation) {
+      this.isChangeConfirmationOpen = true;
+    }
+  }
+
+  cleanKeyboardData() {
+    this.keyboardValue = '';
+    this.keyboardDescription = '';
+    this.keyboardMinValue = 0;
+    this.keyboardMaxValue = 0;
+    this.keyboardUnit = '';
+    this.keyboardError = '';
+    this.valueIndex = 0;
+  }
+
+  onChangePressed() {
+    const sendValue = Number(this.keyboardValue);
+    if (!isNaN(sendValue)) {
+      if (sendValue <= this.keyboardMaxValue && sendValue >= this.keyboardMinValue) {
+
+        this.closeKeyboard(true);
+      } else {
+        this.keyboardError = `Los limites de este parametro son entre ${this.keyboardMinValue} y ${this.keyboardMaxValue}`;
+      }
+    } else {
+      this.keyboardError = 'Número invalido';
+    }
+  }
+
+  onConfirmChange() {
+    switch (this.valueIndex) {
+      case 1:
+        this.freq = Number(this.keyboardValue);
+        break;
+      case 2:
+        this.ti = Number(this.keyboardValue);
+        break;
+      case 3:
+        this.vol = Number(this.keyboardValue);
+        break;
+      case 4:
+        this.pip = Number(this.keyboardValue);
+        break;
+      case 4:
+        this.pmeseta = Number(this.keyboardValue);
+        break;
+    }
+    this.closeConfirm();
+  }
+
+  closeConfirm() {
+    this.isChangeConfirmationOpen = false;
+  }
+
+  reset() {
+    this.step = 0;
+    this.patientTabSelected = 0;
+    this.profile = -1;
+    this.sexSelected = 0;
+    this.mode = -1;
+    this.height = 1.50;
+    this.weight = 50;
+
+    this.freq = 14;
+    this.ti = 2;
+    this.vol = 8;
+    this.flow = 21;
+    this.pip = 30;
+    this.pmeseta = 15;
+    this.doesChangeWeight = false;
+  }
+
+  getWeight(): number {
+    if (this.doesChangeWeight) {
+      return this.weight;
+    }
+    return this.height * 100 - 100;
+  }
+
+  onChangeThemePressed() {
+    this.isDarkUI = !this.isDarkUI;
+    localStorage.setItem('theme', this.isDarkUI ? '1' : '0' );
+  }
+
+  checkAndApplyTheme() {
+    if (localStorage.getItem('theme') !== null) {
+      this.isDarkUI = localStorage.getItem('theme') === '1';
+    }
+  }
+
+  onBeginVentConfirmationPressed() {
+
+    if (this.status === false) {
+      this.beginVent = true;
+    }else{
+      console.log('LE SEE');
+      const programData = new ScreenData();
+      programData.sex = this.sexSelected;
+      programData.profile = this.profile;
+      programData.height = this.height;
+      programData.weight = this.weight;
+      programData.pip = this.pip;
+      programData.pmeseta = this.pmeseta;
+      programData.mode = this.mode;
+      programData.volume = this.vol;
+      programData.freq = this.freq;
+      programData.ti = this.ti;
+      localStorage.setItem('programData', JSON.stringify(programData));
+      localStorage.setItem('status', '1');
+      this.router.navigate(['/dashboard']);
+    }
+
+  }
+}
+
+
+export class ScreenData {
+  freq: number;
+  ti: number;
+  volume: number;
+  pip: number;
+  pmeseta: number;
+  sex: number;
+  height: number;
+  weight: number;
+  profile: number;
+  mode: number;
 }

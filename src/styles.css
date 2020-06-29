@@ -15,13 +15,105 @@
 
 @font-face {
   font-family: poppins;
+  src: url(assets/fonts/Poppins-SemiBold.ttf) format("truetype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: poppins;
   src: url(assets/fonts/Poppins-Bold.ttf) format("truetype");
   font-weight: 700;
 }
 
 html, body { padding:0; height: 100%; }
-body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important; overflow: hidden;}
 
+body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important; overflow: hidden; overscroll-behavior: none; user-select: none;}
+.main-container{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+div{
+  transition: background-color 0.5s ease, color 0.2s ease !important;
+}
+
+.dark-bg{
+  background-color: #14263F !important;
+}
+
+.lightgrey-text{
+  color:#6e6e6e;
+}
+
+.h-lightgrey-text{
+  color: #8a8a8a;
+}
+
+.l-white-background{
+  background-color: #F4F4F4;
+}
+
+.white-text{
+  color:white !important;
+}
+
+.lilac-text{
+  color:#C9D2F3 !important;
+}
+
+strong{
+  font-weight: 500;
+}
+
+.white-text em{
+  color:#C9D2F3 !important;
+}
+
+.light-lilac-bg{
+  background-color: #EDF0F7;
+}
+
+
+.lilac-bg{
+  background-color: #C9D2F3 !important;
+}
+
+.blue-bg{
+  background-color:#526FDC !important;
+}
+
+.light-blue-bg{
+  background-color: #33C4F9 !important;
+}
+
+.cyan-color{
+  color:#00D6DC;
+}
+
+.yellow-color{
+  color: #F6BE62;
+}
+
+.salmon-bg{
+  background-color: #FF726C;
+}
+
+.alarm-bg{
+  background-color: #F66862 !important;
+}
+
+.yellow-bg{
+  background-color: #F6BE62;
+}
+
+.t-box-shadow{
+  box-shadow: -6px -6px 17px -2px rgba(255,255,255,0.35) !important;
+}
+
+.blue-color{
+  color: #526FDC;
+}
 
 .reading-block{
   overflow: unset !important;
@@ -36,19 +128,24 @@ body { margin: 0; font-family: poppins, "Helvetica Neue", sans-serif !important;
 
 
 .ng-custom-bar .mat-progress-bar-buffer{
-  background-color: white;
-  border: black;
+  background-color: #DFE5F5;
+  border: transparent;
   border-width: 2px;
 }
 
 .ng-custom-bar .mat-progress-bar-fill::after {
- background-color: lightgrey;
+ background-color: #526FDC;
+  border-radius: 50px;
 }
 
 .mat-progress-bar{
   border-radius: 10px;
-  border: 1px solid #bbb !important;
+  border: 0px solid #bbb !important;
   height: 20px !important;
+}
+
+.white-bg{
+  background-color: white;
 }
 
 
