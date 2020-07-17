@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   keyboardError = '';
   isChangeConfirmationOpen = false;
   isFirstChangeDone = false;
+  isKbValueDecimal = false;
 
   /**
    * Alarm Behaviour
@@ -44,7 +45,8 @@ export class DashboardComponent implements OnInit {
   alarmTabSelected = 0;
   currentAlarms = [];
   alarmHistory = [];
-  currentAlarm : Alarm;
+  currentAlarm: Alarm;
+  localAlarmTime = 3000;
 
   /**
    * Subscription
@@ -85,8 +87,8 @@ export class DashboardComponent implements OnInit {
   isVentilating = 0;
   isChangeVentilatinigPauseConfirm = false;
   isChangeVentilatinigPlayConfirm = false;
-  paramsValues = [2.5, 10, 400, 30];
-  paramsNames = ['TI', 'FREC', 'VT', 'PIP'];
+  paramsValues = [2.5, 10, 400, 30, 5];
+  paramsNames = ['TI', 'FREC', 'VT', 'PIP', 'PEEP'];
   paramsUnits = ['', '', ''];
   changedValue = 0;
   paramName = '';
@@ -151,6 +153,7 @@ export class DashboardComponent implements OnInit {
 
     sampleData = JSON.parse(sampleData);
     this.userInfo = sampleData;
+    this.verifyParamsOnRefresh();
 
     if (this.updateLimiterCounter > this.pointsThreshold) {
 
@@ -377,7 +380,8 @@ export class DashboardComponent implements OnInit {
     this.paramsValues = [this.settingsInfo.settings.ie,
       this.settingsInfo.settings.freq,
       this.settingsInfo.settings.vt,
-      this.settingsInfo.settings.pip];
+      this.settingsInfo.settings.pip,
+      this.settingsInfo.settings.peep];
 
     this.isVentilating = this.settingsInfo.settings.ventilating;
 
@@ -408,8 +412,6 @@ export class DashboardComponent implements OnInit {
     if (digit === '-') {
       this.isFirstChangeDone = true;
       this.keyboardValue = this.keyboardValue .slice(0, -1);
-    } else if (this.keyboardValue.length > 7) {
-      return;
     } else if (digit === '.') {
       if (this.keyboardValue.indexOf('.') === -1) {
         this.keyboardValue += digit;
@@ -419,7 +421,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  openKeyboard(toggle: number, currentValue: number, desc: string, min: number, max: number, unit: string){
+  openKeyboard(toggle: number, currentValue: number, desc: string, min: number, max: number, unit: string, isDecimal:boolean){
     this.cleanKeyboardData();
     this.toggleCount = toggle;
     this.keyboardValue = `${currentValue}`;
@@ -429,6 +431,7 @@ export class DashboardComponent implements OnInit {
     this.keyboardUnit = unit;
     this.isKeyboardOpen = true;
     this.isFirstChangeDone = false;
+    this.isKbValueDecimal = isDecimal;
   }
 
   closeKeyboard(isOpeningConfirmation) {
@@ -481,23 +484,24 @@ export class DashboardComponent implements OnInit {
     }
     console.log('con: ' + queuedVentFlag);
     // tslint:disable-next-line:max-line-length
-    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]},${queuedVentFlag === null ? this.isVentilating : queuedVentFlag}`);
+    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]}, ${this.toggleCount === 4 ? this.keyboardValue : this.paramsValues[4]}, ${queuedVentFlag === null ? this.isVentilating : queuedVentFlag}`);
     queuedVentFlag = null;
   }
 
   onSettingsPressed() {
-    const screenInfo = new ScreenData();
-
-    if (this.userInfo !== undefined) {
+    const screenInfo = new ScreenData()
+    if (this.settingsInfo !== undefined) {
       screenInfo.freq = this.settingsInfo.settings.freq;
       screenInfo.ti = this.settingsInfo.settings.ie;
       screenInfo.volume = this.settingsInfo.settings.vt;
       screenInfo.pip = this.settingsInfo.settings.pip;
+      screenInfo.peep = this.settingsInfo.settings.peep;
     } else {
       screenInfo.freq = this.paramsValues[1];
       screenInfo.ti = this.paramsValues[0];
       screenInfo.volume = this.paramsValues[2];
       screenInfo.pip = this.paramsValues[3];
+      screenInfo.peep = this.paramsValues[4];
     }
 
     screenInfo.sex = this.sex;
@@ -582,6 +586,30 @@ export class DashboardComponent implements OnInit {
     this.alarmHistory.push(this.currentAlarm);
     this.isAlarmActive = true;
   }
+
+  verifyParamsOnRefresh() {
+
+    if(this.userInfo.data.params.ppeak >= this.toggleCount) {
+      const pipAlarm = new Alarm(0, 'Presión pico', 'Presión pico alcanzada', this.userInfo.data.params.fpeak, 1, false, Date.now());
+      this.currentAlarms.push(pipAlarm);
+      this.alarmHistory.push(pipAlarm);
+      const counterLocalAlarm = this.currentAlarms.length - 1;
+      this.currentAlarm = pipAlarm;
+      this.isAlarmActive = true;
+
+      (async () => {
+        await this.delay(this.localAlarmTime);
+        this.isAlarmActive = false;
+        this.currentAlarm = null;
+        this.currentAlarms.splice(counterLocalAlarm, 1);
+      })();
+
+    }
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
 }
 
 
@@ -598,6 +626,7 @@ export class SettingsInfo {
     freq: number,
     vt: number,
     pip: number,
+    peep: number,
     ventilating: number,
   };
 }
@@ -607,6 +636,7 @@ export class ScreenData {
   ti: number;
   volume: number;
   pip: number;
+  peep: number;
   pmeseta: number;
   sex: number;
   height: number;

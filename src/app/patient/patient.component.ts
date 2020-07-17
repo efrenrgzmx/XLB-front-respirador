@@ -367,6 +367,7 @@ export class ScreenData {
   ti: number;
   volume: number;
   pip: number;
+  peep: number;
   pmeseta: number;
   sex: number;
   height: number;

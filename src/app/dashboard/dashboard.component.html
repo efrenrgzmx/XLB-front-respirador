@@ -41,10 +41,11 @@
   <div class="params-container l-white-background">
     <table>
       <tr>
-        <td><button (click)="openKeyboard(1, paramsValues[1],'Frecuencia',1, 100, 'rpm')" mat-raised-button class="param-btn blue-bg lilac-text">Frecuencia<br><em>{{paramsValues[1]}}</em> rpm</button></td>
-        <td><button (click)="openKeyboard(0, paramsValues[0],'Tiempo de inspiración',0, 2.5, 'segundos')" mat-raised-button class="param-btn blue-bg lilac-text">TI<br><em>{{paramsValues[0] | number:'1.1-2'}}</em> segs</button></td>
-        <td><button (click)="openKeyboard(2, paramsValues[2],'Volumen',50, 1300, 'mL')" mat-raised-button class="param-btn blue-bg lilac-text">Volumen<br><em>{{paramsValues[2]}}</em> mL</button></td>
-        <td><button (click)="openKeyboard(3, paramsValues[3],'Peak Inspiratory Pressure',10, 40, 'cmH2O')" mat-raised-button class="param-btn blue-bg lilac-text">PIP<br><em>{{paramsValues[3]}}</em> cmH2O</button></td>
+        <td><button (click)="openKeyboard(1, paramsValues[1],'Frecuencia',1, 100, 'rpm', false)" mat-raised-button class="param-btn blue-bg lilac-text">Frecuencia<br><em>{{paramsValues[1]}}</em> rpm</button></td>
+        <td><button (click)="openKeyboard(0, paramsValues[0],'Tiempo de inspiración',0, 2.5, 'segundos', true)" mat-raised-button class="param-btn blue-bg lilac-text">TI<br><em>{{paramsValues[0] | number:'1.1-2'}}</em> segs</button></td>
+        <td><button (click)="openKeyboard(2, paramsValues[2],'Volumen',50, 1800, 'mL', false)" mat-raised-button class="param-btn blue-bg lilac-text">Volumen<br><em>{{paramsValues[2]}}</em> mL</button></td>
+        <td><button (click)="openKeyboard(3, paramsValues[3],'Peak Inspiratory Pressure',10, 40, 'cmH2O', false)" mat-raised-button class="param-btn blue-bg lilac-text" [ngClass]="{'alarm-bg animated infinite flash slow white-text': currentAlarm?.affectedSector == 0}">PIP<br><em>{{paramsValues[3]}}</em> cmH2O</button></td>
+        <td><button (click)="openKeyboard(4, paramsValues[4],'Positive End Expiratory Pressure',0, 35, 'cmH2O', false)" mat-raised-button class="param-btn blue-bg lilac-text">PEEP<br><em>{{paramsValues[4]}}</em> cmH2O</button></td>
         <!--<td><button mat-raised-button class="param-btn" disabled>PEEP<br><em></em></button></td>-->
       </tr>
     </table>
