@@ -134,6 +134,7 @@
           <tr>
             <td><button (click)="openKeyboard(4, pip,'Peak Inspiratory Pressure',10, 40, 'cmH2O')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">PIP<br><em>{{pip}}</em> cmH2O</button></td>
             <td><button (click)="openKeyboard(5, pmeseta,'Presión Meseta',5, 30, 'mins')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">P. Meseta<br><em>{{pmeseta}}</em> mins</button></td>
+            <td><button (click)="openKeyboard(6, peep,'Positive End Expiratory Pressure',0, 35, 'cmH2O')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">PEEP<br><em>{{peep}}</em> cmH2O</button></td>
           </tr>
         </table>
         <button (click)="onBeginVentConfirmationPressed()" id="summary-confirm" mat-raised-button class="t-box-shadow yellow-bg confirm-btn">Confirmar</button>

@@ -53,6 +53,7 @@ export class PatientComponent implements OnInit {
   vol = 8;
   flow = 21;
   pip = 30;
+  peep = 5;
   pmeseta = 15;
 
   configTabSelected = 0;
@@ -79,6 +80,7 @@ export class PatientComponent implements OnInit {
         this.weight = programData.weight;
         this.doesChangeWeight = true;
         this.pip = programData.pip;
+        this.peep = programData.peep;
         this.pmeseta = programData.pmeseta;
         this.mode = programData.mode;
         this.vol = programData.volume;
@@ -165,7 +167,6 @@ export class PatientComponent implements OnInit {
   }
 
   onBack() {
-
     if (this.comeFromDashboard && this.step === 3) {
       this.router.navigate(['/dashboard']);
     }
@@ -195,6 +196,7 @@ export class PatientComponent implements OnInit {
     programData.height = this.height;
     programData.weight = this.weight;
     programData.pip = this.pip;
+    programData.peep = this.peep;
     programData.pmeseta = this.pmeseta;
     programData.mode = this.mode;
     programData.volume = this.vol;
@@ -289,8 +291,11 @@ export class PatientComponent implements OnInit {
       case 4:
         this.pip = Number(this.keyboardValue);
         break;
-      case 4:
+      case 5:
         this.pmeseta = Number(this.keyboardValue);
+        break;
+      case 6:
+        this.peep = Number(this.keyboardValue);
         break;
     }
     this.closeConfirm();
@@ -314,6 +319,7 @@ export class PatientComponent implements OnInit {
     this.vol = 8;
     this.flow = 21;
     this.pip = 30;
+    this.peep = 5;
     this.pmeseta = 15;
     this.doesChangeWeight = false;
   }
@@ -348,6 +354,7 @@ export class PatientComponent implements OnInit {
       programData.height = this.height;
       programData.weight = this.weight;
       programData.pip = this.pip;
+      programData.peep = this.peep;
       programData.pmeseta = this.pmeseta;
       programData.mode = this.mode;
       programData.volume = this.vol;

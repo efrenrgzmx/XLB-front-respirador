@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
   currentAlarms = [];
   alarmHistory = [];
   currentAlarm: Alarm;
-  localAlarmTime = 3000;
+  localAlarmTime = 5000;
 
   /**
    * Subscription
@@ -590,8 +590,8 @@ export class DashboardComponent implements OnInit {
   }
 
   verifyParamsOnRefresh() {
-
-    if(this.userInfo != null &&  this.userInfo.data.params.ppeak >= this.paramsValues[4]) {
+    if( this.userInfo != null &&  this.userInfo.data.params.ppeak >= this.paramsValues[3]) {
+      if (this.isAlarmActive) { return; }
 
       console.log('ppeak: ' + this.userInfo.data.params.ppeak + ' - ' + this.paramsValues[4]);
       const pipAlarm = new Alarm(0, 'Presión pico', 'Presión pico alcanzada', this.userInfo.data.params.fpeak, 1, false, Date.now());
