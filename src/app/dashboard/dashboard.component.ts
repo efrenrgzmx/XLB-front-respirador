@@ -122,12 +122,14 @@ export class DashboardComponent implements OnInit {
       this.weight = programData.weight;
       this.mode = programData.mode;
 
-      console.log(programData);
-      this.paramsValues = [programData.ti, programData.freq, programData.volume, programData.pip];
+      console.log("programdata: " + programData);
+      this.paramsValues = [programData.ti, programData.freq, programData.volume, programData.pip, programData.peep];
       this.toggleCount = -1;
       this.sendData();
       this.toggleCount = 0;
     }
+
+    this.userInfo = null;
     this.chartInitA();
   }
 
@@ -399,7 +401,7 @@ export class DashboardComponent implements OnInit {
   onVentilatingEvent(status) {
     this.closeConfirm();
     // tslint:disable-next-line:max-line-length
-    this.socket.sendData(`%${this.paramsValues[0]},${this.paramsValues[1]},${this.paramsValues[2]},${this.paramsValues[3]},${status}`);
+    this.socket.sendData(`%${this.paramsValues[0]},${this.paramsValues[1]},${this.paramsValues[2]},${this.paramsValues[3]},${this.paramsValues[4]},${status}`);
   }
 
   onDigitPressed(digit: string) {
@@ -484,7 +486,7 @@ export class DashboardComponent implements OnInit {
     }
     console.log('con: ' + queuedVentFlag);
     // tslint:disable-next-line:max-line-length
-    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]}, ${this.toggleCount === 4 ? this.keyboardValue : this.paramsValues[4]}, ${queuedVentFlag === null ? this.isVentilating : queuedVentFlag}`);
+    this.socket.sendData(`%${this.toggleCount === 0 ? this.keyboardValue : this.paramsValues[0]},${this.toggleCount === 1 ? this.keyboardValue : this.paramsValues[1]},${this.toggleCount === 2 ? this.keyboardValue : this.paramsValues[2]},${this.toggleCount === 3 ? this.keyboardValue : this.paramsValues[3]},${this.toggleCount === 4 ? this.keyboardValue : this.paramsValues[4]},${queuedVentFlag === null ? this.isVentilating : queuedVentFlag}`);
     queuedVentFlag = null;
   }
 
@@ -589,7 +591,9 @@ export class DashboardComponent implements OnInit {
 
   verifyParamsOnRefresh() {
 
-    if(this.userInfo.data.params.ppeak >= this.toggleCount) {
+    if(this.userInfo != null &&  this.userInfo.data.params.ppeak >= this.paramsValues[4]) {
+
+      console.log('ppeak: ' + this.userInfo.data.params.ppeak + ' - ' + this.paramsValues[4]);
       const pipAlarm = new Alarm(0, 'Presión pico', 'Presión pico alcanzada', this.userInfo.data.params.fpeak, 1, false, Date.now());
       this.currentAlarms.push(pipAlarm);
       this.alarmHistory.push(pipAlarm);
