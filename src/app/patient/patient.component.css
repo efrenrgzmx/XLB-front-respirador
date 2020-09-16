@@ -629,11 +629,39 @@
   color: #3D3D3D;
 }
 
+#volume-predict{
+  position: absolute;
+  left: 340px;
+  top: 72px;
+}
+#volume-warning{
+  font-size: 19px;
+  padding-top: 22px;
+  width: 85%;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 29px;
+}
+
 #error-lbl{
   text-align: center;
   margin-top: 5px;
   color: red;
   margin-bottom: 40px;
+}
+
+#mod-icon{
+  width: 24px;
+  position: absolute;
+  left: 744px;
+  top: 136px;
+}
+.confirm-change-volume{
+  width: 457px;
+  height: 405px;
+  background-color: white;
+  margin: 45px auto 0;
+  border-radius: 23px;
 }
 
 .confirm-change{
@@ -643,6 +671,8 @@
   margin: 91px auto 0;
   border-radius: 23px;
 }
+
+
 
 .confirm-change-buttons-container{
   text-align: center;

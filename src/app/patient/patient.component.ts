@@ -64,6 +64,7 @@ export class PatientComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     const resStep = localStorage.getItem('settingsStep');
     const resStatus = localStorage.getItem('status');
 
@@ -89,6 +90,7 @@ export class PatientComponent implements OnInit {
         this.ti = programData.ti;
       }
 
+      this.predictedVol = 8 * this.weight;
       this.comeFromDashboard = true;
 
       localStorage.removeItem('settingsStep');
@@ -278,6 +280,7 @@ export class PatientComponent implements OnInit {
     this.isKeyboardOpen = true;
     this.isFirstChangeDone = false;
     this.isKbValueDecimal = isDecimal;
+
   }
 
   closeKeyboard(isOpeningConfirmation) {
