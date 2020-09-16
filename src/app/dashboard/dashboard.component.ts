@@ -46,7 +46,8 @@ export class DashboardComponent implements OnInit {
   currentAlarms = [];
   alarmHistory = [];
   currentAlarm: Alarm;
-  localAlarmTime = 5000;
+  pipAlarmId = -1;
+  maxPIP = 30;
 
   /**
    * Subscription
@@ -190,7 +191,7 @@ export class DashboardComponent implements OnInit {
       {
         label: 'Volumen',
         fill: false,
-        lineTension: 0,
+        lineTension: 0.2,
         borderColor: '#33C4F9',
         borderCapStyle: 'round',
         borderDashOffset: 1.0,
@@ -206,7 +207,7 @@ export class DashboardComponent implements OnInit {
       {
         label: 'Flujo',
         fill: false,
-        lineTension: 0,
+        lineTension: 0.2,
         borderColor: '#00D6DC',
         borderCapStyle: 'round',
         borderDashOffset: 1.0,
@@ -346,8 +347,8 @@ export class DashboardComponent implements OnInit {
         }],
         yAxes: [{
           ticks: {
-            suggestedMax: 120,
-            suggestedMin: -120,
+            suggestedMax: 50,
+            suggestedMin: -50,
             display: false
           },
           gridLines: {
@@ -405,10 +406,32 @@ export class DashboardComponent implements OnInit {
   }
 
   onDigitPressed(digit: string) {
+    if (!this.isKbValueDecimal && digit === '.') {
+      this.keyboardError = 'Este parametro no acepta decimales';
+      return;
+    }
+
     if (this.isFirstChangeDone === false && digit !== '-') {
       this.isFirstChangeDone = true;
       this.keyboardValue = '';
     }
+
+    const currentValue = this.keyboardValue + digit;
+    let addDecimal = false;
+    if (this.isKbValueDecimal === true) {
+      if(Number(currentValue) > Number(this.keyboardMaxValue)) {
+        this.keyboardError = 'El numero limite para este parametro es ' + this.keyboardMaxValue;
+        return;
+      } else {
+        addDecimal = true;
+      }
+    } else {
+      if(Number(currentValue) > Number(this.keyboardMaxValue)) {
+        this.keyboardError = 'El numero limite para este parametro es ' + this.keyboardMaxValue;
+        return;
+      }
+    }
+
 
     this.keyboardError = '';
     if (digit === '-') {
@@ -419,7 +442,14 @@ export class DashboardComponent implements OnInit {
         this.keyboardValue += digit;
       }
     } else {
+      if(this.isKbValueDecimal && this.keyboardValue.length>=3){
+        this.keyboardError = 'Máximo de decimales encontrado';
+        return;
+      }
       this.keyboardValue += digit;
+      if (this.keyboardValue.indexOf('.') === -1 && addDecimal) {
+        this.keyboardValue += '.' ;
+      }
     }
   }
 
@@ -491,7 +521,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onSettingsPressed() {
-    const screenInfo = new ScreenData()
+    const screenInfo = new ScreenData();
     if (this.settingsInfo !== undefined) {
       screenInfo.freq = this.settingsInfo.settings.freq;
       screenInfo.ti = this.settingsInfo.settings.ie;
@@ -590,29 +620,24 @@ export class DashboardComponent implements OnInit {
   }
 
   verifyParamsOnRefresh() {
-    if( this.userInfo != null &&  this.userInfo.data.params.ppeak >= this.paramsValues[3]) {
-      if (this.isAlarmActive) { return; }
-
+    this.maxPIP = this.paramsValues[3];
+    if (this.userInfo != null &&  this.userInfo.data.params.ppeak >= this.maxPIP) {
+      if (this.isAlarmActive && this.currentAlarm.affectedSector === 0) { return; }
       console.log('ppeak: ' + this.userInfo.data.params.ppeak + ' - ' + this.paramsValues[4]);
       const pipAlarm = new Alarm(0, 'Presión pico', 'Presión pico alcanzada', this.userInfo.data.params.fpeak, 1, false, Date.now());
       this.currentAlarms.push(pipAlarm);
       this.alarmHistory.push(pipAlarm);
-      const counterLocalAlarm = this.currentAlarms.length - 1;
+      this.pipAlarmId = this.currentAlarms.length - 1;
       this.currentAlarm = pipAlarm;
       this.isAlarmActive = true;
 
-      (async () => {
-        await this.delay(this.localAlarmTime);
-        this.isAlarmActive = false;
-        this.currentAlarm = null;
-        this.currentAlarms.splice(counterLocalAlarm, 1);
-      })();
-
+    } else if (this.userInfo != null &&  this.userInfo.data.params.ppeak < this.paramsValues[3]) {
+      console.log(this.pipAlarmId);
+      this.isAlarmActive = false;
+      this.currentAlarm = null;
+      this.currentAlarms.splice(this.pipAlarmId, 1);
+      this.pipAlarmId = -1;
     }
-  }
-
-  delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 }
 

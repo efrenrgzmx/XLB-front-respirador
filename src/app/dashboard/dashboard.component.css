@@ -41,7 +41,7 @@
 }
 
 .alarm-legend{
-  width: 506px;
+  width: 625px;
   height: 50px;
   border-left: 1px solid #C9D2F3;
   display: flex;
@@ -83,12 +83,43 @@
 }
 
 .right-summary-container{
-  width: 160px;
+  width: 175px;
   border-left: 1px solid #C9D2F3;
 }
 
+.right-summary-container table{
+  text-align: center;
+  padding-left: 5px;
+}
+
+
+.right-summary-container td{
+  padding-bottom: 10px;
+}
+
+.main-info{
+  margin-top:34px;
+}
+
+.info-title{
+  line-height: 2.5;
+  width: 85px;
+  font-size: 12px;
+  font-weight: lighter;
+}
+
+.info-amount{
+  font-size: 20px;
+}
+
+.info-unit{
+
+}
+
 .prog-btn{
-  width: 145px;
+  min-width: 50px !important;
+  padding: 0;
+  width: 50px;
   height: 50px;
   border-radius: 10px;
   margin-left: 6px;
@@ -97,12 +128,22 @@
   color: #6e6e6e;
 }
 
+.prog-btn img{
+  margin: 0 auto;
+  width: 30px;
+  height: 30px;
+}
+
 .right-summary-container h2{
   font-size: 16px;
-  margin-top: 10px;
+  line-height: 1.5;
   margin-left: 6px;
   color: #6E6E6E;
   margin-bottom: 0;
+}
+
+.right-summary-container hr{
+
 }
 
 #summary-info{

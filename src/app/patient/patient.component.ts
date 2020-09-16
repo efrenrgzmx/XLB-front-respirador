@@ -24,8 +24,7 @@ export class PatientComponent implements OnInit {
   keyboardError = '';
   isChangeConfirmationOpen = false;
   isFirstChangeDone = false;
-
-
+  isKbValueDecimal = false;
 
 
   routeOrigin = undefined;
@@ -44,7 +43,6 @@ export class PatientComponent implements OnInit {
   height = 1.50;
   weight = 50;
   doesChangeWeight = false;
-
 
 
   // controlled mode
@@ -91,7 +89,7 @@ export class PatientComponent implements OnInit {
       this.comeFromDashboard = true;
 
       localStorage.removeItem('settingsStep');
-      localStorage.removeItem('programData');
+      // localStorage.removeItem('programData');
     }
 
     this.checkAndApplyTheme();
@@ -208,35 +206,60 @@ export class PatientComponent implements OnInit {
   }
 
 
-
-
   /***
    * keyboard
    * */
   onDigitPressed(digit: string) {
+    if (!this.isKbValueDecimal && digit === '.') {
+      this.keyboardError = 'Este parametro no acepta decimales';
+      return;
+    }
+
     if (this.isFirstChangeDone === false && digit !== '-') {
       this.isFirstChangeDone = true;
       this.keyboardValue = '';
     }
 
+    const currentValue = this.keyboardValue + digit;
+    let addDecimal = false;
+    if (this.isKbValueDecimal === true) {
+      if(Number(currentValue) > Number(this.keyboardMaxValue)) {
+        this.keyboardError = 'El numero limite para este parametro es ' + this.keyboardMaxValue;
+        return;
+      } else {
+        addDecimal = true;
+      }
+    } else {
+      if(Number(currentValue) > Number(this.keyboardMaxValue)) {
+        this.keyboardError = 'El numero limite para este parametro es ' + this.keyboardMaxValue;
+        return;
+      }
+    }
+
+
     this.keyboardError = '';
     if (digit === '-') {
       this.isFirstChangeDone = true;
       this.keyboardValue = this.keyboardValue .slice(0, -1);
-    } else if (this.keyboardValue.length > 7) {
-      return;
     } else if (digit === '.') {
       if (this.keyboardValue.indexOf('.') === -1) {
         this.keyboardValue += digit;
       }
     } else {
+      if(this.isKbValueDecimal && this.keyboardValue.length>=3){
+        this.keyboardError = 'Máximo de decimales encontrado';
+        return;
+      }
       this.keyboardValue += digit;
+      if (this.keyboardValue.indexOf('.') === -1 && addDecimal) {
+        this.keyboardValue += '.' ;
+      }
     }
   }
 
-  openKeyboard(valueIndex, currentValue: number, desc: string, min: number, max: number, unit: string) {
+  openKeyboard(toggle: number, currentValue: number, desc: string, min: number, max: number, unit: string, isDecimal:boolean){
     this.cleanKeyboardData();
-    this.valueIndex = valueIndex;
+    this.valueIndex = toggle;
     this.keyboardValue = `${currentValue}`;
     this.keyboardDescription = desc;
     this.keyboardMinValue = min;
@@ -244,6 +267,7 @@ export class PatientComponent implements OnInit {
     this.keyboardUnit = unit;
     this.isKeyboardOpen = true;
     this.isFirstChangeDone = false;
+    this.isKbValueDecimal = isDecimal;
   }
 
   closeKeyboard(isOpeningConfirmation) {
@@ -323,6 +347,7 @@ export class PatientComponent implements OnInit {
     this.pmeseta = 15;
     this.doesChangeWeight = false;
   }
+
 
   getWeight(): number {
     if (this.doesChangeWeight) {
