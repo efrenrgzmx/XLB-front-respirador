@@ -356,7 +356,7 @@ export class DashboardComponent implements OnInit {
             display: true,
             drawBorder: true,
             drawTicks: false,
-            zeroLineColor: '#00D6DC',
+            zeroLineColor: '#C9D2F3',
             zeroLineWidth: 1
           },
         }]
