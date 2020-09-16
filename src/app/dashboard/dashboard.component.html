@@ -85,11 +85,11 @@
   <div id="pressure-lbl">Presión<br><em>{{userInfo?.data.chartsData.paw}} cmH2O</em></div>
   <div id="volume-lbl">Volumen<br><em>{{userInfo?.data.chartsData.vol}} mL</em></div>
   <div id="flow-lbl">Flujo<br><em>{{userInfo?.data.chartsData.freq}} l/min</em></div>
-  <div id="ppeak-lbl"><em>PPeak:</em> {{userInfo?.data.params.ppeak}} cmH2O</div>
+<!--  <div id="ppeak-lbl"><em>PPeak:</em> {{userInfo?.data.params.ppeak}} cmH2O</div>
   <div id="vpeak-lbl"><em>VPeak:</em> {{userInfo?.data.params.vte}} mL</div>
   <div id="fpeak-lbl"><em>FPeak:</em> {{userInfo?.data.params.fpeak}} l/min</div>
   <div id="profile-lbl" [ngClass]="{'blue-color': this.profile === 0 , 'cyan-color': this.profile === 1 }">{{getProfileDescription()}}</div>
-
+-->
   <div *ngIf="isKeyboardOpen" class="keyboard">
     <div class="kb-container" [ngClass]="{'dark-bg': isDarkUI}">
       <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}">{{keyboardDescription}}</div>
@@ -98,6 +98,7 @@
         <div [ngClass]="{'lilac-text': isDarkUI}" id="unit">{{keyboardUnit}}</div>
       </div>
       <div id="error-lbl">&nbsp;{{keyboardError}}</div>
+      <div *ngIf="toggleCount==2" id="volume-predict" class="cyan-color">Calculado: {{predictedVol}} mL</div>
       <div id="ie-kb-desc" *ngIf="toggleCount<2" [ngClass]="{'lilac-text': isDarkUI}">&nbsp;I:E 1:{{getIEDescription() | number:'1.1-2'}}</div>
       <div>
         <table>
@@ -159,7 +160,7 @@
   </div>
 
 
-  <div *ngIf="isChangeConfirmationOpen" class="keyboard">
+  <div *ngIf="isChangeConfirmationOpen && toggleCount!=2" class="keyboard">
     <div class="confirm-change" [ngClass]="{'dark-bg': isDarkUI}">
       <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}"><strong>{{keyboardDescription}}</strong><br>será cambiado a:</div>
       <div class="value-changer">
@@ -172,6 +173,24 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="isChangeConfirmationOpen && toggleCount==2" class="keyboard">
+    <div class="confirm-change-volume" [ngClass]="{'dark-bg': isDarkUI}">
+      <div id="volume-warning" class="yellow-color">
+        Modificar el Volumen tidal calculado de acuerdo al peso predicho puede ser peligroso.
+      </div>
+      <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}"><strong>{{keyboardDescription}}</strong> será cambiado a:</div>
+      <div class="value-changer">
+        <div [ngClass]="{'lilac-text lilac-bottom-border': isDarkUI}" id="value">{{keyboardValue}}</div>
+        <div [ngClass]="{'lilac-text': isDarkUI}" id="unit">{{keyboardUnit}}</div>
+      </div>
+      <div class="confirm-change-buttons-container">
+        <button (click)="closeConfirm()" mat-raised-button class="confirm-change-btn white-bg lightgrey-text">Cancelar</button>
+        <button (click)="onConfirmChange()" mat-raised-button class="confirm-change-btn yellow-bg">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
 
   <div *ngIf="isChangeVentilatinigPauseConfirm" class="keyboard">
     <div class="confirm-change" [ngClass]="{'dark-bg': isDarkUI}">
@@ -212,7 +231,6 @@
   </div>
 </div>
 
-
 <!-- Alarmas -->
 <div *ngIf="isAlarmOpen" class="main-container white-bg help" [ngClass]="{'dark-bg': isDarkUI}">
   <a (click)="onAlarmBack()" mat-raised-button id="alarm-back-btn" class="lilac-bg blue-color"><fa-icon [icon]="backIcon"></fa-icon></a>
@@ -252,4 +270,6 @@
     </div>
   </div>
 </div>
+
+<div id="mod-icon" *ngIf="this.paramsValues[2]!=predictedVol"><img src="assets/dashboard/mod-icon.svg"></div>
 

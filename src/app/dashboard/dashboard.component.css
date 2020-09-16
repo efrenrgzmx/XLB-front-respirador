@@ -620,3 +620,35 @@
   left: 0;
   color: #636363;
 }
+
+#mod-icon{
+  position: absolute;
+  width: 24px;
+  top: 409px;
+  left:445px
+}
+
+
+.confirm-change-volume{
+  width: 457px;
+  height: 405px;
+  background-color: white;
+  margin: 45px auto 0;
+  border-radius: 23px;
+}
+
+#volume-warning{
+  font-size: 19px;
+  padding-top: 22px;
+  width: 85%;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 29px;
+}
+
+
+#volume-predict{
+  position: absolute;
+  left: 340px;
+  top: 72px;
+}

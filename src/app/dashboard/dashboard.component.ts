@@ -101,6 +101,7 @@ export class DashboardComponent implements OnInit {
   weight = 70;
   pmeseta = 15;
   mode = 0;
+  predictedVol = 0;
 
   /**
    * HELP
@@ -132,6 +133,8 @@ export class DashboardComponent implements OnInit {
 
     this.userInfo = null;
     this.chartInitA();
+
+    this.predictedVol = 8 * this.weight;
   }
 
   ngOnInit() {
