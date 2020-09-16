@@ -10,7 +10,9 @@ export class SplashComponent implements OnInit {
   isDarkUI = false;
   beginFade = false;
 
-  constructor(public router: Router) { }
+  constructor(public router: Router) {
+    localStorage.removeItem('programData');
+  }
 
   ngOnInit(): void {
     (async () => {

@@ -118,7 +118,8 @@
         </div>
         <div>
           <div><button (click)="goToStep(1, 3)" class="t-box-shadow lilac-bg" mat-raised-button>Editar paciente</button></div>
-          <div><button (click)="goToStep(2, 3)" class="t-box-shadow lilac-bg" mat-raised-button>Cambiar Modo</button></div>
+          <!--<div><button (click)="goToStep(2, 3)" class="t-box-shadow lilac-bg" mat-raised-button>Cambiar Modo</button></div> -->
+          <div><button class="t-box-shadow lilac-bg" mat-raised-button>Cambiar Modo</button></div>
           <div><button (click)="reset()" class="t-box-shadow salmon-bg white-text" mat-raised-button>Restablecer</button></div>
         </div>
       </div>
@@ -127,13 +128,14 @@
         <div class="summary-title">Modo controlado</div>
         <table>
           <tr>
-            <td><button (click)="openKeyboard(1, freq,'Frecuencia',1, 100, 'rpm')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Frecuencia<br><em>{{freq}}</em> rpm</button></td>
-            <td><button (click)="openKeyboard( 2, ti,'Tiempo de inspiración',0, 2.5, 'segundos')"mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Ti<br><em>{{ti}}</em> segs</button></td>
-            <td><button (click)="openKeyboard( 3, vol,'Volumen',50, 1300, 'mL')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">VT<br><em>{{vol}}</em> mL</button></td>
+            <td><button (click)="openKeyboard(1, freq,'Frecuencia',1, 100, 'rpm', false)" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Frecuencia<br><em>{{freq}}</em> rpm</button></td>
+            <td><button (click)="openKeyboard( 2, ti,'Tiempo de inspiración',0, 2.5, 'segundos', true)"mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Ti<br><em>{{ti}}</em> segs</button></td>
+            <td><button (click)="openKeyboard( 3, vol,'Volumen',50, 900, 'mL', false)" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">VT<br><em>{{vol}}</em> mL</button></td>
           </tr>
           <tr>
-            <td><button (click)="openKeyboard(4, pip,'Peak Inspiratory Pressure',10, 40, 'cmH2O')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">PIP<br><em>{{pip}}</em> cmH2O</button></td>
-            <td><button (click)="openKeyboard(5, pmeseta,'Presión Meseta',5, 30, 'mins')" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">P. Meseta<br><em>{{pmeseta}}</em> mins</button></td>
+            <td><button (click)="openKeyboard(4, pip,'Peak Inspiratory Pressure',10, 60, 'cmH2O', false)" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">PIP<br><em>{{pip}}</em> cmH2O</button></td>
+            <!--<td><button (click)="openKeyboard(5, pmeseta,'Presión Meseta',5, 30, 'mins', false)" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">P. Meseta<br><em>{{pmeseta}}</em> mins</button></td>-->
+            <td><button (click)="openKeyboard(6, peep,'Positive End Expiratory Pressure',0, 35, 'cmH2O', false)" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">PEEP<br><em>{{peep}}</em> cmH2O</button></td>
           </tr>
         </table>
         <button (click)="onBeginVentConfirmationPressed()" id="summary-confirm" mat-raised-button class="t-box-shadow yellow-bg confirm-btn">Confirmar</button>

@@ -1,15 +1,12 @@
 <div class="main-container">
-  <div id="top-bar">
+  <div id="top-bar" [ngClass]="{'dark-bg': isDarkUI}">
     <div [ngClass]="{'dark-bg': isDarkUI}"  id="mode-active" class="l-white-background">{{getModeDescription()}}</div>
     <!--<button mat-button class="close-btn"><img src="assets/dashboard/close-icon.svg"></button>-->
     <button *ngIf="isVentilating === 1" (click)="onPausePressed()" mat-button class="pause-btn"><fa-icon [icon]="pauseIcon"></fa-icon></button>
     <button *ngIf="isVentilating === 0" (click)="onPlayPressed()" mat-button class="pause-btn"><fa-icon [icon]="playIcon"></fa-icon></button>
-    <button class="blue-bg lilac-text" id="meseta-btn" mat-button>P. Meseta</button>
+    <!--<button class="blue-bg lilac-text" id="meseta-btn" mat-button>P. Meseta</button>-->
     <div *ngIf="isAlarmActive" class="alarm-legend" [ngClass]="{'alarm-bg': isAlarmActive}"><fa-icon class="animated flash infinite slow" *ngIf="isAlarmActive" [icon]="alarmIcon"></fa-icon> <p *ngIf="isAlarmActive">{{currentAlarm.title | titlecase}}</p></div>
     <button *ngIf="isAlarmActive"  mat-button class="bell-container" disabled><img src="assets/dashboard/alarm-icon.svg"></button>
-    <div [ngClass]="{'dark-bg lilac-text': isDarkUI}" *ngIf="!isAlarmActive" class="dashboard-time blue-color">
-      <p>{{now | date: 'd/MM/yy H:mm'}}</p>
-    </div>
   </div>
   <div class="middle-container">
     <div class="left-charts-container" [ngClass]="{'dark-bg': isDarkUI}">
@@ -23,28 +20,61 @@
               [options]="chartOptionsFlow" [colors]="['']" [legend]="lineChartLegend" [labels]="flowLbls" [chartType]="'line'" #ngChartjsFlow="ngChartjs">
       </canvas>
     </div>
-    <div class="right-summary-container l-white-background">
-      <div><button (click)="onSettingsPressed()" mat-raised-button class="lilac-bg prog-btn">Configurar</button></div>
-      <div><button (click)="isAlarmOpen=true" mat-raised-button class="lilac-bg prog-btn">Alertas</button></div>
-      <div><button (click)="isHelpOpen=true" mat-raised-button class="lilac-bg prog-btn">Ayuda</button></div>
+    <div class="right-summary-container l-white-background" [ngClass]="{'dark-bg': isDarkUI}">
+      <div>
+        <button [ngClass]="{'t-box-shadow': isDarkUI}" (click)="onSettingsPressed()" mat-raised-button class="lilac-bg prog-btn"><img src="assets/dashboard/config-icon.svg"></button>
+        <button [ngClass]="{'t-box-shadow': isDarkUI}" (click)="isAlarmOpen=true" mat-raised-button class="lilac-bg prog-btn"><img src="assets/dashboard/alert-icon.svg"></button>
+        <button [ngClass]="{'t-box-shadow': isDarkUI}" (click)="isHelpOpen=true" mat-raised-button class="lilac-bg prog-btn"><img src="assets/dashboard/help-icon.svg"></button>
+      </div>
 
-      <h2>Paciente</h2>
-      <div id="summary-info">
-        Sexo: <strong>{{getSexDescription()}}</strong><br>
-        Altura: <strong>{{height}} m.</strong><br>
-        Peso: <strong>{{weight}} Kg.</strong><br>
-        Perfil: <strong>{{getProfileDescription()}}</strong><br>
+      <div class="main-info">
+        <table>
+          <tr>
+            <td>
+              <div class="info-title" [ngClass]="{'lilac-text': isDarkUI}">P. de volumen</div>
+              <div class="info-amount cyan-color"><!--{{userInfo?.data.chartsData.vol}}-->520</div>
+              <div class="info-unit cyan-color">mL</div>
+            </td>
+            <td>
+              <div class="info-title" [ngClass]="{'lilac-text': isDarkUI}">Ti</div>
+              <div class="info-amount cyan-color">{{paramsValues[0]}}</div>
+              <div class="info-unit cyan-color">mL</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="info-title" [ngClass]="{'lilac-text': isDarkUI}">PIP</div>
+              <div class="info-amount yellow-color"><!--{{userInfo?.data.params.pip}}-->22</div>
+              <div class="info-unit yellow-color">cmH2O</div>
+            </td>
+            <td>
+              <div class="info-title" [ngClass]="{'lilac-text': isDarkUI}">PEEP</div>
+              <div class="info-amount yellow-color"><!--{{userInfo?.data.params.peep}}-->33</div>
+              <div class="info-unit yellow-color">cmH2O</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <hr>
+      <h2 [ngClass]="{'lilac-text': isDarkUI}">Paciente</h2>
+      <div id="summary-info" [ngClass]="{'lilac-text': isDarkUI}">
+
+        <strong>{{height}} m</strong>/
+        <strong>{{weight}} kg</strong>
+
       </div>
     </div>
   </div>
 
-  <div class="params-container l-white-background">
+  <div class="params-container l-white-background" [ngClass]="{'dark-bg': isDarkUI}">
     <table>
       <tr>
-        <td><button (click)="openKeyboard(1, paramsValues[1],'Frecuencia',1, 100, 'rpm')" mat-raised-button class="param-btn blue-bg lilac-text">Frecuencia<br><em>{{paramsValues[1]}}</em> rpm</button></td>
-        <td><button (click)="openKeyboard(0, paramsValues[0],'Tiempo de inspiración',0, 2.5, 'segundos')" mat-raised-button class="param-btn blue-bg lilac-text">TI<br><em>{{paramsValues[0] | number:'1.1-2'}}</em> segs</button></td>
-        <td><button (click)="openKeyboard(2, paramsValues[2],'Volumen',50, 1300, 'mL')" mat-raised-button class="param-btn blue-bg lilac-text">Volumen<br><em>{{paramsValues[2]}}</em> mL</button></td>
-        <td><button (click)="openKeyboard(3, paramsValues[3],'Peak Inspiratory Pressure',10, 40, 'cmH2O')" mat-raised-button class="param-btn blue-bg lilac-text">PIP<br><em>{{paramsValues[3]}}</em> cmH2O</button></td>
+        <td><button [ngClass]="{'t-box-shadow': isDarkUI}" (click)="openKeyboard(1, paramsValues[1],'Frecuencia',1, 100, 'rpm', false)" mat-raised-button class="param-btn blue-bg lilac-text">Frecuencia<br><em>{{paramsValues[1]}}</em> rpm</button></td>
+        <td><button [ngClass]="{'t-box-shadow': isDarkUI}" (click)="openKeyboard(0, paramsValues[0],'Tiempo de inspiración',0, 2.5, 'segundos', true)" mat-raised-button class="param-btn blue-bg lilac-text">TI<br><em>{{paramsValues[0] | number:'1.1-2'}}</em> segs</button></td>
+        <td><button [ngClass]="{'t-box-shadow': isDarkUI}" (click)="openKeyboard(2, paramsValues[2],'Volumen',50, 900, 'mL', false)" mat-raised-button class="param-btn blue-bg lilac-text">Volumen<br><em>{{paramsValues[2]}}</em> mL</button></td>
+        <td><button (click)="openKeyboard(3, paramsValues[3],'Peak Inspiratory Pressure',10, 60, 'cmH2O', false)" mat-raised-button class="param-btn blue-bg lilac-text" [ngClass]="{'alarm-bg animated infinite flash slow white-text': pipAlarmId >= 0, 't-box-shadow': isDarkUI}">PIP<br><em>{{paramsValues[3]}}</em> cmH2O</button></td>
+        <td><button [ngClass]="{'t-box-shadow': isDarkUI}" (click)="openKeyboard(4, paramsValues[4],'Positive End Expiratory Pressure',0, 35, 'cmH2O', false)" mat-raised-button class="param-btn blue-bg lilac-text">PEEP<br><em>{{paramsValues[4]}}</em> cmH2O</button></td>
         <!--<td><button mat-raised-button class="param-btn" disabled>PEEP<br><em></em></button></td>-->
       </tr>
     </table>
@@ -68,7 +98,7 @@
         <div [ngClass]="{'lilac-text': isDarkUI}" id="unit">{{keyboardUnit}}</div>
       </div>
       <div id="error-lbl">&nbsp;{{keyboardError}}</div>
-      <div id="ie-kb-desc" *ngIf="toggleCount<2" [ngClass]="{'lilac-text': isDarkUI}">&nbsp;I:E 1:{{getIEDescription()}}</div>
+      <div id="ie-kb-desc" *ngIf="toggleCount<2" [ngClass]="{'lilac-text': isDarkUI}">&nbsp;I:E 1:{{getIEDescription() | number:'1.1-2'}}</div>
       <div>
         <table>
           <tr>

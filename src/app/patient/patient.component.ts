@@ -24,8 +24,7 @@ export class PatientComponent implements OnInit {
   keyboardError = '';
   isChangeConfirmationOpen = false;
   isFirstChangeDone = false;
-
-
+  isKbValueDecimal = false;
 
 
   routeOrigin = undefined;
@@ -46,13 +45,13 @@ export class PatientComponent implements OnInit {
   doesChangeWeight = false;
 
 
-
   // controlled mode
   freq = 14;
   ti = 2;
   vol = 8;
   flow = 21;
   pip = 30;
+  peep = 5;
   pmeseta = 15;
 
   configTabSelected = 0;
@@ -79,6 +78,7 @@ export class PatientComponent implements OnInit {
         this.weight = programData.weight;
         this.doesChangeWeight = true;
         this.pip = programData.pip;
+        this.peep = programData.peep;
         this.pmeseta = programData.pmeseta;
         this.mode = programData.mode;
         this.vol = programData.volume;
@@ -89,7 +89,7 @@ export class PatientComponent implements OnInit {
       this.comeFromDashboard = true;
 
       localStorage.removeItem('settingsStep');
-      localStorage.removeItem('programData');
+      // localStorage.removeItem('programData');
     }
 
     this.checkAndApplyTheme();
@@ -165,7 +165,6 @@ export class PatientComponent implements OnInit {
   }
 
   onBack() {
-
     if (this.comeFromDashboard && this.step === 3) {
       this.router.navigate(['/dashboard']);
     }
@@ -195,6 +194,7 @@ export class PatientComponent implements OnInit {
     programData.height = this.height;
     programData.weight = this.weight;
     programData.pip = this.pip;
+    programData.peep = this.peep;
     programData.pmeseta = this.pmeseta;
     programData.mode = this.mode;
     programData.volume = this.vol;
@@ -206,35 +206,60 @@ export class PatientComponent implements OnInit {
   }
 
 
-
-
   /***
    * keyboard
    * */
   onDigitPressed(digit: string) {
+    if (!this.isKbValueDecimal && digit === '.') {
+      this.keyboardError = 'Este parametro no acepta decimales';
+      return;
+    }
+
     if (this.isFirstChangeDone === false && digit !== '-') {
       this.isFirstChangeDone = true;
       this.keyboardValue = '';
     }
 
+    const currentValue = this.keyboardValue + digit;
+    let addDecimal = false;
+    if (this.isKbValueDecimal === true) {
+      if(Number(currentValue) > Number(this.keyboardMaxValue)) {
+        this.keyboardError = 'El numero limite para este parametro es ' + this.keyboardMaxValue;
+        return;
+      } else {
+        addDecimal = true;
+      }
+    } else {
+      if(Number(currentValue) > Number(this.keyboardMaxValue)) {
+        this.keyboardError = 'El numero limite para este parametro es ' + this.keyboardMaxValue;
+        return;
+      }
+    }
+
+
     this.keyboardError = '';
     if (digit === '-') {
       this.isFirstChangeDone = true;
       this.keyboardValue = this.keyboardValue .slice(0, -1);
-    } else if (this.keyboardValue.length > 7) {
-      return;
     } else if (digit === '.') {
       if (this.keyboardValue.indexOf('.') === -1) {
         this.keyboardValue += digit;
       }
     } else {
+      if(this.isKbValueDecimal && this.keyboardValue.length>=3){
+        this.keyboardError = 'Máximo de decimales encontrado';
+        return;
+      }
       this.keyboardValue += digit;
+      if (this.keyboardValue.indexOf('.') === -1 && addDecimal) {
+        this.keyboardValue += '.' ;
+      }
     }
   }
 
-  openKeyboard(valueIndex, currentValue: number, desc: string, min: number, max: number, unit: string) {
+  openKeyboard(toggle: number, currentValue: number, desc: string, min: number, max: number, unit: string, isDecimal:boolean){
     this.cleanKeyboardData();
-    this.valueIndex = valueIndex;
+    this.valueIndex = toggle;
     this.keyboardValue = `${currentValue}`;
     this.keyboardDescription = desc;
     this.keyboardMinValue = min;
@@ -242,6 +267,7 @@ export class PatientComponent implements OnInit {
     this.keyboardUnit = unit;
     this.isKeyboardOpen = true;
     this.isFirstChangeDone = false;
+    this.isKbValueDecimal = isDecimal;
   }
 
   closeKeyboard(isOpeningConfirmation) {
@@ -289,8 +315,11 @@ export class PatientComponent implements OnInit {
       case 4:
         this.pip = Number(this.keyboardValue);
         break;
-      case 4:
+      case 5:
         this.pmeseta = Number(this.keyboardValue);
+        break;
+      case 6:
+        this.peep = Number(this.keyboardValue);
         break;
     }
     this.closeConfirm();
@@ -314,9 +343,11 @@ export class PatientComponent implements OnInit {
     this.vol = 8;
     this.flow = 21;
     this.pip = 30;
+    this.peep = 5;
     this.pmeseta = 15;
     this.doesChangeWeight = false;
   }
+
 
   getWeight(): number {
     if (this.doesChangeWeight) {
@@ -348,6 +379,7 @@ export class PatientComponent implements OnInit {
       programData.height = this.height;
       programData.weight = this.weight;
       programData.pip = this.pip;
+      programData.peep = this.peep;
       programData.pmeseta = this.pmeseta;
       programData.mode = this.mode;
       programData.volume = this.vol;
@@ -367,6 +399,7 @@ export class ScreenData {
   ti: number;
   volume: number;
   pip: number;
+  peep: number;
   pmeseta: number;
   sex: number;
   height: number;
