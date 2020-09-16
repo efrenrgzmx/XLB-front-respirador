@@ -53,9 +53,12 @@ export class PatientComponent implements OnInit {
   pip = 30;
   peep = 5;
   pmeseta = 15;
+  predictedVol = 8;
 
   configTabSelected = 0;
   beginVent = false;
+
+  isVolumeAlertOpen = false;
   constructor(private router: Router) {
     this.status = false;
   }
@@ -161,7 +164,14 @@ export class PatientComponent implements OnInit {
   }
 
   onConfirm() {
+    this.vol = 8 * this.weight;
+    this.predictedVol = this.vol;
+    this.isVolumeAlertOpen = true;
+  }
+
+  onConfirmVolume() {
     this.step = 2;
+    this.isVolumeAlertOpen = false;
   }
 
   onBack() {

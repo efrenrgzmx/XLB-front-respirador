@@ -137,6 +137,7 @@
   height: 53px;
   font-weight: 100;
   z-index: 1000;
+  margin-right: -4px;
 }
 
 .active-tab {
@@ -491,6 +492,7 @@
   width: 100vw;
   height: 100vw;
   z-index: 9999;
+  background-color: #14263F;
   background-color: rgba(0,0,0,0.25);
 }
 
@@ -567,6 +569,57 @@
   line-height: 1.6;
   font-weight: bold;
   color: #3D3D3D;
+}
+
+#weight-value{
+  font-size: 36px;
+  line-height: 0;
+  width: 180px;
+  height: 50px;
+  text-align: center;
+  font-weight: bold;
+  color: #3D3D3D;
+}
+
+.volume-alert{
+  width: 457px;
+  height: 390px;
+  background-color: white;
+  margin: 45px auto 0;
+  border-radius: 23px;
+}
+
+.volume-info-container{
+  margin: -20px auto 0;
+  width: 400px;
+  height: 89px;
+  background-color: #C9D2F3;
+  border-radius: 15px;
+}
+
+.volume-init{
+  width: 100%;
+  text-align: center;
+  padding-top: 16px;
+  font-size: 19px;
+  font-weight: normal;
+  color: #6e6e6e;
+}
+
+.volume-disclaimer{
+  font-size: 15px;
+  font-weight: lighter;
+  padding-top: 15px;
+  color: #6e6e6e;
+  text-align: center;
+}
+
+.volume-ecuation{
+  width: 100%;
+  text-align: center;
+  padding-top: 16px;
+  font-size: 25px;
+  font-weight: normal;
 }
 
 .value-changer #unit{
