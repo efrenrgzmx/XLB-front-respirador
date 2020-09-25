@@ -266,11 +266,11 @@
     <div class="volume-alert" [ngClass]="{'dark-bg': isDarkUI}">
       <div class="kb-param-desc" [ngClass]="{'lilac-text': isDarkUI}">Peso predicho calculado</div>
       <div class="value-changer">
-        <div [ngClass]="{'lilac-text lilac-bottom-border': isDarkUI}" id="weight-value">{{this.weight}} kg</div>
+        <div [ngClass]="{'lilac-text lilac-bottom-border': isDarkUI}" id="weight-value">{{this.weight | number:'1.2-5'}} kg</div>
       </div>
       <div class="volume-info-container">
         <div class="volume-init">Volumen tidal inicial</div>
-        <div class="volume-ecuation blue-color">Vt 8 mL/kg = {{predictedVol}}</div>
+        <div class="volume-ecuation blue-color">Vt 8 mL/kg = {{predictedVol | number:'1.2-5'}}</div>
       </div>
       <div class="volume-disclaimer" [ngClass]="{'lilac-text': isDarkUI}">*Podrá modificarlo más adelante.</div>
       <div class="confirm-change-buttons-container">

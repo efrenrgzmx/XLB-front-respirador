@@ -10,7 +10,7 @@ export class DateAgoPipe implements PipeTransform {
     if (value) {
       const seconds = Math.floor((+new Date() - +new Date(value)) / 1000);
       if (seconds < 1) // less than 30 seconds ago will show as 'Just now'
-        return 'Just now';
+        return 'Justo Ahora';
       const intervals = {
         'año': 31536000,
         'mes': 2592000,

@@ -15,6 +15,30 @@ import {Router} from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   isDarkUI = false;
+
+  /**
+   * System
+   */
+  isSystemOpen = false;
+  systemTabToggle = 0;
+  cycles = 0;
+  cyclesVentilating = 3334;
+  activeTime = 0;
+  gaugeType = 'arch';
+  gaugeLabel = '';
+  gaugeAppendText = '°';
+  blueColor = 'rgba(82,111,220,1)';
+  redColor  = 'rgba(246,104,98,1)';
+
+  tempMotorColor = '';
+  tempDriverColor = '';
+  currentMotorColor = '';
+  currentPeakColor = '';
+
+  tempMotor = 30;
+  tempDriver = 100;
+  currentMotor = 17.1;
+  currentPeak = 20.3;
   /**
    * Time
    */
@@ -138,6 +162,12 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.tempMotorColor = this.blueColor;
+    this.tempDriverColor = this.blueColor;
+    this.currentMotorColor = this.blueColor;
+    this.currentPeakColor = this.blueColor;
+
     this.chartDataSub = this.socket.currentChartData.subscribe(chartData => this.addData(chartData));
     this.settingsDataSub = this.socket.currentSettingsData.subscribe(settingsData => this.onChangeSettings(settingsData));
     this.alertsDataSub = this.socket.currentAlertData.subscribe(alert => this.onReceiveAlert(alert));

@@ -33,7 +33,7 @@ export class PatientComponent implements OnInit {
   minusIcon = faMinus;
   backIcon = faChevronLeft;
 
-  step = 3;
+  step = 0;
   comeFromDashboard = false;
 
   patientTabSelected = 0;

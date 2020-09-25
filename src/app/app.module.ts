@@ -22,7 +22,9 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatRippleModule} from '@angular/material/core';
 import { KeyboardComponent } from './common/keyboard/keyboard.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { DateAgoPipe } from './piipes/date-ago.pipe';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
+import { TimeFormatPipe } from './pipes/time-format.pipe';
+import {NgxGaugeModule} from 'ngx-gauge';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 
@@ -37,7 +39,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     EditboxComponent,
     ConfigurationComponent,
     KeyboardComponent,
-    DateAgoPipe
+    DateAgoPipe,
+    TimeFormatPipe
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatRippleModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxGaugeModule,
   ],
   providers: [WebsocketService],
   bootstrap: [AppComponent]

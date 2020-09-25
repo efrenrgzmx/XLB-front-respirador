@@ -45,6 +45,8 @@ export class TestComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.checkAndApplyTheme();
+
     (async () => {
       await this.delay(1500);
       this.value += 5;
@@ -67,5 +69,11 @@ export class TestComponent implements OnInit {
 
   delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  checkAndApplyTheme() {
+    if (localStorage.getItem('theme') !== null) {
+      this.isDarkUI = localStorage.getItem('theme') === '1';
+    }
   }
 }

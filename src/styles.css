@@ -3772,5 +3772,14 @@ ANIMATE.CSS
   }
 }
 
+.reading-affix {
+  text-decoration: none;
+  font-size: 1em !important;
+  opacity: .8;
+  font-weight: lighter;
+  padding: 0 .18em;
+  line-height: 0.8;
+}
+
 
 

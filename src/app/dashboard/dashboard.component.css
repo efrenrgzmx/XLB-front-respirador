@@ -78,7 +78,7 @@
 }
 
 .left-charts-container{
-  width: 640px;
+  width: 625px;
   background-color: white;
 }
 
@@ -429,10 +429,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 99999;
+  z-index: 99998;
 }
 
-#back-btn{
+.back-btn{
   position: absolute;
   top: 21px;
   left: 33px;
@@ -652,3 +652,118 @@
   left: 340px;
   top: 72px;
 }
+
+#system-btn{
+  width: 180px;
+  height: 48px;
+  border-radius: 12px;
+  color: #6E6E6E;
+  font-size: 20px;
+  margin-top: 49px;
+}
+
+.system{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+}
+
+#tab-container{
+  width: 734px;
+  height: 370px;
+  border-radius: 12px;
+  margin: 0 auto;
+  border: 1px solid #526FDC;
+
+}
+
+.tab-lash-cont{
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.tab-lash-cont div{
+  transition: none !important;
+  height: 70px;
+  width: 200px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  text-align: center;
+  color: #526FDC;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 3.5;
+  background-color: white;
+  margin-bottom: -1px;
+}
+
+#cycle-temp-row{
+  display: flex;
+  justify-content: space-between;
+}
+
+#cycle-temp-row div{
+  margin-top: 20px;
+  margin-left: 12px;
+  margin-right: 12px;
+  font-size: 16px;
+  font-weight: lighter;
+  color: #6E6E6E;
+}
+
+.gauge-temps-container{
+  width: 100%;
+  text-align: center;
+  margin-top: 37px;
+  font-size: 16px;
+  color: #6E6E6E;
+  font-weight: lighter;
+}
+
+.gauge-temps-container tr{
+  height: 35px;
+}
+
+#cycle-current-row{
+  display: flex;
+  margin-top: 30px;
+  font-size: 14px;
+  font-weight: lighter;
+  color: #6E6E6E;
+  margin-left: 12px;
+}
+
+#cycle-current-row .current-margin{
+  margin-left: 257px;
+  margin-right: 71px;
+  white-space: nowrap;
+}
+
+#versions-row{
+  position: absolute;
+  bottom: 27px;
+  width: 734px;
+  height: 77px;
+  background-color: #DFE5F5;
+  border-radius: 12px;
+}
+
+.gauge-td{
+  height: 74px;
+}
+
+.ideal-gauge{
+  font-size: 12px;
+  height: 22px !important;
+}
+
+#versions-row table{
+  width: 95%;
+  height: 70%;
+  margin: 15px auto 0;
+  color: #6E6E6E;
+  font-weight: lighter;
+}
+

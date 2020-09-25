@@ -219,7 +219,7 @@
 <!-- AYUDA -->
 
 <div *ngIf="isHelpOpen" class="main-container white-bg help" [ngClass]="{'dark-bg': isDarkUI}">
-  <a (click)="onHelpBack()" mat-raised-button id="back-btn" class="lilac-bg blue-color"><fa-icon [icon]="backIcon"></fa-icon></a>
+  <a (click)="onHelpBack()" mat-raised-button class="back-btn lilac-bg blue-color"><fa-icon [icon]="backIcon"></fa-icon></a>
   <div class="help-icons">
     <fa-icon id="mailIcon" [icon]="mailIcon"></fa-icon>
   </div>
@@ -228,6 +228,10 @@
   </div>
   <div class="help-msg blue-color">
     xlab@protexa.com.mx
+  </div>
+
+  <div style="text-align: center">
+    <button mat-raised-button (click)="isSystemOpen=true" id="system-btn" class="lilac-bg">Sistema</button>
   </div>
 </div>
 
@@ -239,7 +243,7 @@
     <div class="tabs">
       <div (click)="onTabPressed(0)" [ngClass]="{'active-tab': alarmTabSelected===0, 'dark-bg': isDarkUI}" class="param-tab">Actuales</div>
       <div (click)="onTabPressed(1)" [ngClass]="{'active-tab': alarmTabSelected===1, 'dark-bg': isDarkUI}" class="param-tab">Historial</div>
-         </div>
+    </div>
     <div [ngClass]="{'params-control-container-left': alarmTabSelected===0, 'params-control-container-right': alarmTabSelected===2}" class="params-control-container">
       <div class="controls-container-position">
         <div *ngIf="alarmTabSelected===0">
@@ -273,3 +277,131 @@
 
 <div id="mod-icon" *ngIf="this.paramsValues[2]!=predictedVol"><img src="assets/dashboard/mod-icon.svg"></div>
 
+<!-- SISTEMA -->
+<div *ngIf="isSystemOpen" class="main-container white-bg system" [ngClass]="{'dark-bg': isDarkUI}">
+  <a (click)="isSystemOpen=false" mat-raised-button class="back-btn lilac-bg blue-color"><fa-icon [icon]="backIcon"></fa-icon></a>
+  <div class="tab-lash-cont">
+    <div (click)="systemTabToggle=0" [ngClass]="{'active-tab': systemTabToggle===0, 'dark-bg': isDarkUI}">
+      Disgnóstico
+    </div>
+    <div (click)="systemTabToggle=1" [ngClass]="{'active-tab': systemTabToggle===1, 'dark-bg': isDarkUI}">
+      Configuración
+    </div>
+    <div (click)="systemTabToggle=2" [ngClass]="{'active-tab': systemTabToggle===2, 'dark-bg': isDarkUI}">
+      Registros
+    </div>
+  </div>
+  <div id="tab-container">
+    <div *ngIf="systemTabToggle == 0">
+      <div id="cycle-temp-row">
+        <div [ngClass]="{'lilac-text': isDarkUI}">
+          Ciclos en S: <strong>{{cycles}}</strong>
+        </div>
+        <div [ngClass]="{'lilac-text': isDarkUI}">
+          Tiempo act: <strong class="blue-color">{{activeTime | timeFormat}}</strong>
+        </div>
+      </div>
+      <table class="gauge-temps-container">
+        <tr>
+          <td>Temp. Motor</td>
+          <td>Temp. Driver</td>
+          <td>C. Motor</td>
+          <td>Pico C. Motor</td>
+        </tr>
+        <tr>
+          <td>
+            <ngx-gauge [type]="gaugeType"
+                       [value]="tempMotor"
+                       [label]="gaugeLabel"
+                       [append]="gaugeAppendText"
+                       cap="round"
+                       thick="6"
+                       backgroundColor="rgba(223,229,245,1)"
+                       size="87"
+                       max="150"
+                       [foregroundColor]="tempMotorColor">
+            </ngx-gauge>
+          </td>
+          <td>
+            <ngx-gauge [type]="gaugeType"
+                       [value]="tempDriver"
+                       [label]="gaugeLabel"
+                       [append]="gaugeAppendText"
+                       cap="round"
+                       thick="6"
+                       backgroundColor="rgba(223,229,245,1)"
+                       size="87"
+                       max="150"
+                       [foregroundColor]="tempDriverColor">
+            </ngx-gauge>
+          </td>
+          <td>
+            <ngx-gauge [type]="gaugeType"
+                       [value]="currentMotor"
+                       [label]="gaugeLabel"
+                       [append]="gaugeAppendText"
+                       cap="round"
+                       thick="6"
+                       backgroundColor="rgba(223,229,245,1)"
+                       size="87"
+                       max="150"
+                       [foregroundColor]="currentMotorColor">
+            </ngx-gauge>
+          </td>
+          <td>
+            <ngx-gauge [type]="gaugeType"
+                       [value]="currentPeak"
+                       [label]="gaugeLabel"
+                       [append]="gaugeAppendText"
+                       cap="round"
+                       thick="6"
+                       backgroundColor="rgba(223,229,245,1)"
+                       size="87"
+                       max="150"
+                       [foregroundColor]="currentPeakColor">
+            </ngx-gauge>
+          </td>
+        </tr>
+        <tr class="ideal-gauge">
+          <td>
+
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </table>
+      <div id="cycle-current-row">
+        <div style="width: 145px" [ngClass]="{'lilac-text': isDarkUI}">
+          Ciclos en V: <strong>{{cyclesVentilating}}</strong>
+        </div>
+        <div class="current-margin" [ngClass]="{'lilac-text': isDarkUI}">
+          Fuente Elc: <strong>AC</strong>
+        </div>
+        <div class="current" [ngClass]="{'lilac-text': isDarkUI}">
+          Bateria ext: <strong>No</strong>
+        </div>
+      </div>
+      <div id="versions-row">
+        <table>
+          <tr>
+            <td>S. controlador: <strong>1038-4JSS-9294-9002-94JE</strong></td>
+            <td>V. Firmware controlador: <strong>1.1.2</strong></td>
+          </tr>
+          <tr>
+            <td>S. Pantalla: <strong>2947JSURKW8LSKF4SJDIE83</strong></td>
+            <td>V. Firmware pantalla: <strong>1.1.1</strong></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="systemTabToggle == 1">
+    </div>
+    <div *ngIf="systemTabToggle == 2">
+
+    </div>
+  </div>
+</div>
