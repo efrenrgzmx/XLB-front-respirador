@@ -37,8 +37,8 @@ export class DashboardComponent implements OnInit {
 
   tempMotor = 30;
   tempDriver = 100;
-  currentMotor = 17.1;
-  currentPeak = 20.3;
+  currentMotor = 3;
+  currentPeak = 1.5;
   /**
    * Time
    */

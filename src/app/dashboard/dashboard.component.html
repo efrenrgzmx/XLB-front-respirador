@@ -284,10 +284,10 @@
     <div (click)="systemTabToggle=0" [ngClass]="{'active-tab': systemTabToggle===0, 'dark-bg': isDarkUI}">
       Disgnóstico
     </div>
-    <div (click)="systemTabToggle=1" [ngClass]="{'active-tab': systemTabToggle===1, 'dark-bg': isDarkUI}">
+    <div (click)="systemTabToggle=0" [ngClass]="{'active-tab': systemTabToggle===1, 'dark-bg': isDarkUI}">
       Configuración
     </div>
-    <div (click)="systemTabToggle=2" [ngClass]="{'active-tab': systemTabToggle===2, 'dark-bg': isDarkUI}">
+    <div (click)="systemTabToggle=0" [ngClass]="{'active-tab': systemTabToggle===2, 'dark-bg': isDarkUI}">
       Registros
     </div>
   </div>
@@ -301,7 +301,7 @@
           Tiempo act: <strong class="blue-color">{{activeTime | timeFormat}}</strong>
         </div>
       </div>
-      <table class="gauge-temps-container">
+      <table class="gauge-temps-container" [ngClass]="{'lilac-text': isDarkUI}">
         <tr>
           <td>Temp. Motor</td>
           <td>Temp. Driver</td>
@@ -318,7 +318,8 @@
                        thick="6"
                        backgroundColor="rgba(223,229,245,1)"
                        size="87"
-                       max="150"
+                       max="125"
+                       min="-25"
                        [foregroundColor]="tempMotorColor">
             </ngx-gauge>
           </td>
@@ -331,38 +332,37 @@
                        thick="6"
                        backgroundColor="rgba(223,229,245,1)"
                        size="87"
-                       max="150"
+                       max="125"
+                       min="-25"
                        [foregroundColor]="tempDriverColor">
             </ngx-gauge>
           </td>
           <td>
-            <ngx-gauge [type]="gaugeType"
+            <ngx-gauge class="amp-gauge" [type]="gaugeType"
                        [value]="currentMotor"
-                       [label]="gaugeLabel"
-                       [append]="gaugeAppendText"
+                       label="amp"
                        cap="round"
                        thick="6"
                        backgroundColor="rgba(223,229,245,1)"
                        size="87"
-                       max="150"
+                       max="5"
                        [foregroundColor]="currentMotorColor">
             </ngx-gauge>
           </td>
           <td>
-            <ngx-gauge [type]="gaugeType"
+            <ngx-gauge class="amp-gauge" [type]="gaugeType"
                        [value]="currentPeak"
-                       [label]="gaugeLabel"
-                       [append]="gaugeAppendText"
+                       label="amp"
                        cap="round"
                        thick="6"
                        backgroundColor="rgba(223,229,245,1)"
                        size="87"
-                       max="150"
+                       max="5"
                        [foregroundColor]="currentPeakColor">
             </ngx-gauge>
           </td>
         </tr>
-        <tr class="ideal-gauge">
+        <tr class="ideal-gauge" [ngClass]="{'lilac-text': isDarkUI}">
           <td>
 
           </td>
@@ -399,6 +399,7 @@
       </div>
     </div>
     <div *ngIf="systemTabToggle == 1">
+
     </div>
     <div *ngIf="systemTabToggle == 2">
 

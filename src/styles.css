@@ -3781,5 +3781,11 @@ ANIMATE.CSS
   line-height: 0.8;
 }
 
+.reading-label{
+  line-height: 0.5;
+  font-size: 16px !important;
+  overflow: unset !important;
+}
+
 
 

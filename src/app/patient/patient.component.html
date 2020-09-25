@@ -130,7 +130,7 @@
           <tr>
             <td><button (click)="openKeyboard(1, freq,'Frecuencia',1, 100, 'rpm', false)" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Frecuencia<br><em>{{freq}}</em> rpm</button></td>
             <td><button (click)="openKeyboard( 2, ti,'Tiempo de inspiración',0, 2.5, 'segundos', true)"mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">Ti<br><em>{{ti}}</em> segs</button></td>
-            <td><button (click)="openKeyboard( 3, vol,'Volumen',50, 900, 'mL', false)" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">VT<br><em>{{vol}}</em> mL</button></td>
+            <td><button (click)="openKeyboard( 3, vol,'Volumen',50, 900, 'mL', false)" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">VT<br><em>{{vol | number:'1.2-5'}}</em> mL</button></td>
           </tr>
           <tr>
             <td><button (click)="openKeyboard(4, pip,'Peak Inspiratory Pressure',10, 60, 'cmH2O', false)" mat-raised-button class="t-box-shadow summary-btn blue-bg lilac-text">PIP<br><em>{{pip}}</em> cmH2O</button></td>

@@ -10,6 +10,7 @@ export class WebsocketService {
   currentChartData = this.socket.fromEvent<string>('chartsData');
   currentSettingsData = this.socket.fromEvent<string>('settings');
   currentAlertData = this.socket.fromEvent<string>('alerts');
+  currentTestData = this.socket.fromEvent<string>('test');
 
   constructor(private socket: Socket) { }
 
