@@ -45,11 +45,13 @@ export class TestComponent implements OnInit {
    */
   testDataSub: Subscription;
 
+  keepSending = true;
+
 
 
   constructor(private socket: WebsocketService, private router: Router) {
-    this.results.push(...[0, 0, 0, 0, 0]);
-    this.titles.push(...['test case 1', 'test case 2', 'test case 3', 'test case 4', 'test case 5'])
+    this.results.push(...[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    this.titles.push(...['Alarmas', 'Bateria', 'Com. Display', 'Motor', 'S. Press 01', 'S. Press 02', 'S. Flow 01', 'S. Flow 02', 'Temperatura', 'Corriente'])
   }
 
   ngOnInit(): void {
@@ -57,24 +59,6 @@ export class TestComponent implements OnInit {
     this.checkAndApplyTheme();
 
     this.socket.sendData('#init');
-    /*(async () => {
-      await this.delay(1500);
-      this.value += 5;
-      this.results[0] = 1;
-      await this.delay(200);
-      this.value += 25;
-      this.results[1] = 1;
-      await this.delay(1500);
-      this.value += 35;
-      this.results[2] = 1;
-      await this.delay(1200);
-      this.value += 65;
-      this.results[3] = 1;
-
-      this.finishTests = true;
-      await this.delay(200);
-      this.router.navigate(['/patient']);
-    })();*/
   }
 
   delay(ms: number) {
@@ -88,12 +72,24 @@ export class TestComponent implements OnInit {
   }
 
   onReceiveTest(test) {
-    console.log(test);
-    if(test === 5) {
-      this.router.navigate(['/patient']);
-    }
-    else {
-      this.results[test - 1] = 1;
+    this.results = JSON.parse(test).tests;
+    this.keepSending = false;
+    let blocked = false; 
+    this.results.forEach(element => {
+      if (element !== 1){
+        blocked = true;
+      }
+    });
+    if (!blocked) {
+      (async () => {
+        await this.delay(600);
+        await this.router.navigate(['/patient']);
+      })();
+    }else {
+      (async () => {
+        await this.delay(1000);
+        this.socket.sendData('#init');
+      })();
     }
   }
 }

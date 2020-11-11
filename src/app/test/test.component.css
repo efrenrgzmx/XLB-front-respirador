@@ -48,6 +48,13 @@
   color: grey;
   font-size: small;
   font-weight: lighter;
+  display: flex;
+  width: 268px;
+  flex-wrap: wrap;
+}
+
+.main-table tr{
+  width: 133px;
 }
 
 .title{

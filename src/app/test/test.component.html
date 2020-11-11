@@ -16,9 +16,9 @@
         <td>
           <table>
             <tr>
-              <td>
+              <td colspan="2">
                 <div [ngClass]="{'success': r===1, 'error': r===2}" class="status-indicator">
-                  <fa-icon *ngIf="r === 2" class="status-icon" [icon]="closeIcon"></fa-icon>
+                  <fa-icon *ngIf="r >= 2" class="status-icon" [icon]="closeIcon"></fa-icon>
                   <fa-icon *ngIf="r === 1" class="status-icon" [icon]="checkIcon"></fa-icon>
                   <div *ngIf="r == 0" class="indicator">
                     <svg width="16px" height="12px">

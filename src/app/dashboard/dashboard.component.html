@@ -31,25 +31,25 @@
         <table>
           <tr>
             <td>
-              <div class="info-title" [ngClass]="{'lilac-text': isDarkUI}">P. de volumen</div>
+              <div class="info-title" [ngClass]="{'lilac-text': isDarkUI}">Volumen Tidal</div>
               <div class="info-amount cyan-color"><!--{{userInfo?.data.chartsData.vol}}-->520</div>
               <div class="info-unit cyan-color">mL</div>
             </td>
             <td>
               <div class="info-title" [ngClass]="{'lilac-text': isDarkUI}">Ti</div>
               <div class="info-amount cyan-color">{{paramsValues[0]}}</div>
-              <div class="info-unit cyan-color">mL</div>
+              <div class="info-unit cyan-color">segs</div>
             </td>
           </tr>
           <tr>
             <td>
               <div class="info-title" [ngClass]="{'lilac-text': isDarkUI}">PIP</div>
-              <div class="info-amount yellow-color"><!--{{userInfo?.data.params.pip}}-->22</div>
+              <div class="info-amount yellow-color">{{userInfo?.data.params.pip}}</div>
               <div class="info-unit yellow-color">cmH2O</div>
             </td>
             <td>
               <div class="info-title" [ngClass]="{'lilac-text': isDarkUI}">PEEP</div>
-              <div class="info-amount yellow-color"><!--{{userInfo?.data.params.peep}}-->33</div>
+              <div class="info-amount yellow-color">{{userInfo?.data.params.peep}}</div>
               <div class="info-unit yellow-color">cmH2O</div>
             </td>
           </tr>

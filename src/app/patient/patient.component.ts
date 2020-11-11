@@ -385,7 +385,6 @@ export class PatientComponent implements OnInit {
     if (this.status === false) {
       this.beginVent = true;
     }else{
-      console.log('LE SEE');
       const programData = new ScreenData();
       programData.sex = this.sexSelected;
       programData.profile = this.profile;
