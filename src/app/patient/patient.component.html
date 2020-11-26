@@ -106,6 +106,7 @@
         <span class="slider round"></span>
       </label>
     </div>
+    <img (click)="onHalt()" id="power-off" src="assets/patient/power-icon.png">
     <img id="sun-icon" src="assets/patient/sun.svg">
     <img id="moon-icon" src="assets/patient/moon.svg">
     <div class="light-lilac-bg summary-controls-container" [ngClass]="{'dark-bg': isDarkUI}">
@@ -276,6 +277,30 @@
       <div class="confirm-change-buttons-container">
         <button (click)="isVolumeAlertOpen=false" mat-raised-button class="confirm-change-btn white-bg lightgrey-text">Cancelar</button>
         <button (click)="onConfirmVolume()" mat-raised-button class="confirm-change-btn yellow-bg">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="pauseFirstAlert" class="animated fadeIn faster confirm-vent">
+    <div class="confirm-vent-container" [ngClass]="{'dark-bg': isDarkUI}">
+      <div class="alarm-color">¡Alto!</div>
+      <div id="pause-shut" [ngClass]="{'lilac-text': isDarkUI}">
+        Debe detener la ventilación del paciente antes de apagar.
+      </div>
+      <div id="pause-shut-btn">
+        <button (click)="pauseFirstAlert = false" mat-raised-button class="t-box-shadow confirm-vent-btn yellow-bg white-text">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="shutDownAlert" class="animated fadeIn faster confirm-vent">
+    <div class="confirm-vent-container" [ngClass]="{'dark-bg': isDarkUI}">
+      <div [ngClass]="{'lilac-text': isDarkUI}">
+        El equipo se apagará por completo.
+      </div>
+      <div>
+        <button (click)="shutDownAlert = false" mat-raised-button class="t-box-shadow white-bg confirm-vent-btn" [ngClass]="{'dark-bg lilac-text': isDarkUI}">Cancelar</button>
+        <button (click)="onConfirmShutdown()" mat-raised-button class="t-box-shadow confirm-vent-btn yellow-bg white-text">Ok</button>
       </div>
     </div>
   </div>

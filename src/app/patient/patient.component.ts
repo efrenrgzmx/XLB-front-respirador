@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {faChevronLeft, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
+import { WebsocketService } from '../websocket.service';
 
 @Component({
   selector: 'app-patient',
@@ -59,9 +60,11 @@ export class PatientComponent implements OnInit {
   beginVent = false;
 
   isVolumeAlertOpen = false;
-  constructor(private router: Router) {
+  constructor(private router: Router, private socket: WebsocketService) {
     this.status = false;
   }
+
+  
 
   ngOnInit(): void {
 
@@ -402,6 +405,21 @@ export class PatientComponent implements OnInit {
       this.router.navigate(['/dashboard']);
     }
 
+  }
+
+  pauseFirstAlert = false;
+  shutDownAlert = false;
+  onHalt() {
+    if(this.status){
+      this.pauseFirstAlert = true;
+    }else{
+      this.shutDownAlert = true;
+    }
+    //this.socket.sendData('#halt');
+  }
+
+  onConfirmShutdown(){
+    this.router.navigate(['/shutdown']);
   }
 }
 

@@ -58,7 +58,7 @@ export class TestComponent implements OnInit {
     this.testDataSub = this.socket.currentTestData.subscribe(test => this.onReceiveTest(test));
     this.checkAndApplyTheme();
 
-    this.socket.sendData('#init');
+    this.sendInit();
   }
 
   delay(ms: number) {
@@ -68,6 +68,16 @@ export class TestComponent implements OnInit {
   checkAndApplyTheme() {
     if (localStorage.getItem('theme') !== null) {
       this.isDarkUI = localStorage.getItem('theme') === '1';
+    }
+  }
+
+  sendInit(){
+    if(this.keepSending){
+      (async () => {
+        this.socket.sendData('#init');
+        await this.delay(2000);
+        this.sendInit();
+      })();
     }
   }
 

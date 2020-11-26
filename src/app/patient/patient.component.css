@@ -480,6 +480,14 @@
   margin: 15px;
 }
 
+#pause-shut{
+  padding-top: 20px;
+}
+
+#pause-shut-btn{
+  padding-top: 45px;
+}
+
 .summary-right-panel .container-title{
   text-align: left;
   margin-left: 30px;
@@ -702,7 +710,7 @@
 #theme-selection{
   position: absolute;
   top: 24px;
-  right: 29px;
+  left: 614px;
 }
 
 .switch {
@@ -779,7 +787,7 @@ input:checked + .slider:before {
 #sun-icon{
   position: absolute;
   top: 29px;
-  right: 84px;
+  right: 151px;
   user-select: none;
   pointer-events: none;
 }
@@ -787,7 +795,16 @@ input:checked + .slider:before {
 #moon-icon{
   position: absolute;
   top: 29px;
-  right: 33px;
+  right: 99px;
   user-select: none;
   pointer-events: none;
+}
+
+#power-off{
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
 }

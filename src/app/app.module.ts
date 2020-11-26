@@ -25,6 +25,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { TimeFormatPipe } from './pipes/time-format.pipe';
 import {NgxGaugeModule} from 'ngx-gauge';
+import { ShutdownComponent } from './shutdown/shutdown.component';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 
@@ -40,7 +41,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     ConfigurationComponent,
     KeyboardComponent,
     DateAgoPipe,
-    TimeFormatPipe
+    TimeFormatPipe,
+    ShutdownComponent
   ],
   imports: [
     BrowserModule,

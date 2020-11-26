@@ -11,6 +11,7 @@ export class WebsocketService {
   currentSettingsData = this.socket.fromEvent<string>('settings');
   currentAlertData = this.socket.fromEvent<string>('alerts');
   currentTestData = this.socket.fromEvent<string>('test');
+  currentDiagnosticData = this.socket.fromEvent<string>('diagnostic');
 
   constructor(private socket: Socket) { }
 

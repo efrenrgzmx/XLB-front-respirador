@@ -1,0 +1,11 @@
+.cont-shutdown{
+    height: 100vh;
+    width: 100vw;
+    background-color: #14263F;
+    color: #C9D2F3;
+    text-align: center;
+}
+
+h1{
+    padding-top: 35vh;
+}

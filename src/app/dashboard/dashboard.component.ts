@@ -81,6 +81,7 @@ export class DashboardComponent implements OnInit {
   chartDataSub: Subscription;
   settingsDataSub: Subscription;
   alertsDataSub: Subscription;
+  diagnosticDataSub: Subscription;
 
 
   /**
@@ -171,6 +172,8 @@ export class DashboardComponent implements OnInit {
     this.chartDataSub = this.socket.currentChartData.subscribe(chartData => this.addData(chartData));
     this.settingsDataSub = this.socket.currentSettingsData.subscribe(settingsData => this.onChangeSettings(settingsData));
     this.alertsDataSub = this.socket.currentAlertData.subscribe(alert => this.onReceiveAlert(alert));
+    this.diagnosticDataSub = this.socket.currentDiagnosticData.subscribe(ddata => this.onReceiveDiagnostic(ddata));
+
 
     this.paramName = this.paramsNames[this.toggleCount];
     this.changedValue = this.paramsValues[this.toggleCount];
@@ -646,10 +649,50 @@ export class DashboardComponent implements OnInit {
   }
 
   onReceiveAlert(alert) {
-    this.currentAlarm = JSON.parse(alert);
-    this.currentAlarms.push(this.currentAlarm);
-    this.alarmHistory.push(this.currentAlarm);
-    this.isAlarmActive = true;
+    console.log(alert);
+    this.currentAlarms = JSON.parse(alert)["alerts"];
+    if(this.currentAlarms.length > 0){
+      this.currentAlarm = this.currentAlarms[0];
+      this.alarmHistory = this.alarmHistory.concat(this.currentAlarms);
+      this.isAlarmActive = true;
+    }else{
+      this.isAlarmActive = false;
+    }
+  }
+
+  onReceiveDiagnostic( ddata){
+    console.log(ddata);
+    let userData : DiagnosticData = JSON.parse(ddata);
+
+    this.tempDriver = userData.data.tempdriver;
+    this.tempMotor = userData.data.tempmotor;
+    this.currentMotor = userData.data.corrientemotor;
+    this.cyclesVentilating = userData.data.ciclos;
+    this.currentPeak = userData.data.picomotor;
+
+    if(this.tempMotor >= 49){
+      this.tempMotorColor = this.redColor
+    } else{
+      this.tempMotorColor = this.blueColor;
+    }
+
+    if(this.tempDriver >= 60){ 
+      this.tempDriverColor = this.redColor
+    } else{
+      this.tempDriverColor = this.blueColor;
+    }
+
+    if(this.currentMotor >= 3){
+      this.currentMotorColor = this.redColor
+    } else{
+      this.currentMotorColor = this.blueColor;
+    }
+
+    if(this.currentPeak >= 3){
+      this.currentPeakColor = this.redColor
+    } else{
+      this.currentPeakColor = this.blueColor;
+    }
   }
 
   verifyParamsOnRefresh() {
@@ -665,11 +708,22 @@ export class DashboardComponent implements OnInit {
       this.isAlarmActive = true;
 
     } else if (this.userInfo != null &&  this.userInfo.data.params.ppeak < this.paramsValues[3]) {
-      console.log(this.pipAlarmId);
-      this.isAlarmActive = false;
-      this.currentAlarm = null;
-      this.currentAlarms.splice(this.pipAlarmId, 1);
-      this.pipAlarmId = -1;
+      
+      //this.isAlarmActive = false;
+      //this.currentAlarm = null;
+
+      if(this.pipAlarmId !== -1){
+        this.currentAlarms.splice(this.pipAlarmId, 1);
+        this.pipAlarmId = -1;
+      }
+
+      if(this.currentAlarms.length > 0){
+        this.currentAlarm = this.currentAlarms[0];
+      }
+      else{
+        this.currentAlarm = null;
+        this.isAlarmActive = false;
+      }
     }
   }
 }
@@ -715,6 +769,7 @@ export class  Alarm {
   4 - Temperatura Motor
   5 - Temperatura Motor
   6 - Corriente Driver Crítica
+  7 - Bateria
    */
 
   constructor( affectedSector, title, description, value, severity, seen, time) {
@@ -734,4 +789,14 @@ export class  Alarm {
   severity: number;
   seen: boolean;
   timestamp: Date;
+}
+
+export class DiagnosticData{
+  data: {
+    tempmotor: number,
+    tempdriver: number,
+    corrientemotor: number,
+    picomotor: number,
+    ciclos: number
+  }
 }
